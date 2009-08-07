@@ -1,0 +1,339 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HEAD></HEAD><HTML><BODY>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Package Umpire:  Contents">
+<param name="Local" value="00Index.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Package Umpire:  R objects">
+</OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Umpire-package">
+<param name="Local" value="Umpire-package.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterMean">
+<param name="Local" value="alterMean.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterMean,Engine-method">
+<param name="Local" value="Engine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterMean,IndependentNormal-method">
+<param name="Local" value="IndependentNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterMean,MVN-method">
+<param name="Local" value="MVN-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterSD">
+<param name="Local" value="alterSD.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterSD,Engine-method">
+<param name="Local" value="Engine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterSD,IndependentNormal-method">
+<param name="Local" value="IndependentNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="alterSD,MVN-method">
+<param name="Local" value="MVN-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.data.frame">
+<param name="Local" value="as.data.frame.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="as.data.frame,CancerPatientSet-method">
+<param name="Local" value="CancerPatientSet-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="blur">
+<param name="Local" value="blur.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="blur,NoiseModel-method">
+<param name="Local" value="NoiseModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="CancerEngine-class">
+<param name="Local" value="CancerEngine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="CancerModel">
+<param name="Local" value="CancerModel.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="CancerModel-class">
+<param name="Local" value="CancerModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="CancerPatientSet">
+<param name="Local" value="CancerPatientSet.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="CancerPatientSet-class">
+<param name="Local" value="CancerPatientSet-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="correl">
+<param name="Local" value="correl.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="covar">
+<param name="Local" value="covar.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Engine">
+<param name="Local" value="Engine.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Engine-class">
+<param name="Local" value="Engine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="EngineWithActivity">
+<param name="Local" value="EngineWithActivity.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="EngineWithActivity-class">
+<param name="Local" value="EngineWithActivity-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="IndependentLogNormal">
+<param name="Local" value="IndependentLogNormal.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="IndependentLogNormal-class">
+<param name="Local" value="IndependentLogNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="IndependentNormal">
+<param name="Local" value="IndependentNormal.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="IndependentNormal-class">
+<param name="Local" value="IndependentNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="invGammaMultiple">
+<param name="Local" value="invGammaMultiple.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="MVN">
+<param name="Local" value="MVN.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="MVN-class">
+<param name="Local" value="MVN-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="ncol">
+<param name="Local" value="ncol.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="ncol,CancerModel-method">
+<param name="Local" value="CancerModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nComponents">
+<param name="Local" value="nComponents.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nHitsPerPattern">
+<param name="Local" value="nHitsPerPattern.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="NoiseModel">
+<param name="Local" value="NoiseModel.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="NoiseModel-class">
+<param name="Local" value="NoiseModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="normalOffset">
+<param name="Local" value="normalOffset.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nPatterns">
+<param name="Local" value="nPatterns.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nPossibleHits">
+<param name="Local" value="nPossibleHits.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nrow">
+<param name="Local" value="nrow.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nrow,CancerModel-method">
+<param name="Local" value="CancerModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nrow,Engine-method">
+<param name="Local" value="Engine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nrow,IndependentLogNormal-method">
+<param name="Local" value="IndependentLogNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nrow,IndependentNormal-method">
+<param name="Local" value="IndependentNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="nrow,MVN-method">
+<param name="Local" value="MVN-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="outcomeCoefficients">
+<param name="Local" value="outcomeCoefficients.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand">
+<param name="Local" value="rand.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand,CancerEngine-method">
+<param name="Local" value="CancerEngine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand,CancerModel-method">
+<param name="Local" value="CancerModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand,Engine-method">
+<param name="Local" value="Engine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand,EngineWithActivity-method">
+<param name="Local" value="EngineWithActivity-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand,IndependentLogNormal-method">
+<param name="Local" value="IndependentLogNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand,IndependentNormal-method">
+<param name="Local" value="IndependentNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="rand,MVN-method">
+<param name="Local" value="MVN-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="realizeOutcome">
+<param name="Local" value="realizeOutcome.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="realizeSurvival">
+<param name="Local" value="realizeSurvival.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="summary">
+<param name="Local" value="summary.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="summary,CancerModel-method">
+<param name="Local" value="CancerModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="summary,CancerPatientSet-method">
+<param name="Local" value="CancerPatientSet-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="summary,Engine-method">
+<param name="Local" value="Engine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="summary,IndependentLogNormal-method">
+<param name="Local" value="IndependentLogNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="summary,IndependentNormal-method">
+<param name="Local" value="IndependentNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="summary,MVN-method">
+<param name="Local" value="MVN-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="survivalCoefficients">
+<param name="Local" value="survivalCoefficients.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="SurvivalModel">
+<param name="Local" value="SurvivalModel.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="SurvivalModel-class">
+<param name="Local" value="SurvivalModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Umpire">
+<param name="Local" value="Umpire-package.html">
+</OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Package Umpire:  Titles">
+</OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "CancerEngine" ~~~">
+<param name="Local" value="CancerEngine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "CancerModel" ~~~">
+<param name="Local" value="CancerModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "CancerPatientSet" ~~~">
+<param name="Local" value="CancerPatientSet-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "Engine" ~~~">
+<param name="Local" value="Engine-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "EngineWithActivity" ~~~">
+<param name="Local" value="EngineWithActivity-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "IndependentLogNormal" ~~~">
+<param name="Local" value="IndependentLogNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "IndependentNormal" ~~~">
+<param name="Local" value="IndependentNormal-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "MVN" ~~~">
+<param name="Local" value="MVN-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "NoiseModel" ~~~">
+<param name="Local" value="NoiseModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="Class "SurvivalModel" ~~~">
+<param name="Local" value="SurvivalModel-class.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="UMPIRE: Ultimate Microarray Prediction, Inference, and Reality Engine">
+<param name="Local" value="Umpire-package.html">
+</OBJECT>
+<LI> <OBJECT type="text/sitemap">
+<param name="Name" value="~~function to do ... ~~">
+<param name="Local" value="alterMean.html">
+</OBJECT>
+</UL>
+</UL>
+</BODY></HTML>
