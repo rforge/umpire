@@ -23,7 +23,9 @@ nPatterns(object)
   ...
 }
 \references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
+\author{
+  J. Zhang \email{jiexinzhang@mdanderson.org}
+}
 \note{ ~~further notes~~ 
 
  ~Make other sections like Warning with \section{Warning }{....} ~
