@@ -2,7 +2,7 @@
 # An ENGINE WITH ACTIVITY allows for the possibility that some
 # components (or genes) in an expression engine (or tissue) might
 # be transcriptionally inactive.  Thus, the true biological signal
-# described above should really be viewed as a mixture
+# described previously should really be viewed as a mixture
 #    S_gi = z_g * delta_0 + (1 - z_g) * T_gi
 # where
 #    delta_0 = a point mass at zero
@@ -10,8 +10,8 @@
 #    z_g ~ Binom(pi) defines the activity state (1 = on, 0 = off)
 # Note that we typically work not with T_gi but with its logarithm
 # to some appropriate base.  That is, the multivariate normal or
-# independent normal blocks described above to construct engines
-# should be used on the logarithmic scale.
+# independent normal blocks used to construct engines should be
+# applied on the logarithmic scale.
 
 setClass("EngineWithActivity",
          representation=list("Engine",

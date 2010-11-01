@@ -1,5 +1,8 @@
 \name{alterMean}
 \alias{alterMean}
+\alias{alterSD}
+\alias{normalOffset}
+\alias{invGammaMultiple}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ ~~function to do ... ~~ }
 \description{
@@ -7,12 +10,20 @@
 }
 \usage{
 alterMean(object, TRANSFORM, ...)
+alterSD(object, TRANSFORM, ...)
+normalOffset(x, delta = 0, sigma = 1)
+invGammaMultiple(x, shape, rate)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{ ~~Describe \code{object} here~~ }
   \item{TRANSFORM}{ ~~Describe \code{TRANSFORM} here~~ }
   \item{\dots}{ ~~Describe \code{\dots} here~~ }
+  \item{x}{ ~~Describe \code{x} here~~ }
+  \item{delta}{ ~~Describe \code{delta} here~~ }
+  \item{sigma}{ ~~Describe \code{sigma} here~~ }
+  \item{shape}{ ~~Describe \code{shape} here~~ }
+  \item{rate}{ ~~Describe \code{rate} here~~ }
 }
 \details{
   ~~ If necessary, more details than the description above ~~

@@ -3,7 +3,7 @@ library(Umpire)
 set.seed(823458)
 # create a noise model
 noise <- NoiseModel(0, 1, 0.1)
-# set parameters from indepedent normal hyperparameters
+# set parameters from independent normal hyperparameters
 nGenes <- 5
 for (i in 1:2) {
   mu <- rnorm(nGenes, 6, 1)

@@ -1,5 +1,8 @@
+% KRC: Combine with CancerModel
 \name{nPatterns}
 \alias{nPatterns}
+\alias{nPossibleHits}
+\alias{nHitsPerPattern}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ ~~function to do ... ~~ }
 \description{
@@ -7,6 +10,8 @@
 }
 \usage{
 nPatterns(object)
+nPossibleHits(object)
+nHitsPerPattern(object)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

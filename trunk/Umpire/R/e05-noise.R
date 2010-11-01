@@ -29,16 +29,16 @@ NoiseModel <- function(nu, tau, phi) {
 }
 
 # 'blur' is the main method associated with a noise model.  The main
-# operation is given by blur(moiseModel, dataMatrix), which adds
+# operation is given by blur(noiseModel, dataMatrix), which adds
 # and multiplies random noise to the dataMatrix containing the true
 # signal.
 
 if (!isGeneric("blur"))
-  setGeneric('blur', function(object, x, ...)
-             standardGeneric('blur'))
+  setGeneric("blur", function(object, x, ...)
+             standardGeneric("blur"))
 
 setMethod("blur", "NoiseModel", function(object, x) {
-  if(inherits(x, 'matrix')) {
+  if(inherits(x, "matrix")) {
     h <- matrix(rnorm(nrow(x)*ncol(x), 0, object@multiplicativeScale),
                 nrow=nrow(x))
     e <- matrix(rnorm(nrow(x)*ncol(x), object@additiveOffset,

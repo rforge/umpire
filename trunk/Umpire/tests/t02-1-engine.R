@@ -11,7 +11,6 @@ for (i in 1:4) {
   assign(paste('ind', i, sep=''), temp, 1)
 }
 # now create a simulation engine
-#old: engine <- Engine(ind1, ind2, ind3, ind4)
 engine <- Engine(list(ind1, ind2, ind3, ind4))
 summary(engine)
 print(nrow(engine))

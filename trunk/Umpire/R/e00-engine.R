@@ -21,19 +21,19 @@
 setClass("Engine", representation=list(components="list"))
 
 Engine <- function(x) {
-  new('Engine', components=x)
+  new("Engine", components=x)
 }
 
 if (!isGeneric("rand"))
-  setGeneric('rand', function(object, n, ...)
-             standardGeneric('rand'))
+  setGeneric("rand", function(object, n, ...)
+             standardGeneric("rand"))
 
-setMethod('summary', "Engine", function(object, ...) {
+setMethod("summary", "Engine", function(object, ...) {
   cat(paste("An Engine with", length(object@components),
             "components.\n"))
 })
 
-setMethod('rand', 'Engine', function(object, n, ...) {
+setMethod("rand", "Engine", function(object, n, ...) {
   do.call(rbind, lapply(object@components, rand, n=n))
 })           
 
@@ -41,9 +41,9 @@ setMethod('rand', 'Engine', function(object, n, ...) {
 # of the vector) it generates.
 
 if (!isGeneric("nrow"))
-  setGeneric('nrow', function(x) standardGeneric('nrow'))
+  setGeneric("nrow", function(x) standardGeneric("nrow"))
 
-setMethod('nrow', 'Engine', function(x) {
+setMethod("nrow", "Engine", function(x) {
   do.call(sum, lapply(x@components, nrow))
 })           
 

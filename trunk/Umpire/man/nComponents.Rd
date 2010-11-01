@@ -1,3 +1,4 @@
+%KRC: combine with Engine or Engine-class
 \name{nComponents}
 \alias{nComponents}
 %- Also NEED an '\alias' for EACH other topic documented here.

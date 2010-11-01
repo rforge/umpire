@@ -5,21 +5,21 @@ set.seed(295997)
 nGenes <- 20
 logmu <- rnorm(nGenes, 6, 1)
 logsigma <- 1/rgamma(nGenes, rate=14, shape=6)
-# create an object that generates indpendent log normal data
+# create an object that generates independent log normal data
 ln <- IndependentLogNormal(logmu, logsigma)
 nrow(ln)
 summary(ln)
 # verify the means
 if(any(logmu - ln@logmu)) {
-  print('means do not match')
+  print("means do not match")
 } else {
-  print('means verified')
+  print("means verified")
 }
 # verify the standard deviations
 if(any(logsigma - ln@logsigma)) {
-  print('standard deviations do not match')
+  print("standard deviations do not match")
 } else {
-  print('sd verified')
+  print("sd verified")
 }
 # generate some random variables
 x <- rand(ln, 1000)

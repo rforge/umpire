@@ -1,3 +1,5 @@
+% KRC: combine with CancerpatientSet, which is where we define
+% the method
 \name{as.data.frame}
 \alias{as.data.frame}
 %- Also NEED an '\alias' for EACH other topic documented here.

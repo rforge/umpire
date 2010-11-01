@@ -1,3 +1,4 @@
+%KRC: combine with CancerModel-class
 \name{MVN}
 \alias{MVN}
 %- Also NEED an '\alias' for EACH other topic documented here.

@@ -9,9 +9,9 @@
 # the pieces are stored in the object.
 
 setClass("MVN",
-         representation = list(mu='numeric',
-           lambda='numeric',
-           half='matrix'))
+         representation = list(mu="numeric",
+           lambda="numeric",
+           half="matrix"))
 
 MVN <- function(mu, Sigma, tol = 1e-06) {
   p <- length(mu)
@@ -34,7 +34,7 @@ MVN <- function(mu, Sigma, tol = 1e-06) {
 # of the 'mvrnorm' function from the 'MASS' library.
 
 # JX: do I really understand this?
-setMethod('rand', "MVN", function(object, n, ...) {
+setMethod("rand", "MVN", function(object, n, ...) {
   p <- length(object@mu)
 # JX: n is the number of samples. X is generated as n*p. Should it be p*n?
   X <- matrix(rnorm(p * n), n)
@@ -47,18 +47,18 @@ setMethod("nrow", "MVN", function(x) {
 })
 
 setMethod("summary", "MVN", function(object, ...) {
-  cat('An MVN object, representing a vector\n')
-  cat(paste('of length', length(object@mu),
-              'of multivariate normal random variables.\n'))
+  cat("An MVN object, representing a vector\n")
+  cat(paste("of length", length(object@mu),
+              "of multivariate normal random variables.\n"))
 })
 
-# I suppose the 'covar' and 'correl' functions should be generic
+# KRC: I suppose the 'covar' and 'correl' functions should be generic
 # versions of 'cov' and 'cor'. But after a while I get tired of
-# retrofitting generic functions for everything.
+# retrofitting S4 generic functions for everything.
 
 # Assertion 1: This should return the same matrix that was used
 # in the function call to construct the MVN object.
-# Assertion 2: After applying an "alterMean" function (below),
+# Assertion 2: After applying an "alterMean" function (see e04-hit),
 # the covariance matrix is unchanged.
 covar <- function(object) {
   if(!inherits(object, "MVN"))
@@ -71,7 +71,7 @@ covar <- function(object) {
 # matrix.
 # Assertion 1: The diagonal consists of all 1's.
 # Assertion 2: After applying an "alterMean" or an "alterSD"
-# function (below), the correlation matrix is unchanged.
+# function (see e04-hit), the correlation matrix is unchanged.
 correl <- function(object) {
   Y <- covar(object)
   D <- diag(1/sqrt(diag(Y)))

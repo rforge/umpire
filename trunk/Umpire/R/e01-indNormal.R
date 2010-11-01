@@ -9,8 +9,8 @@
 
 setClass("IndependentNormal",
          representation = list(
-           mu='numeric',
-           sigma='numeric'))
+           mu="numeric",
+           sigma="numeric"))
 
 IndependentNormal <- function(mu, sigma) {
   if (length(sigma) != 1 & length(sigma) != length(mu))
@@ -19,9 +19,9 @@ IndependentNormal <- function(mu, sigma) {
 }
 
 setMethod("summary", "IndependentNormal", function(object, ...) {
-  cat('An IndependentNormal object, representing a vector\n')
-  cat(paste('of length', length(object@mu),
-              'of independent normal random variables.\n'))
+  cat("An IndependentNormal object, representing a vector\n")
+  cat(paste("of length", length(object@mu),
+              "of independent normal random variables.\n"))
 })
 
 setMethod("rand", "IndependentNormal", function(object, n, ...) {

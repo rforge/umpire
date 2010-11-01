@@ -39,7 +39,7 @@ export(nComponents)  # of an Engine
 export(covar)        # gets the covariance matrix of an MVN object
 export(correl)       # gets the correlation matrix of an MVN object
 export(normalOffset)     # example of an "alterMean transformation"
-export(invGammaMultiple) # example of an "AlterSD tansformation"
+export(invGammaMultiple) # example of an "alterSD tansformation"
 export(nPatterns)            # part of cancer model
 export(nPossibleHits)        # part of cancer model
 export(nHitsPerPattern)      # part of cancer model

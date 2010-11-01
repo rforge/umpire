@@ -1,11 +1,12 @@
 ###############################################################
-# Besides independent Normal, we have class for independent log Normal,
-# because the true expression value follows log normal in our model.
+# In addition to the Independent Normal class, we also have a
+# class for independent log normal, because the true expression
+# value follows a log normal distribution in our model.
 
 setClass("IndependentLogNormal",
          representation = list(
-           logmu='numeric',
-           logsigma='numeric'))
+           logmu="numeric",
+           logsigma="numeric"))
 
 IndependentLogNormal <- function(logmu, logsigma) {
   if (length(logsigma) != 1 & length(logsigma) != length(logmu))
@@ -14,9 +15,9 @@ IndependentLogNormal <- function(logmu, logsigma) {
 }
 
 setMethod("summary", "IndependentLogNormal", function(object, ...) {
-  cat('An IndependentLogNormal object, representing a vector\n')
-  cat(paste('of length', length(object@logmu),
-              'of independent log normal random variables.\n'))
+  cat("An IndependentLogNormal object, representing a vector\n")
+  cat(paste("of length", length(object@logmu),
+              "of independent log normal random variables.\n"))
 })
 
 setMethod("rand", "IndependentLogNormal", function(object, n, ...) {

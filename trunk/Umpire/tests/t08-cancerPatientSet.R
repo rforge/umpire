@@ -10,8 +10,8 @@ cm <- CancerModel('simple',
 # generate a set of cancer patient from the cancer model
 cps <- CancerPatientSet(cm, 100)
 summary(cps)
-# generate a set ofd toucomes for the patients
+# generate a set of outcomes for the patients
 realizeOutcome(cps)
-# generate survivial data for the patients
+# generate survival data for the patients
 temp <- data.frame(realizeSurvival(cps, baseHazard=1/5, accrual=5, units=52))
 summary(temp)
