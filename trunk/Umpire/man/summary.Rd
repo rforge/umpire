@@ -1,37 +1,18 @@
-\name{summary}
+\name{summary-method}
 \alias{summary}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~ }
+\alias{summary-method}
+\alias{summary, ANY-method}
+
+\title{Method "summary"}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Print out summary information for object. Content being printed out
+  depends on the object passed to the method.
 }
 \usage{
 summary(object, ...)
 }
-%- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{object}{ ~~Describe \code{object} here~~ }
-  \item{\dots}{ ~~Describe \code{\dots} here~~ }
+\references{KRC}
+\author{
+  Kevin R. Coombes \email{kcoombes@mdanderson.org},
+  Jiexin Zhang \email{jiexinzhang@mdanderson.org}
 }
-\details{
-  ~~ If necessary, more details than the description above ~~
-}
-\value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
-}
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ 
-
- ~Make other sections like Warning with \section{Warning }{....} ~
-}
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
-\examples{
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-

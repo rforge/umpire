@@ -1,39 +1,26 @@
-\name{rand}
+\name{rand-method}
 \alias{rand}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~ }
+\alias{rand-method}
+\alias{rand,ANY-method}
+\docType{methods}
+\title{Method "rand"}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Generate a matrix representing gene expressions following the
+  distribution defined in the object.
 }
 \usage{
 rand(object, n, ...)
 }
-%- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{object}{ ~~Describe \code{object} here~~ }
-  \item{n}{ ~~Describe \code{n} here~~ }
-  \item{\dots}{ ~~Describe \code{\dots} here~~ }
-}
-\details{
-  ~~ If necessary, more details than the description above ~~
-}
-\value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
-}
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ 
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+\arguments{
+  \item{object}{The \code{Engine} object defining the distributions of
+    the gene expression}
+  \item{n}{The number of samples being simulated}
+  \item{\dots}{extra arguments for generic or plotting routines}
 }
-\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
-\examples{
+\references{KRC}
+\author{
+  Kevin R. Coombes \email{kcoombes@mdanderson.org},
+  Jiexin Zhang \email{jiexinzhang@mdanderson.org}
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ datagen }
-\keyword{ distribution }

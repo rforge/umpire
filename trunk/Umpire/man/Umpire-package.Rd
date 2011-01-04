@@ -6,8 +6,11 @@
 UMPIRE: Ultimate Microarray Prediction, Inference, and Reality Engine
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+A suite microarray simulation software which includes additive and
+multiplicative noise, mixture of expressed and unexpressed genes, and
+uses statistical distributions to capture differences in mean expression and in
+standard deviation both within groups and between groups of samples. Finally, we incorporate
+a simple block correlation structure between genes.
 }
 \details{
 \tabular{ll}{
@@ -18,23 +21,12 @@ Date: \tab 2009-07-13\cr
 License: \tab Perl Artistic License (see LICENSE file)\cr
 LazyLoad: \tab yes\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+For a complete list of functions, use \code{library(help = 'Umpire')}.
 }
+\references{KRC}
 \author{
-Who wrote it
-
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
-}
-\references{
-~~ Literature or other references for background information ~~
+  Kevin R. Coombes \email{kcoombes@mdanderson.org},
+  Jiexin Zhang \email{jiexinzhang@mdanderson.org}
 }
 \keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
-\examples{
-# whatever
-}
+
