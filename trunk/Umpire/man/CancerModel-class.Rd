@@ -23,6 +23,9 @@ CancerModel(name, nPossible, nPattern,
 \S4method{summary}{Engine}(object, \dots)
 nComponents(object)
 }
+\arguments{
+\item{name}{
+}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CancerModel", ...)}.
 	 ~~ describe objects here ~~ 
