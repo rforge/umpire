@@ -33,10 +33,6 @@ NoiseModel <- function(nu, tau, phi) {
 # and multiplies random noise to the dataMatrix containing the true
 # signal.
 
-if (!isGeneric("blur"))
-  setGeneric("blur", function(object, x, ...)
-             standardGeneric("blur"))
-
 setMethod("blur", "NoiseModel", function(object, x, ...) {
   if(inherits(x, "matrix")) {
     h <- matrix(rnorm(nrow(x)*ncol(x), 0, object@multiplicativeScale),

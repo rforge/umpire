@@ -11,15 +11,6 @@
 # the multivariate normal context, we can alter the mean or we can
 # alter the standard deviation.
 
-# The 'object' of an 'alterMean' operation should be an engine or
-# a component of an engine. The 'TRANSFORM' function for each
-# object should take as its input a vector of mean expression and
-# return a transformed mean vector that can be used to alter the
-# object.
-if (!isGeneric("alterMean"))
-  setGeneric("alterMean", function(object, TRANSFORM, ...) {
-    standardGeneric("alterMean")
-  })
 
 # Here is one example of a possible 'TRANSFORM' to be used in an
 # 'alterMean' operation.  Each value in the mean is changed by
@@ -31,15 +22,6 @@ normalOffset <- function(x, delta=0, sigma=1) {
   x + rnorm(length(x), delta, sigma)
 }
 
-# The 'object' of an 'alterSD' operation should be an engine or
-# a component of an engine. The 'TRANSFORM' function for each
-# object should take as its input a vector of standard deviations
-# and return a transformed vector that can be used to alter the
-# object.
-if (!isGeneric("alterSD"))
-  setGeneric("alterSD", function(object, TRANSFORM, ...) {
-    standardGeneric("alterSD")
-  })
 
 # Here is a possible 'TRANSFORM' for an 'alterSD' operation, which
 # multiplies each standard deviation by a positive value chosen
@@ -49,21 +31,34 @@ invGammaMultiple <- function(x, shape, rate) {
   x / rgamma(length(x), shape=shape, rate=rate)
 }
 
+
 ####################
 # alterMean and alterSD for an Engine just loop over the
 # components
 
+# The 'object' of an 'alterMean' operation should be an engine or
+# a component of an engine. The 'TRANSFORM' function for each
+# object should take as its input a vector of mean expression and
+# return a transformed mean vector that can be used to alter the
+# object.
 setMethod("alterMean", "Engine", function(object, TRANSFORM, ...) {
   new("Engine",
       components=lapply(object@components,
         alterMean, TRANSFORM, ...))
 })
 
+
+# The 'object' of an 'alterSD' operation should be an engine or
+# a component of an engine. The 'TRANSFORM' function for each
+# object should take as its input a vector of standard deviations
+# and return a transformed vector that can be used to alter the
+# object.
 setMethod("alterSD", "Engine", function(object, TRANSFORM, ...) {
   new("Engine",
       components=lapply(object@components,
         alterSD, TRANSFORM, ...))
 })
+
 
 ####################
 # alterMean and alterSD for an 'IndependentNormal' simply replace

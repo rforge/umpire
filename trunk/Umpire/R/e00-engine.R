@@ -24,10 +24,6 @@ Engine <- function(components) {
   new("Engine", components=components)
 }
 
-if (!isGeneric("rand"))
-  setGeneric("rand", function(object, n, ...)
-             standardGeneric("rand"))
-
 setMethod("summary", "Engine", function(object, ...) {
   cat(paste("An Engine with", length(object@components),
             "components.\n"))
@@ -39,9 +35,6 @@ setMethod("rand", "Engine", function(object, n, ...) {
 
 # Every engine must know the number of genes (i.e, the length
 # of the vector) it generates.
-
-if (!isGeneric("nrow"))
-  setGeneric("nrow", function(x) standardGeneric("nrow"))
 
 setMethod("nrow", "Engine", function(x) {
   do.call(sum, lapply(x@components, nrow))

@@ -82,9 +82,6 @@ CancerModel <- function(name, nPossible, nPattern,
       call=call)
 }
 
-if (!isGeneric("ncol"))
-  setGeneric("ncol", function(x) standardGeneric("ncol"))
-
 setMethod("ncol", "CancerModel", function(x) {
   ncol(x@hitPattern)
 })
