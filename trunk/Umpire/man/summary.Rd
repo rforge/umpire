@@ -12,7 +12,7 @@
 summary(object, ...)
 }
 \arguments{
-  \item{object} object of class \code{Engine}
+  \item{object}{object of class \code{Engine}}
   \item{\dots}{extra arguments for generic or plotting routines}
 }
 \references{KRC}

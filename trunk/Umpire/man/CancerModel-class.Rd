@@ -5,6 +5,11 @@
 \alias{nrow,CancerModel-method}
 \alias{rand,CancerModel-method}
 \alias{summary,CancerModel-method}
+\alias{nPatterns}
+\alias{nPossibleHits}
+\alias{nHitsPerPattern}
+\alias{survivalCoefficients}
+\alias{outcomeCoefficients}
 
 \title{The "CancerModel" Class}
 \description{A \code{CancerModel} object contains a number of pieces of
@@ -16,16 +21,25 @@ CancerModel(name, nPossible, nPattern,
                 SURV = function(n) rnorm(n, 0, 2),
                 OUT = function(n) rnorm(n, 0, 2),
                 prevalence=NULL)
-\S4method{alterMean}{Engine}(object, TRANSFORM, \dots)
-\S4method{alterSD}{Engine}(object, TRANSFORM, \dots)
-\S4method{nrow}{Engine}(x)
-\S4method{rand}{Engine}(object, n, \dots)
-\S4method{summary}{Engine}(object, \dots)
-nComponents(object)
+nPatterns(object)
+nPossibleHits(object)
+nHitsPerPattern(object)
+outcomeCoefficients(object)
+survivalCoefficients(object)
+
 }
 \arguments{
-\item{name}{
+\item{name}{ ~~Describe \code{name} here~~ }
+\item{object}{~~Describe \code{object} here~~ }
+\item{NULL}{~~Describe \code{NULL} here~~ }
+  \item{nPossible}{ ~~Describe \code{nPossible} here~~ }
+  \item{nPattern}{ ~~Describe \code{nPattern} here~~ }
+  \item{HIT}{ ~~Describe \code{HIT} here~~ }
+  \item{SURV}{ ~~Describe \code{SURV} here~~ }
+  \item{OUT}{ ~~Describe \code{OUT} here~~ }
+  \item{prevalence}{ ~~Describe \code{prevalence} here~~ }
 }
+
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("CancerModel", ...)}.
 	 ~~ describe objects here ~~ 
@@ -48,10 +62,18 @@ Objects can be created by calls of the form \code{new("CancerModel", ...)}.
     \item{summary}{\code{signature(object = "CancerModel")}: ... }
 	 }
 }
+\value{
+  ~Describe the value returned
+  If it is a LIST, use
+  \item{comp1 }{Description of 'comp1'}
+  \item{comp2 }{Description of 'comp2'}
+  ...
+}
 \references{ ~put references to the literature/web site here ~ }
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 \seealso{
+\code{\linkS4class{SurvivalModel}}
 }
 \examples{
 showClass("CancerModel")

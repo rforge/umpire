@@ -24,6 +24,7 @@ Objects can be created by calls of the form \code{new("CancerEngine", ...)}.
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 \seealso{
+\code{\linkS4class{CancerModel}}
 }
 \examples{
 showClass("CancerEngine")

@@ -1,3 +1,11 @@
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+%\VignetteIndexEntry{Umpire Primer}
+%\VignetteKeywords{Simulation, Microarray}
+%\VignetteDepends{methods, stats, utils, graphics, grDevices}
+%\VignettePackage{Umpire}
+
 \documentclass[11pt]{article}
 \usepackage{graphicx}
 \usepackage{cite}
@@ -409,3 +417,4 @@ sessionInfo()
 @ 
 
 \end{document}
+
