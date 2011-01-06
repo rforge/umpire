@@ -23,8 +23,7 @@ IndependentNormal(mu,sigma)
     expression values.}
   \item{sigma}{Object of class \code{numeric} specifying the standard
     deviation of the gene expression values}
-  \item{object}{Object of class \code{IndependentNormal}}
-  \item{x}{Object of class \code{IndependentNormal}}
+  \item{object, x}{Object of class \code{IndependentNormal}}
   \item{TRANSFORM}{the \code{TRANSFORM} function for each object should
     take as its input a vector of mean expression or standard deviation
     and return a transformed vector that can be used to alter the

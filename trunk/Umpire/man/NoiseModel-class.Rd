@@ -16,6 +16,8 @@ NoiseModel(nu, tau, phi)
     the mean of multiplicative noise is set to 0}
   \item{object}{object of class \code{NoiseModel}}
   \item{x}{The data matrix containing true signal from the gene expression}
+  \item{\dots}{extra arguments for generic or plotting routines}
+
 }
 \section{Details}{
   We model both additive and multiplicative noise, so that the observed

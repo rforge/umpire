@@ -35,8 +35,7 @@ EngineWithActivity(active, components, base = 2)
   \item{base}{A numeric specifying the logarithmic scale to which the data should
     be transformed.
   }
-  \item{object}{Object of class \code{EngineWithActivity}}
-  \item{x}{Object of class \code{EngineWithActivity}}
+  \item{object, x}{Object of class \code{EngineWithActivity}}
   \item{TRANSFORM}{the \code{TRANSFORM} function for each object should
     take as its input a vector of mean expression or standard deviation
     and return a transformed vector that can be used to alter the

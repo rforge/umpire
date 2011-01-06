@@ -20,8 +20,7 @@ IndependentLogNormal(logmu,logsigma)
     expression values on the logarithmic scale.}
   \item{logsigma}{Object of class \code{numeric} specifying the standard
     deviation of the gene expression values on the logarithmic scale}
-  \item{object}{Object of class \code{IndependentLogNormal}}
-  \item{x}{Object of class \code{IndependentLogNormal}}
+  \item{object, x}{Object of class \code{IndependentLogNormal}}
   \item{n}{Number of samples to be simulated}
   \item{\dots}{extra arguments for generic or plotting routines}
 }

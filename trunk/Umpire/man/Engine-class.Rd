@@ -28,8 +28,7 @@ nComponents(object)
     contains the parameters for the underlying distribution that the
     gene expression follows. A component can be viewed as a special case
     of an engine that only has one component.}
-  \item{x}{object of class \code{Engine}}
-  \item{object}{object of class \code{Engine}}
+  \item{object, x}{object of class \code{Engine}}
   \item{TRANSFORM}{the \code{TRANSFORM} function for each object should
     take as its input a vector of mean expression or standard deviation
     and return a transformed vector that can be used to alter the

@@ -28,8 +28,7 @@ MVN(mu, Sigma, tol = 1e-06)
     linear coupling between every pair of randome vectors.}
   \item{tol}{Roundoff error that will be tolerated  when assessing the
     singularity of the covariance matrix}
-  \item{object}{Object of class \code{MVN}}
-  \item{x}{Object of class \code{MVN}}
+  \item{object, x}{Object of class \code{MVN}}
   \item{TRANSFORM}{the \code{TRANSFORM} function for each object should
     take as its input a vector of mean expression or standard deviation
     and return a transformed vector that can be used to alter the

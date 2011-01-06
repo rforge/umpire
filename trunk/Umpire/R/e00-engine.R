@@ -20,8 +20,8 @@
 
 setClass("Engine", representation=list(components="list"))
 
-Engine <- function(x) {
-  new("Engine", components=x)
+Engine <- function(components) {
+  new("Engine", components=components)
 }
 
 if (!isGeneric("rand"))

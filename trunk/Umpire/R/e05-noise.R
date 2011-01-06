@@ -37,7 +37,7 @@ if (!isGeneric("blur"))
   setGeneric("blur", function(object, x, ...)
              standardGeneric("blur"))
 
-setMethod("blur", "NoiseModel", function(object, x) {
+setMethod("blur", "NoiseModel", function(object, x, ...) {
   if(inherits(x, "matrix")) {
     h <- matrix(rnorm(nrow(x)*ncol(x), 0, object@multiplicativeScale),
                 nrow=nrow(x))

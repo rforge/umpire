@@ -16,21 +16,21 @@
   an inverse gamma distribution with paramters \code{shape} and \code{scale}.
 }
 \usage{
-alterMean(x, TRANSFORM, ...)
-alterSD(x,TRANSFORM,...)
-normalOffset(comp, mean, sd)
-invGammaMultiple(comp, shape, rate)
+alterMean(object, TRANSFORM, ...)
+alterSD(object,TRANSFORM,...)
+normalOffset(x, delta, sigma)
+invGammaMultiple(x, shape, rate)
 }
 
 \arguments{
-  \item{x}{object of class \code{Engine}}
+  \item{object}{object of class \code{Engine}}
   \item{TRANSFORM}{the \code{TRANSFORM} function for each object should
     take as its input a vector of mean expression or standard deviation
     and return a transformed vector that can be used to alter the
     appropriate slot of the object.}
-  \item{comp}{numeric vector of mean expression or standard deviation
+  \item{x}{numeric vector of mean expression or standard deviation
     defined in the \code{Engine} object}
-  \item{mean, sd}{mean and sd parameters specifying the normal distribution}
+  \item{delta, sigma}{mean and sd parameters specifying the normal distribution}
   \item{shape, rate}{shape and rate parameters specifiying the gamma distribution. Must be positive.}
   \item{\dots}{extra arguments for generic or plotting routines}
 }

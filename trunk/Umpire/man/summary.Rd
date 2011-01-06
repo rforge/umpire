@@ -11,6 +11,10 @@
 \usage{
 summary(object, ...)
 }
+\arguments{
+  \item{object} object of class \code{Engine}
+  \item{\dots}{extra arguments for generic or plotting routines}
+}
 \references{KRC}
 \author{
   Kevin R. Coombes \email{kcoombes@mdanderson.org},
