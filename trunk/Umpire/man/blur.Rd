@@ -9,7 +9,7 @@
   Functions to add noise to true signal.
 }
 \usage{
-\S4method{blur}{NoiseModel}(object, x, \dots)
+\S4method{blur}{ANY}(object, x, \dots)
 }
 
 \arguments{
