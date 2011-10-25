@@ -63,21 +63,16 @@ setMethod("rand", "CancerEngine", function(object, n, ...) {
   hitlist <- n                            # remember the subtypes
   n <- length(hitlist)                    # convert back to number of vectors to generate
   B <- get(object@base, envir=object@localenv)    # base Engine
-cat("base: ", object@base, "  B: ", class(B),"\n")
   A <- get(object@altered, envir=object@localenv) # altered Engine
-cat("altered: ", object@altered, "  A: ", class(A), "\n")
-  U <- unlist(lapply(B@components, nrow))      # size of each component
-  ends <- cumsum(U)
-  starts <- (1+c(0, ends))[1:length(U)]
-print("ready to generate data from base")
   b <- rand(B, n)                             # base simulation
-print("ready to generate data from altered")
   a <- rand(A, n) # altered values
-print("phew")
   temp <- object@cm@hitPattern
   # there ought to be a better way to do this
   # idea is to expand the "hit pattern" for each patient ot include
   # all genes in a correlated block
+  U <- unlist(lapply(B@components, nrow))      # size of each component
+  ends <- cumsum(U)
+  starts <- (1+c(0, ends))[1:length(U)]
   isHit <- matrix(0, nrow=sum(U), ncol=n)
   for (i in 1:nrow(temp)) {
     for (j in 1:n) {
