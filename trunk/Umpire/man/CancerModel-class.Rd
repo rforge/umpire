@@ -41,8 +41,7 @@ survivalCoefficients(object)
 }
 
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("CancerModel", ...)}.
-	 ~~ describe objects here ~~ 
+Objects should be created using the function \code{CancerModel}.
 }
 \section{Slots}{
 	 \describe{

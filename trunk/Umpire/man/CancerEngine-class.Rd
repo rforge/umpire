@@ -2,12 +2,27 @@
 \docType{class}
 \alias{CancerEngine-class}
 \alias{rand,CancerEngine-method}
+\alias{CancerEngine}
 
 \title{The "CancerEngine" Class}
 \description{A CancerEngine combines a CancerModel (which defines the
   combinatorics of hits that produce cancer subtypes) with a pair of
   gene expression Engines that can be used to simulate microarray data
   depending on the presence or absence of different hits.}
+\usage{
+CancerEngine(cm, base, altered)
+}
+\arguments{
+    \item{cm}{A \code{\link{CancerModel}} object.}
+    \item{base}{Object of class "character" giving the name of
+      an \code{\link{Engine}} or \code{\link{EngineWithActivity}}, or an
+      actual Engine.
+      Represents the expected gene expression in the absence of any hits.}
+    \item{altered}{Object of class "character" giving the name of
+      an \code{\link{Engine}} or \code{\link{EngineWithActivity}},or an
+      actual Engine.
+      Represents the expected gene expression in the presence of hits.}
+}
 \section{Objects from the Class}{
 Objects should be created using the function \code{CancerEngine}.
 }
