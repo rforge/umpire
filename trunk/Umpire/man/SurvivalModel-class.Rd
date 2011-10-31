@@ -1,6 +1,7 @@
 \name{SurvivalModel-class}
 \alias{SurvivalModel}
 \alias{SurvivalModel-class}
+\alias{rand,SurvivalModel-method}
 
 \title{Class "SurvivalModel" ~~~ }
 \description{	 ~~ A concise (1-5 lines) description of what the class is.  ~~}
@@ -39,7 +40,9 @@ SurvivalModel(baseHazard = 1/5, accrual = 5, followUp = 1, units = 12, unitName 
   }
 }
 \section{Methods}{
-No methods defined with class "SurvivalModel" in the signature.
+  \describe{
+    \item{rand}{\code{signature(object="SurvivalModel")}:  }
+    }
 }
 \references{ ~put references to the literature/web site here ~ }
 \author{ ~~who you are~~ }
@@ -47,7 +50,14 @@ No methods defined with class "SurvivalModel" in the signature.
 \seealso{~~objects to See Also as \code{\link{help}}, ~~~ }
 
 \examples{
-showClass("SurvivalModel")
+sm <- SurvivalModel()
+# generate data from base model
+outcome <- rand(sm, 100)
+summary(outcome)
+# generate data from five classes with different beta parameters
+beta <- rep(rnorm(5, 0, 2), each=20)
+outcome <- rand(sm, 100, beta=beta)
+summary(outcome)
 }
 \keyword{classes}
 \keyword{datagen}

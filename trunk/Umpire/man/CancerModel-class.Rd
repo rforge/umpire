@@ -83,8 +83,17 @@ Objects should be created using the \code{CancerModel} function.
   The \code{CancerModel} function is used to contruct and return an object of
   the \code{CancerModel} class.  The \code{ncol} and \code{nrow}
   functions return integers with the size of the matrix of hit
-  patterns.  
-
+  patterns.  The \code{summary} function has no meanibngful return
+  value; it is only called for its side-effects of printing a summary of
+  the object.
+  
+  The \code{rand} method is the most important method for objects of this
+  class.  It returns a data frame with four columns: the
+  \code{CancerSubType} (as an integer that indexes into the
+  \code{hitPattern} slot of the object), a binary \code{Outcome} that
+  takes on values \code{"Bad"} or \code{"Good"}, an \code{LFU} column
+  with censored survival times, and a logical \code{Event} column that
+  describes whether the simulated survival event has occured.
 }
 \references{ OOMPA }
 \author{Kevin R. Coombes <kcoombes@mdanderson.org>}

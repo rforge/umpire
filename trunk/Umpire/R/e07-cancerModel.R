@@ -38,7 +38,22 @@ SurvivalModel <- function(baseHazard=1/5,
       followUp=followUp, units=units, unitName=unitName)
 }
 
-
+# Here we generate survival data
+setMethod("rand", "SurvivalModel", function(object, n, beta=NULL, ...) {
+  if (is.null(beta))
+    beta <- rep(0, n)
+  if (length(beta) != n)
+    stop("Must supply 'beta' parameters for all patients")
+  hazard <- object@baseHazard*exp(beta)
+  survival <- rexp(n, hazard) # theoretical survival
+  censor <- object@followUp + runif(n, 0, object@accrual) # real time
+  cen <- trunc(censor*object@units)         # months, which is more likely ...
+  sur <- trunc(survival*object@units)
+  lfu <- ((sur + cen) - abs(sur-cen))/2 # vectorized minimum
+  event <- (survival <= censor)         # did we observe the event?
+  data.frame(LFU=lfu,
+             Event=event)
+})
 
 setClass("CancerModel",
          representation=list(
@@ -188,6 +203,7 @@ setMethod("summary", "CancerModel", function(object,...) {
   event <- (survival <= censor)         # did we observe the event?
   list(survival=lfu, event=event)
 }
+
 
 # Here we generate a phenoData object
 setMethod("rand", "CancerModel", function(object, n, ...) {
