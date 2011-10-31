@@ -23,6 +23,23 @@
 # Finally, each cancer subtype is assumed to occur with
 # some prevalence.
 
+setClass("SurvivalModel", representation=list(
+                            baseHazard="numeric",
+                            accrual="numeric",
+                            followUp="numeric",
+                            units="numeric",
+                            unitName="character"))
+
+SurvivalModel <- function(baseHazard=1/5,
+                          accrual=5,  # years
+                          followUp=1, # years
+                          units=12, unitName="months") {
+  new("SurvivalModel", baseHazard=baseHazard, accrual=accrual,
+      followUp=followUp, units=units, unitName=unitName)
+}
+
+
+
 setClass("CancerModel",
          representation=list(
            name="character",
@@ -30,6 +47,7 @@ setClass("CancerModel",
            survivalBeta="numeric",
            outcomeBeta ="numeric",
            prevalence = "numeric",
+           survivalModel="SurvivalModel",
            call="call"))
 
 # We define a general-purpose constructor for cancer models.
@@ -41,15 +59,20 @@ setClass("CancerModel",
 #      supported on the positive integers
 #   SURV = generator (r-function) of a continuous distribution
 #   OUT  = generator (r-function) of a continuous distribution
+#   survivalModel = object encapsulating the parameters needed
+#      to simulate survival times.
 #   prevalence = optional vector of relative prevalences of
 #      the cancer subtypes.
 
 CancerModel <- function(name, nPossible, nPattern,
-                HIT = function(n) 5,
-                SURV = function(n) rnorm(n, 0, 2),
-                OUT = function(n) rnorm(n, 0, 2),
-                prevalence=NULL) {
+                        HIT = function(n) 5,
+                        SURV = function(n) rnorm(n, 0, 2),
+                        OUT = function(n) rnorm(n, 0, 2),
+                        survivalModel=NULL,
+                        prevalence=NULL) {
   call <- match.call()
+  if (is.null(survivalModel))
+    survivalModel = SurvivalModel()
   if (is.null(prevalence) | length(prevalence == 1)) # equally likely
     prevalence <- rep(1/nPattern, nPattern)
   if (length(prevalence) > 1) {
@@ -66,7 +89,7 @@ CancerModel <- function(name, nPossible, nPattern,
     # return vector containing all 5? 
     # KRC: Only in the default.  You can replace HIT with a function
     # that generates random integers (say, discrete uniform between 3
-    # and 10) so there are differnt numbers of hits per pattern.
+    # and 10) so there are different numbers of hits per pattern.
     hp[sample(nPossible, HIT(nPossible)), i] <- 1
   }
   s <- SURV(nPossible)
@@ -79,6 +102,7 @@ CancerModel <- function(name, nPossible, nPattern,
       survivalBeta=s,
       outcomeBeta=o,
       prevalence=prevalence,
+      survivalModel=survivalModel,
       call=call)
 }
 
@@ -149,9 +173,10 @@ setMethod("summary", "CancerModel", function(object,...) {
   factor(outclass[1+rbinom(length(hc), 1, probs[hc])])
 }
 
-.realizeSurvival <- function(object, hc, sm) {
+.realizeSurvival <- function(object, hc) {
   if(!inherits(object, "CancerModel"))
     stop("First argument must be a 'CancerModel' object")
+  sm <- object@survivalModel
   temp <- as.vector(matrix(object@survivalBeta, nrow=1) %*%
                     object@hitPattern)
   hazard <- sm@baseHazard*exp(temp)
@@ -164,23 +189,8 @@ setMethod("summary", "CancerModel", function(object,...) {
   list(survival=lfu, event=event)
 }
 
-setClass("SurvivalModel", representation=list(
-                            baseHazard="numeric",
-                            accrual="numeric",
-                            followUp="numeric",
-                            units="numeric",
-                            unitName="character"))
-
-SurvivalModel <- function(baseHazard=1/5,
-                          accrual=5,  # years
-                          followUp=1, # years
-                          units=12, unitName="months") {
-  new("SurvivalModel", baseHazard=baseHazard, accrual=accrual,
-      followUp=followUp, units=units, unitName=unitName)
-}
-
 # Here we generate a phenoData object
-setMethod("rand", "CancerModel", function(object, n, sm, ...) {
+setMethod("rand", "CancerModel", function(object, n, ...) {
   cp <- cumsum(object@prevalence)
   ru <- runif(n)
   hc <- unlist(lapply(ru, function(x, cp) {
@@ -188,7 +198,7 @@ setMethod("rand", "CancerModel", function(object, n, sm, ...) {
   }, cp)) # picks out a class by sampling from an explicit
           # discrete distribution
   outcome <- .realizeOutcome(object, hc)
-  survival <- .realizeSurvival(object, hc, sm)
+  survival <- .realizeSurvival(object, hc)
   data.frame(CancerSubType=hc,
              Outcome=outcome,
              LFU=survival$survival,

@@ -14,12 +14,14 @@
 \title{The "CancerModel" Class}
 \description{A \code{CancerModel} object contains a number of pieces of
   information representing an abstract, heterogeneous collection of
-  cancer patients}
+  cancer patients.  It can be used to simulate patient outcome data
+  linked to hit classes.}
 \usage{
 CancerModel(name, nPossible, nPattern,
                 HIT = function(n) 5,
                 SURV = function(n) rnorm(n, 0, 2),
                 OUT = function(n) rnorm(n, 0, 2),
+                survivalModel=NULL,
                 prevalence=NULL)
 nPatterns(object)
 nPossibleHits(object)
@@ -29,28 +31,44 @@ survivalCoefficients(object)
 
 }
 \arguments{
-\item{name}{ ~~Describe \code{name} here~~ }
-\item{object}{~~Describe \code{object} here~~ }
-\item{NULL}{~~Describe \code{NULL} here~~ }
-  \item{nPossible}{ ~~Describe \code{nPossible} here~~ }
-  \item{nPattern}{ ~~Describe \code{nPattern} here~~ }
-  \item{HIT}{ ~~Describe \code{HIT} here~~ }
-  \item{SURV}{ ~~Describe \code{SURV} here~~ }
-  \item{OUT}{ ~~Describe \code{OUT} here~~ }
-  \item{prevalence}{ ~~Describe \code{prevalence} here~~ }
+  \item{name}{ The name given to this CancerModel. }
+  \item{object}{ A CancerModel object. }
+  \item{nPossible}{An integer; the number of potential hits relevant to
+    the kind of cancer being modeled.}
+  \item{nPattern}{The number of different cancer subtypes.}
+  \item{HIT}{A function that generates non-negative integers from a
+    discrete distribution.  Used to determine the number of hits
+    actually present in each cancer subtype.}
+  \item{SURV}{A function that generates real numbers from a continuos
+    distributions.  Used in simulations to select the coefficients
+    associated with each hit in Cox proportional hazards models.}
+  \item{OUT}{A function that generates real numbers from a continuos
+    distributions.  Used in simulations to select the coefficients
+    associated with each hit in logistic models of a binary outcome.}
+  \item{survivalModel}{An object of the SurvivalModel class.  used to
+    simulate survival times for each simulated patient.}
+  \item{prevalence}{ The prevalence of each cancer subtype. }
 }
 
 \section{Objects from the Class}{
-Objects should be created using the function \code{CancerModel}.
+Objects should be created using the \code{CancerModel} function.
 }
 \section{Slots}{
 	 \describe{
-    \item{\code{name}:}{Object of class \code{"character"} ~~ }
-    \item{\code{hitPattern}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{survivalBeta}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{outcomeBeta}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{prevalence}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{call}:}{Object of class \code{"call"} ~~ }
+    \item{\code{name}:}{Object of class \code{"character"}}
+    \item{\code{hitPattern}:}{Object of class \code{"matrix"}}
+    \item{\code{survivalBeta}:}{Object of class \code{"numeric"}
+      containing the coeffieicents associated with each hit in a
+      Cox proportional hazards model of survival.}
+    \item{\code{outcomeBeta}:}{Object of class \code{"numeric"}
+      contaning the coefficients associated with each hit in a logistic
+      model to predict a binary outcome.}
+    \item{\code{prevalence}:}{Object of class \code{"numeric"}
+      containing the prevalence of each cancer subtype. }
+    \item{\code{survivalModel}:}{Object of class \code{"survivalModel"}
+      containing parameters used to simualte survival times. }
+    \item{\code{call}:}{Object of class \code{"call"} recording the
+      function call used to initialize the object. }
   }
 }
 \section{Methods}{
@@ -62,20 +80,31 @@ Objects should be created using the function \code{CancerModel}.
 	 }
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
+  The \code{CancerModel} function is used to contruct and return an object of
+  the \code{CancerModel} class.  The \code{ncol} and \code{nrow}
+  functions return integers with the size of the matrix of hit
+  patterns.  
+
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
+\references{ OOMPA }
+\author{Kevin R. Coombes <kcoombes@mdanderson.org>}
 \seealso{
 \code{\linkS4class{SurvivalModel}}
 }
 \examples{
-showClass("CancerModel")
+set.seed(391629)
+# set up survival outcome; baseline is exponential
+sm <- SurvivalModel(baseHazard=1/5, accrual=5, followUp=1)
+# now build a CancerModel with 6 subtypes
+cm <- CancerModel(name="cansim",
+                  nPossible=20,
+                  nPattern=6,
+                  OUT = function(n) rnorm(n, 0, 1), 
+                  SURV= function(n) rnorm(n, 0, 1),
+                  survivalModel=sm)
+# simulate 100 patients
+clinical <- rand(cm, 100)
+summary(clinical)
 }
 \keyword{classes}
 \keyword{datagen}
