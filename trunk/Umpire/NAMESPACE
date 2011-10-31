@@ -19,14 +19,12 @@ exportClasses(MVN)
 exportClasses(NoiseModel)
 exportClasses(CancerModel)
 exportClasses(SurvivalModel)
-exportClasses(CancerPatientSet)
 exportClasses(CancerEngine)
 
 ## S4 methods made from existing functions or S3 methods
 exportMethods(summary)
 exportMethods(nrow)
 exportMethods(ncol)
-exportMethods(as.data.frame)
 
 ## S4 methods from new generics we define
 exportMethods(rand)
@@ -45,8 +43,6 @@ export(nPossibleHits)        # part of cancer model
 export(nHitsPerPattern)      # part of cancer model
 export(survivalCoefficients) # part of cancer model
 export(outcomeCoefficients)  # part of cancer model
-export(realizeOutcome)  # part of cancer patient set
-export(realizeSurvival) # part of cancer patient set
 
 ## Public functions that construct classes
 export(Engine)
@@ -57,5 +53,4 @@ export(MVN)
 export(NoiseModel)
 export(CancerModel)
 export(SurvivalModel)
-export(CancerPatientSet)
 export(CancerEngine)
