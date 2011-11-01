@@ -6,9 +6,9 @@
 # objects (that can be used to generate data depending on
 # the presence or absence of individual hits).  The tricky part
 # arises because we may want to apply this class with either
-# an ENGINE or an ENGINE WIT ACTIVITY,and so it is hard to
+# an ENGINE or an ENGINE WITH ACTIVITY,and so it is hard to
 # define the class represenation.  The first attempt used a
-# poor man's refernce schem, by storing character strings with
+# poor man's reference scheme, by storing character strings with
 # the names of objects that could be retrieved by an
 # eval(as.name(...)) construction.  This idea fails if you try
 # to produce a CANCER ENGINE inside a function, where R fails
@@ -54,21 +54,17 @@ CancerEngine <- function(cm, base, altered) {
   new("CancerEngine", cm=cm, base=base, altered=altered, localenv=localenv)
 }
 
-# sigh.  It would be nice if R were _really_ object-oriented.  I'd like to
-# dispatch on the second argument of rand, but that doesn't really work.
-# So, we are going to assume that "n" is a list of cancer subtypes instead
-# of a simple integer.
-
 setMethod("rand", "CancerEngine", function(object, n, ...) {
-  hitlist <- n                            # remember the subtypes
-  n <- length(hitlist)                    # convert back to number of vectors to generate
+  # first generate the clinical data
+  clinical <- rand(object@cm, n)
+  hitlist <- clinical$CancerSubType       # remember the subtypes
   B <- get(object@base, envir=object@localenv)    # base Engine
   A <- get(object@altered, envir=object@localenv) # altered Engine
-  b <- rand(B, n)                             # base simulation
-  a <- rand(A, n) # altered values
+  b <- rand(B, n)       # base simulation
+  a <- rand(A, n)       # altered values
   temp <- object@cm@hitPattern
   # there ought to be a better way to do this
-  # idea is to expand the "hit pattern" for each patient ot include
+  # idea is to expand the "hit pattern" for each patient to include
   # all genes in a correlated block
   U <- unlist(lapply(B@components, nrow))      # size of each component
   ends <- cumsum(U)
@@ -81,7 +77,10 @@ setMethod("rand", "CancerEngine", function(object, n, ...) {
       }
     }
   }
-  b*(1-isHit) + a*(isHit)
+  # now pick either 'base' or 'altered' based on absence or presence of hits
+  foo <- b*(1-isHit) + a*(isHit)
+  # note that the expression data does not include any noise....
+  list(clinical=clinical, data=foo)
 })
 
 

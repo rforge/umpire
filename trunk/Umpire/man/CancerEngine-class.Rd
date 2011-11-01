@@ -51,33 +51,31 @@ Objects should be created using the function \code{CancerEngine}.
 }
 \examples{
 set.seed(391629)
-# first build a CancerModel with 6 subtypes
+# set up survival outcome; baseline is exponential
+sm <- SurvivalModel(baseHazard=1/5, accrual=5, followUp=1)
+# build a CancerModel with 6 subtypes
 nBlocks <- 20    # number of possible hits
 cm <- CancerModel(name="cansim",
                   nPossible=nBlocks,
                   nPattern=6,
                   OUT = function(n) rnorm(n, 0, 1), 
-                  SURV= function(n) rnorm(n, 0, 1))
-# set up survival outcome; baseline is exponential
-sm <- SurvivalModel(baseHazard=1/5, accrual=5, followUp=1)
-# allow for activation of genes
-activity <- rbinom(nBlocks, 1, 0.7)
-# include blocks/pathways that are not hit by cancer
-nExtraBlocks <- 100
-nTotalBlocks <- nBlocks + nExtraBlocks
+                  SURV= function(n) rnorm(n, 0, 1),
+                  survivalModel=sm)
+# include 100 blocks/pathways that are not hit by cancer
+nTotalBlocks <- nBlocks + 100
 # assign values to hyperparameters
-# block size
+## block size
 blockSize <- round(rnorm(nTotalBlocks, 100, 30))
-# log normal mean hypers
+## log normal mean hypers
 mu0    <- 6
 sigma0 <- 1.5
-# log normal sigma hypers
+## log normal sigma hypers
 rate   <- 28.11
 shape  <- 44.25
-# block corr
+## block corr
 p <- 0.6
 w <- 5
-# set up the baseline Engine
+## set up the baseline Engine
 rho <- rbeta(nTotalBlocks, p*w, (1-p)*w)
 base <- lapply(1:nTotalBlocks, function(i) {
   bs <- blockSize[i]
@@ -95,14 +93,10 @@ altered <- alterMean(eng, normalOffset, delta=0, sigma=1)
 object <- CancerEngine(cm, "eng", "altered")
 # or build it using the actual Engine components
 ob <- CancerEngine(cm, eng, altered)
-# simulate some patients
-clinical <- rand(cm, 20, sm)
-dim(clinical)
-summary(clinical)
-# simulate some array data for these patients
-class(object)
-dset <- rand(object, clinical$CancerSubType)
-summary(dset)
+# simulate the data
+dset <- rand(object, 20)
+summary(dset$clinical)
+summary(dset$data[, 1:3])
 }
 \keyword{classes}
 \keyword{datagen}

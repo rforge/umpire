@@ -45,8 +45,7 @@ SurvivalModel(baseHazard = 1/5, accrual = 5, followUp = 1, units = 12, unitName 
     }
 }
 \references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
+\author{Kevin R. Coombes <kcoombes@mdanderson.org>}
 \seealso{~~objects to See Also as \code{\link{help}}, ~~~ }
 
 \examples{
