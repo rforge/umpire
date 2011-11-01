@@ -194,14 +194,7 @@ setMethod("summary", "CancerModel", function(object,...) {
   sm <- object@survivalModel
   temp <- as.vector(matrix(object@survivalBeta, nrow=1) %*%
                     object@hitPattern)
-  hazard <- sm@baseHazard*exp(temp)
-  survival <- rexp(length(hc), hazard[hc]) # theoretical survival
-  censor <- sm@followUp + runif(length(hc), 0, sm@accrual) # real time
-  cen <- trunc(censor*sm@units)         # months, which is more likely ...
-  sur <- trunc(survival*sm@units)
-  lfu <- ((sur + cen) - abs(sur-cen))/2 # vectorized minimum
-  event <- (survival <= censor)         # did we observe the event?
-  list(survival=lfu, event=event)
+  rand(sm, length(hc), beta=temp[hc])
 }
 
 
@@ -217,8 +210,7 @@ setMethod("rand", "CancerModel", function(object, n, ...) {
   survival <- .realizeSurvival(object, hc)
   data.frame(CancerSubType=hc,
              Outcome=outcome,
-             LFU=survival$survival,
-             Event=survival$event)
+             survival)
 })
 
 

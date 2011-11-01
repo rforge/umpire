@@ -3,7 +3,7 @@
 \alias{SurvivalModel-class}
 \alias{rand,SurvivalModel-method}
 
-\title{Class "SurvivalModel" ~~~ }
+\title{The "SurvivalModel" Class}
 \description{	 ~~ A concise (1-5 lines) description of what the class is.  ~~}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("SurvivalModel", ...)}.
