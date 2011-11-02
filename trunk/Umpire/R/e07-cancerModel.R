@@ -199,13 +199,19 @@ setMethod("summary", "CancerModel", function(object,...) {
 
 
 # Here we generate a phenoData object
-setMethod("rand", "CancerModel", function(object, n, ...) {
-  cp <- cumsum(object@prevalence)
-  ru <- runif(n)
-  hc <- unlist(lapply(ru, function(x, cp) {
-    1 + length(cp) - sum(cp > x)
-  }, cp)) # picks out a class by sampling from an explicit
-          # discrete distribution
+setMethod("rand", "CancerModel", function(object, n, balance=FALSE, ...) {
+  if (balance) {
+    m <- ncol(object@hitPattern)
+    count <- round(n/m)
+    hc <- rep(1:m, each=count)
+  } else {
+    cp <- cumsum(object@prevalence)
+    ru <- runif(n)
+    hc <- unlist(lapply(ru, function(x, cp) {
+      1 + length(cp) - sum(cp > x)
+    }, cp)) # picks out a class by sampling from an explicit
+            # discrete distribution
+  }
   outcome <- .realizeOutcome(object, hc)
   survival <- .realizeSurvival(object, hc)
   data.frame(CancerSubType=hc,

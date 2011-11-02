@@ -94,6 +94,14 @@ Objects should be created using the \code{CancerModel} function.
   takes on values \code{"Bad"} or \code{"Good"}, an \code{LFU} column
   with censored survival times, and a logical \code{Event} column that
   describes whether the simulated survival event has occured.
+
+  The \code{rand} method for the \code{CancerModel} class adds an extra
+  logical parameter, \code{balanced}, to the signature specified by the
+  default method.  If \code{balanced=FALSE} (the derfault), then
+  patients are simulated based on the \code{prevalence} defined as apart
+  of the model.   If \code{balanced=TRUE}, then patients are simulated
+  with equal numbers in each hit pattern class, ordered by the hit
+  pattern class.
 }
 \references{ OOMPA }
 \author{Kevin R. Coombes <kcoombes@mdanderson.org>}

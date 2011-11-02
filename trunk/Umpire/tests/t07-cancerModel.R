@@ -15,7 +15,7 @@ summary(x)
 cor(survivalCoefficients(x), outcomeCoefficients(x))
 plot(survivalCoefficients(x), outcomeCoefficients(x))
 # generate outcome data from the model
-y <- rand(x, 300, SurvivalModel(1/2, 5, 5, 52, "weeks"))
+y <- rand(x, 300)
 print(table(y$Outcome, y$CancerSubType))
 if (require(survival)) {
   plot(survfit(Surv(LFU, Event) ~ Outcome, y))

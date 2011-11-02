@@ -56,7 +56,7 @@ CancerEngine <- function(cm, base, altered) {
 
 setMethod("rand", "CancerEngine", function(object, n, ...) {
   # first generate the clinical data
-  clinical <- rand(object@cm, n)
+  clinical <- rand(object@cm, n, ...)
   hitlist <- clinical$CancerSubType       # remember the subtypes
   B <- get(object@base, envir=object@localenv)    # base Engine
   A <- get(object@altered, envir=object@localenv) # altered Engine
