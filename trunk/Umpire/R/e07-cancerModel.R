@@ -88,7 +88,7 @@ CancerModel <- function(name, nPossible, nPattern,
   call <- match.call()
   if (is.null(survivalModel))
     survivalModel = SurvivalModel()
-  if (is.null(prevalence) | length(prevalence == 1)) # equally likely
+  if (is.null(prevalence) | length(prevalence) == 1) # equally likely
     prevalence <- rep(1/nPattern, nPattern)
   if (length(prevalence) > 1) {
     if (length(prevalence) != nPattern)
