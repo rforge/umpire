@@ -111,6 +111,7 @@ CancerModel <- function(name, nPossible, nPattern,
   o <- OUT(nPossible) # this leaves outcome uncorrelated with survival
 #  o <- sort(o)[rank(s)] # force outcome to correlate with survival
 # KRC: which do we really want to use? Should this be user-selectable?
+# Maybe allow the user to decide.
   new("CancerModel",
       name=name,
       hitPattern=hp,
@@ -202,6 +203,8 @@ setMethod("summary", "CancerModel", function(object,...) {
 setMethod("rand", "CancerModel", function(object, n, balance=FALSE, ...) {
   if (balance) {
     m <- ncol(object@hitPattern)
+    # Maybe we should at least give a warning if n is not multiple of m. 
+    # otherwise, the number of samples returned won't be whatever the user expected.
     count <- round(n/m)
     hc <- rep(1:m, each=count)
   } else {
