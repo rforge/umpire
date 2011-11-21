@@ -3,28 +3,33 @@
 ###
 
 
-if (!isGeneric("alterMean"))
+if (!isGeneric("alterMean")) {
     setGeneric("alterMean",
-    function(object, TRANSFORM, ...) standardGeneric("alterMean"))
+               function(object, TRANSFORM, ...) standardGeneric("alterMean"))
+}
 
-
-if (!isGeneric("alterSD"))
+if (!isGeneric("alterSD")) {
     setGeneric("alterSD",
-    function(object, TRANSFORM, ...) standardGeneric("alterSD"))
+               function(object, TRANSFORM, ...) standardGeneric("alterSD"))
+}
 
-if (!isGeneric("rand"))
+if (!isGeneric("rand")) {
     setGeneric("rand",
-    function(object, n, ...) standardGeneric("rand"))
+               function(object, n, ...) standardGeneric("rand"))
+}
 
-if (!isGeneric("nrow"))
+if (!isGeneric("nrow")) {
     setGeneric("nrow",
-    function(x) standardGeneric("nrow"))
+               function(x) standardGeneric("nrow"))
+}
 
-if (!isGeneric("ncol"))
+if (!isGeneric("ncol")) {
     setGeneric("ncol",
-    function(x) standardGeneric("ncol"))
+               function(x) standardGeneric("ncol"))
+}
 
-if (!isGeneric("blur"))
+if (!isGeneric("blur")) {
     setGeneric("blur",
-    function(object, x, ...) standardGeneric("blur"))
+               function(object, x, ...) standardGeneric("blur"))
+}
 
