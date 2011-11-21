@@ -4,59 +4,66 @@
 \alias{rand,SurvivalModel-method}
 
 \title{The "SurvivalModel" Class}
-\description{	 ~~ A concise (1-5 lines) description of what the class is.  ~~}
-\section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("SurvivalModel", ...)}.
-	 ~~ describe objects here ~~ 
-}
+\description{:TODO: class description}
 \usage{
-SurvivalModel(baseHazard = 1/5, accrual = 5, followUp = 1, units = 12, unitName = "months")
+SurvivalModel(baseHazard=1/5,
+              accrual=5,
+              followUp=1,
+              units=12,
+              unitName="months")
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{baseHazard}{ ~~Describe \code{baseHazard} here~~ }
-  \item{accrual}{ ~~Describe \code{accrual} here~~ }
-  \item{followUp}{ ~~Describe \code{followUp} here~~ }
-  \item{units}{ ~~Describe \code{units} here~~ }
-  \item{unitName}{ ~~Describe \code{unitName} here~~ }
+  \item{baseHazard}{numeric scalar representing :TODO:}
+  \item{accrual}{numeric scalar representing :TODO:}
+  \item{followUp}{numeric scalar representing :TODO:}
+  \item{units}{numeric scalar representing :TODO:}
+  \item{unitName}{character string representing the \code{unit} argument type}
 }
 \details{
-  ~~ If necessary, more details than the description above ~~
+  :TODO: details
 }
-\value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
+\section{Objects from the Class}{
+  Although objects of the class can be created by a direct call to
+  \link[methods]{new}, the preferred method is to use the
+  \code{SurvivalModel} generator function.
 }
 \section{Slots}{
-	 \describe{
-    \item{\code{baseHazard}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{accrual}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{followUp}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{units}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{unitName}:}{Object of class \code{"character"} ~~ }
+  \describe{
+    \item{\code{baseHazard}:}{see corresponding argument above}
+    \item{\code{accrual}:}{see corresponding argument above}
+    \item{\code{followUp}:}{see corresponding argument above}
+    \item{\code{units}:}{see corresponding argument above}
+    \item{\code{unitName}:}{see corresponding argument above}
   }
 }
 \section{Methods}{
   \describe{
-    \item{rand}{\code{signature(object="SurvivalModel")}:  }
-    }
+    \item{rand(object, n, beta, \dots)}{:TODO:}
+  }
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{Kevin R. Coombes <kcoombes@mdanderson.org>}
-\seealso{~~objects to See Also as \code{\link{help}}, ~~~ }
+\value{
+  The \code{SurvivalModel} generator returns an object of class
+  \code{SurvivalModel}.
 
+  The \code{rand} method returns the survival data as a data.frame.
+}
+\references{KRC}
+\author{
+  Kevin R. Coombes <kcoombes@mdanderson.org>
+}
+\seealso{
+  \code{\linkS4class{CancerModel}}
+}
 \examples{
 sm <- SurvivalModel()
-# generate data from base model
+## Generate data from base model
 outcome <- rand(sm, 100)
 summary(outcome)
-# generate data from five classes with different beta parameters
+## Generate data from five classes with different beta parameters
 beta <- rep(rnorm(5, 0, 2), each=20)
 outcome <- rand(sm, 100, beta=beta)
 summary(outcome)
 }
 \keyword{classes}
 \keyword{datagen}
+
