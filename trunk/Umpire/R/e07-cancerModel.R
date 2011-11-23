@@ -23,6 +23,7 @@
 # Finally, each cancer subtype is assumed to occur with
 # some prevalence.
 
+############ JZ question: can baseHazard be a underlying hazard function?
 ##=============================================================================
 setClass("SurvivalModel",
          representation(baseHazard="numeric",

@@ -4,7 +4,7 @@
 \alias{rand,SurvivalModel-method}
 
 \title{The "SurvivalModel" Class}
-\description{:TODO: class description}
+\description{A \code{SurvivalModel} object contains information for simulating survival times for each patient}
 \usage{
 SurvivalModel(baseHazard=1/5,
               accrual=5,
@@ -13,14 +13,11 @@ SurvivalModel(baseHazard=1/5,
               unitName="months")
 }
 \arguments{
-  \item{baseHazard}{numeric scalar representing :TODO:}
-  \item{accrual}{numeric scalar representing :TODO:}
-  \item{followUp}{numeric scalar representing :TODO:}
-  \item{units}{numeric scalar representing :TODO:}
+  \item{baseHazard}{numeric scalar describing the underlying hazard rate at baseline levels of covariates}
+  \item{accrual}{numeric scalar representing number of patient accrual years}
+  \item{followUp}{numeric scalar representing frequency of follow up in the unit of year}
+  \item{units}{numeric scalar representing number of units per year where units are specified by \code{unitName}}
   \item{unitName}{character string representing the \code{unit} argument type}
-}
-\details{
-  :TODO: details
 }
 \section{Objects from the Class}{
   Although objects of the class can be created by a direct call to
@@ -29,23 +26,23 @@ SurvivalModel(baseHazard=1/5,
 }
 \section{Slots}{
   \describe{
-    \item{\code{baseHazard}:}{see corresponding argument above}
-    \item{\code{accrual}:}{see corresponding argument above}
-    \item{\code{followUp}:}{see corresponding argument above}
-    \item{\code{units}:}{see corresponding argument above}
-    \item{\code{unitName}:}{see corresponding argument above}
+    \item{\code{baseHazard}:}{Object of class \code{"numeric"}. see corresponding argument above}
+    \item{\code{accrual}:}{Object of class \code{"numeric"}. see corresponding argument above}
+    \item{\code{followUp}:}{Object of class \code{"numeric"}. see corresponding argument above}
+    \item{\code{units}:}{Object of class \code{"numeric"}. see corresponding argument above}
+    \item{\code{unitName}:}{Object of class \code{"character"}. see corresponding argument above}
   }
 }
 \section{Methods}{
   \describe{
-    \item{rand(object, n, beta, \dots)}{:TODO:}
+    \item{rand(object, n, beta, \dots)}{simulate survival data for \code{n} patients given \code{beta}}
   }
 }
 \value{
   The \code{SurvivalModel} generator returns an object of class
   \code{SurvivalModel}.
 
-  The \code{rand} method returns the survival data as a data.frame.
+  The \code{rand} method returns the survival data as a data.frame. The LFU column represents time to event, and Event column represents whether the data is centored.
 }
 \references{KRC}
 \author{
