@@ -1,4 +1,4 @@
-\name{SurvivalModel-class}
+ \name{SurvivalModel-class}
 \alias{SurvivalModel}
 \alias{SurvivalModel-class}
 \alias{rand,SurvivalModel-method}
@@ -42,11 +42,12 @@ SurvivalModel(baseHazard=1/5,
   The \code{SurvivalModel} generator returns an object of class
   \code{SurvivalModel}.
 
-  The \code{rand} method returns the survival data as a data.frame. The LFU column represents time to event, and Event column represents whether the data is centored.
+  The \code{rand} method returns the survival data as a data.frame. The LFU column represents time to event, and Event column represents whether the data is censored.
 }
 \references{KRC}
 \author{
   Kevin R. Coombes <kcoombes@mdanderson.org>
+  Jiexin Zhang <jiexinzhang@mdanderson.org>
 }
 \seealso{
   \code{\linkS4class{CancerModel}}
