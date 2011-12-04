@@ -11,30 +11,59 @@
 #    E_gi ~ N(nu, tau) defines the additive noise
 # Note that we allow a systematic offset/bias in the additive noise model.
 
+##=============================================================================
 setClass("NoiseModel",
-         representation = list(
-           additiveOffset = "numeric",
-           additiveScale = "numeric",
-           multiplicativeScale = "numeric"))
+         representation(additiveOffset="numeric",
+                        additiveScale="numeric",
+                        multiplicativeScale="numeric"))
 
-setValidity("NoiseModel", function(object) {
-  object@additiveScale >= 0 && object@multiplicativeScale >= 0
-})
 
-NoiseModel <- function(nu, tau, phi) {
-  new("NoiseModel",
-      additiveOffset = nu,
-      additiveScale = tau,
-      multiplicativeScale = phi)
+##-----------------------------------------------------------------------------
+## Invoked by validObject() method.
+validNoiseModel <- function(object) {
+  #cat("validating", class(object), "object", "\n")
+  msg <- NULL
+
+  ## Ensure positive
+  if (!(object@additiveScale >= 0)) {
+    msg <- c(msg, "additiveScale must be non-negative")
+  }
+  if (!(object@multiplicativeScale >= 0)) {
+    msg <- c(msg, "multiplicativeScale must be non-negative")
+  }
+
+  ## Pass or fail?
+  if (is.null(msg)) {
+    TRUE
+  } else {
+    msg
+  }
 }
 
-# 'blur' is the main method associated with a noise model.  The main
-# operation is given by blur(noiseModel, dataMatrix), which adds
-# and multiplies random noise to the dataMatrix containing the true
-# signal.
+setValidity("NoiseModel", validNoiseModel)
 
-setMethod("blur", "NoiseModel", function(object, x, ...) {
-  if(inherits(x, "matrix")) {
+
+##-----------------------------------------------------------------------------
+## Generates a NoiseModel object.
+NoiseModel <- function(nu, tau, phi) {
+  ## :TODO: sadly, no parameter checking was done...
+  new("NoiseModel",
+      additiveOffset=nu,
+      additiveScale=tau,
+      multiplicativeScale=phi)
+}
+
+
+##-----------------------------------------------------------------------------
+## The main operation is given by blur(noiseModel, dataMatrix), which adds
+## and multiplies random noise to the dataMatrix containing the true signal.
+setMethod("blur", signature(object="NoiseModel"),
+          function(object, x, ...) {
+  ## :PLR: This seems to be defined backwards as 'x' is the thing being
+  ##       operated on --> giving 'blur(what, noise)' instead...
+
+  ## :NOTE: This should have been two methods, using 'x' in signature
+  if (inherits(x, "matrix")) {
     h <- matrix(rnorm(nrow(x)*ncol(x), 0, object@multiplicativeScale),
                 nrow=nrow(x))
     e <- matrix(rnorm(nrow(x)*ncol(x), object@additiveOffset,
@@ -42,8 +71,7 @@ setMethod("blur", "NoiseModel", function(object, x, ...) {
                 nrow=nrow(x))
   } else {
     h <- rnorm(length(x), 0, object@multiplicativeScale)
-    e <- rnorm(length(x), object@additiveOffset,
-               object@additiveScale)
+    e <- rnorm(length(x), object@additiveOffset, object@additiveScale)
   }
   exp(h)*x + e
 })
