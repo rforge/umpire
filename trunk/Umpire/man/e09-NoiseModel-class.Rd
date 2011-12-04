@@ -40,7 +40,8 @@ NoiseModel(nu, tau, phi)
 \references{OOMPA}
 \author{
   Kevin R. Coombes \email{kcoombes@mdanderson.org},
-  Jiexin Zhang \email{jiexinzhang@mdanderson.org}
+  Jiexin Zhang \email{jiexinzhang@mdanderson.org},
+  P. Roebuck \email{plroebuck@mdanderson.org}
 }
 \examples{
 showClass("NoiseModel")
