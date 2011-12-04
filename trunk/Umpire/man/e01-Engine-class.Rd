@@ -7,21 +7,20 @@
 \alias{rand,Engine-method}
 \alias{summary,Engine-method}
 \alias{nComponents}
-
-\title{The Engine Class}
-\description{The \code{Engine} class is a tool (ie. an algorithm) used
-  to simulate vectors of gene expression from some underlying
-  distribution.
+\docType{class}
+\title{The "Engine" Class}
+\description{
+  The \code{Engine} class is a tool (i.e., an algorithm) used to simulate
+  vectors of gene expression from some underlying distribution.
 }
-
 \usage{
 Engine(components)
+nComponents(object)
 \S4method{alterMean}{Engine}(object, TRANSFORM, \dots)
 \S4method{alterSD}{Engine}(object, TRANSFORM, \dots)
 \S4method{nrow}{Engine}(x)
 \S4method{rand}{Engine}(object, n, \dots)
 \S4method{summary}{Engine}(object, \dots)
-nComponents(object)
 }
 \arguments{
   \item{components}{object of class \code{list}, each element of which
@@ -29,22 +28,13 @@ nComponents(object)
     gene expression follows. A component can be viewed as a special case
     of an engine that only has one component.}
   \item{object, x}{object of class \code{Engine}}
-  \item{TRANSFORM}{the \code{TRANSFORM} function for each object should
-    take as its input a vector of mean expression or standard deviation
-    and return a transformed vector that can be used to alter the
-    appropriate slot of the object.}
-  \item{n}{Number of samples to be simulated}
+  \item{TRANSFORM}{function takes as its input a vector of mean expression
+    or standard deviation and returns a transformed vector that can be used
+    to alter the appropriate slot of the object.}
+  \item{n}{numeric scalar representing number of samples to be simulated}
   \item{\dots}{extra arguments for generic or plotting routines}
 }
-
-\section{Objects from the Class}{
-  Objects can be created by calls of the form \code{new("Engine",
-    components=components)}, or use the \code{Engine} generator function. Every
-  engine is an ordered list of components, which generates a contiguous
-  subvector of the total vector of gene expression.
-}
-
-\section{Details}{
+\details{
   In most cases, an engine object is an instantiation of a more general
   family or class that we call an ABSTRACT ENGINE. Every abstract engine
   is an ordered list of components, which can also be thought of as an
@@ -63,79 +53,86 @@ nComponents(object)
   homogenous population; effects of cancer on gene expression are modeled
   at a higher level.
 }
-
+\section{Objects from the Class}{
+  Objects can be created by calls of the form \code{new("Engine",
+    components=components)}, or use the \code{Engine} generator function.
+  Every engine is an ordered list of components, which generates a contiguous
+  subvector of the total vector of gene expression.
+}
 \section{Methods}{
   \describe{
-    \item{alterMean(object, TRANSFORM,\dots)}{takes an object of class
-      \code{Engine},loop over the components in the \code{Engine}, alter
-    the mean as defined by TRANSFORM function, and returns a modified
-    object of class \code{Engine}}
-  \item{alterSD(object, TRANSFORM,\dots)}{takes an object of class
-      \code{Engine},loop over the components in the \code{Engine}, alter
-    the standard deviation as defined by TRANSFORM function, and returns a modified
-    object of class \code{Engine}}
-    \item{nrow(x)}{counts the total number of genes (i.e, the
-      length of the vector the \code{Engine} will generate)}
-    \item{rand(object, n, \dots)}{generates nrow(Engine)*n matrix representing gene
-      expressions of n samples following the underlying distribution
-      captured in the object of \code{Engine}}
-    \item{summary(object, \dots)}{simply prints out the number of
-      components included in the object of \code{Engine}}
+    \item{alterMean(object, TRANSFORM, \dots)}{Takes an object of class
+      \code{Engine}, loops over the components in the \code{Engine}, alters
+      the mean as defined by \code{TRANSFORM} function, and returns a modified
+      object of class \code{Engine}.}
+    \item{alterSD(object, TRANSFORM, \dots)}{Takes an object of class
+      \code{Engine}, loops over the components in the \code{Engine}, alters
+      the standard deviation as defined by \code{TRANSFORM} function, and
+      returns a modified object of class \code{Engine}.}
+    \item{nrow(x)}{Counts the total number of genes (i.e, the
+      length of the vector the \code{Engine} will generate).}
+    \item{rand(object, n, \dots)}{Generates \eqn{nrow(Engine)*n} matrix
+      representing gene expressions of \code{n} samples following the
+      underlying distribution captured in the object of \code{Engine}.}
+    \item{summary(object, \dots)}{Prints out the number of components included
+      in the object of \code{Engine}.}
   }
 }
 \value{
   The \code{Engine} generator returns an object of class \code{Engine}.
   
-  The \code{alterMean} returns an object of class \code{Engine} with
-  altered mean
+  The \code{alterMean} method returns an object of class \code{Engine} with
+  altered mean.
   
-  The \code{alterSD} returns an object of class \code{Engine} with
-  altered standard deviation
+  The \code{alterSD} method returns an object of class \code{Engine} with
+  altered standard deviation.
   
-  The \code{nrow} returns the number of genes (i.e, the length of the
+  The \code{nrow} method returns the number of genes (i.e, the length of the
   vector) the \code{Engine} object will generate.
   
-  The \code{rand} returns nrow(Engine)*n matrix representing the
-  expressions of nrow(Engine) genes and n samples
+  The \code{rand} method returns \eqn{nrow(Engine)*n} matrix representing the
+  expressions of \code{nrow(Engine)} genes and \code{n} samples.
   
-  The \code{summary} simply prints out the number of
-  components included in the \code{Engine} object
+  The \code{summary} method prints out the number of components included
+  in the \code{Engine} object.
   
-  The \code{nComponents} returns the number of components in the
-  \code{Engine} object
+  The \code{nComponents} method returns the number of components in the
+  \code{Engine} object.
 }
-
-      
-\references{KRC}
+\references{OOMPA}
 \author{
   Kevin R. Coombes \email{kcoombes@mdanderson.org},
-  Jiexin Zhang \email{jiexinzhang@mdanderson.org}
+  Jiexin Zhang \email{jiexinzhang@mdanderson.org},
+  P. Roebuck \email{plroebuck@mdanderson.org}
 }
 \seealso{
   \code{\linkS4class{EngineWithActivity}}
 }
 \examples{
+showClass("Engine")
 nComp <- 10
 nGenes <- 100
 comp <- list()
-for (i in 1:nComp){
-  comp[[i]] <- IndependentNormal(rnorm(nGenes/nComp,6,1.5),1/rgamma(nGenes/nComp,44,28))
+for (i in 1:nComp) {
+  comp[[i]] <- IndependentNormal(rnorm(nGenes/nComp, 6, 1.5),
+                                 1/rgamma(nGenes/nComp, 44, 28))
 }
 myEngine <- Engine(comp)
 nrow(myEngine)
 nComponents(myEngine)
 summary(myEngine)
-myData <- rand(myEngine,5)
+myData <- rand(myEngine, 5)
 dim(myData)
 summary(myData)
 OFFSET <- 2
-myEngine.alterMean <- alterMean(myEngine,function(x){x+OFFSET})
-myData.alterMean <- rand(myEngine.alterMean,5)
+myEngine.alterMean <- alterMean(myEngine, function(x){x+OFFSET})
+myData.alterMean <- rand(myEngine.alterMean, 5)
 summary(myData.alterMean)
 SCALE <- 2
-myEngine.alterSD <- alterSD(myEngine,function(x){x*SCALE})
-myData.alterSD <- rand(myEngine.alterSD,5)
+myEngine.alterSD <- alterSD(myEngine, function(x){x*SCALE})
+myData.alterSD <- rand(myEngine.alterSD, 5)
 summary(myData.alterSD)
 }
 \keyword{datagen}
 \keyword{classes}
+
