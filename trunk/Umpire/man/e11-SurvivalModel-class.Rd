@@ -1,23 +1,34 @@
- \name{SurvivalModel-class}
-\alias{SurvivalModel}
+\name{SurvivalModel-class}
 \alias{SurvivalModel-class}
+\alias{SurvivalModel}
 \alias{rand,SurvivalModel-method}
-
+\docType{class}
 \title{The "SurvivalModel" Class}
-\description{A \code{SurvivalModel} object contains information for simulating survival times for each patient}
+\description{
+  A \code{SurvivalModel} class represents the information for simulating
+  survival times for each patient.
+}
 \usage{
 SurvivalModel(baseHazard=1/5,
               accrual=5,
               followUp=1,
               units=12,
               unitName="months")
+\S4method{rand}{SurvivalModel}(object, n, beta=NULL, \dots) 
 }
 \arguments{
-  \item{baseHazard}{numeric scalar describing the underlying hazard rate at baseline levels of covariates}
+  \item{baseHazard}{numeric scalar describing the underlying hazard rate at
+    baseline levels of covariates}
   \item{accrual}{numeric scalar representing number of patient accrual years}
-  \item{followUp}{numeric scalar representing frequency of follow up in the unit of year}
-  \item{units}{numeric scalar representing number of units per year where units are specified by \code{unitName}}
+  \item{followUp}{numeric scalar representing frequency of follow up in the
+    unit of year}
+  \item{units}{numeric scalar representing number of units per year where
+    units are specified by \code{unitName}}
   \item{unitName}{character string representing the \code{unit} argument type}
+  \item{object}{object of class \code{SurvivalModel}}
+  \item{n}{numeric scalar specifying quantity of random numbers}
+  \item{beta}{numeric vector specifying beta parameters for patients}
+  \item{\dots}{extra arguments for generic routines}
 }
 \section{Objects from the Class}{
   Although objects of the class can be created by a direct call to
@@ -26,33 +37,38 @@ SurvivalModel(baseHazard=1/5,
 }
 \section{Slots}{
   \describe{
-    \item{\code{baseHazard}:}{Object of class \code{"numeric"}. see corresponding argument above}
-    \item{\code{accrual}:}{Object of class \code{"numeric"}. see corresponding argument above}
-    \item{\code{followUp}:}{Object of class \code{"numeric"}. see corresponding argument above}
-    \item{\code{units}:}{Object of class \code{"numeric"}. see corresponding argument above}
-    \item{\code{unitName}:}{Object of class \code{"character"}. see corresponding argument above}
+    \item{\code{baseHazard}:}{see corresponding argument above}
+    \item{\code{accrual}:}{see corresponding argument above}
+    \item{\code{followUp}:}{see corresponding argument above}
+    \item{\code{units}:}{see corresponding argument above}
+    \item{\code{unitName}:}{see corresponding argument above}
   }
 }
 \section{Methods}{
   \describe{
-    \item{rand(object, n, beta, \dots)}{simulate survival data for \code{n} patients given \code{beta}}
+    \item{rand(object, n, beta, \dots)}{simulate survival data for \code{n}
+      patients given \code{beta}}
   }
 }
 \value{
   The \code{SurvivalModel} generator returns an object of class
   \code{SurvivalModel}.
 
-  The \code{rand} method returns the survival data as a data.frame. The LFU column represents time to event, and Event column represents whether the data is censored.
+  The \code{rand} method returns a data.frame with components:
+    \item{LFU}{time to event}
+    \item{Event}{whether the data is censored}
 }
-\references{KRC}
+\references{OOMPA}
 \author{
-  Kevin R. Coombes <kcoombes@mdanderson.org>
-  Jiexin Zhang <jiexinzhang@mdanderson.org>
+  Kevin R. Coombes \email{kcoombes@mdanderson.org},
+  Jiexin Zhang \email{jiexinzhang@mdanderson.org},
+  P. Roebuck \email{plroebuck@mdanderson.org}
 }
 \seealso{
   \code{\linkS4class{CancerModel}}
 }
 \examples{
+showClass("SurvivalModel")
 sm <- SurvivalModel()
 ## Generate data from base model
 outcome <- rand(sm, 100)
