@@ -1,16 +1,24 @@
+###
+### EXTRA.R
+###
+
+##=============================================================================
 setClass("BlockHyperParameters",
-         representation= list(
+         representation(
            nExtraBlocks="numeric",    # block correlation
            meanBlockSize="numeric",   # block correlation
            sigmaBlockSize="numeric",  # block correlation
            minBlockSize="numeric",    # block correlation
-           mu0="numeric",    # hyperp mean log gene expression
-           sigma0="numeric", # hyperp SD of mean log gene expression
-           rate="numeric",   # gamma param for SD of gene expression
-           shape="numeric",  # gamma param for SD of gene expression
-           p.cor="numeric",   # beta param for within-block correlation
-           wt.cor="numeric")) # beta param for within-block correlation
+           mu0="numeric",             # hyperp mean log gene expression
+           sigma0="numeric",          # hyperp SD of mean log gene expression
+           rate="numeric",            # gamma param for SD of gene expression
+           shape="numeric",           # gamma param for SD of gene expression
+           p.cor="numeric",           # beta param for within-block correlation
+           wt.cor="numeric"))         # beta param for within-block correlation
 
+
+##-----------------------------------------------------------------------------
+## Generates a BlockHyperParameters object.
 BlockHyperParameters <- function(nExtraBlocks=100,
                                  meanBlockSize=100,
                                  sigmaBlockSize=30,
@@ -34,9 +42,8 @@ BlockHyperParameters <- function(nExtraBlocks=100,
       wt.cor=wt.cor)
 }
 
-  # activity not currently used; before using, remove the magic numbers
-  # activity <- rbinom(nBlocks, 1, 0.7)
 
+##-----------------------------------------------------------------------------
 makeBlockStructure <- function(cm, hyperp) {
   if (!inherits(cm, "CancerModel"))
     stop("'cm' must be a CancerModel")
@@ -55,7 +62,8 @@ makeBlockStructure <- function(cm, hyperp) {
   w <- hyperp@wt.cor
   # set up the baseline Engine
   rho <- rbeta(nTotalBlocks, p*w, (1-p)*w)
-  base <- lapply(1:nTotalBlocks, function(i, hyperp, rho) {
+  base <- lapply(1:nTotalBlocks,
+                function(i, hyperp, rho) {
     bs <- blockSize[i]
     co <- matrix(rho[i], nrow=bs, ncol=bs)
     diag(co) <- 1
