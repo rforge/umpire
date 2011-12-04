@@ -6,8 +6,8 @@
 # objects (that can be used to generate data depending on
 # the presence or absence of individual hits).  The tricky part
 # arises because we may want to apply this class with either
-# an ENGINE or an ENGINE WITH ACTIVITY,and so it is hard to
-# define the class represenation.  The first attempt used a
+# an ENGINE or an ENGINE WITH ACTIVITY, so it is hard to
+# define the class representation.  The first attempt used a
 # poor man's reference scheme, by storing character strings with
 # the names of objects that could be retrieved by an
 # eval(as.name(...)) construction.  This idea fails if you try
@@ -16,22 +16,25 @@
 # environment that stores the actual ENGINEs.
 
 
+##=============================================================================
 setClass("CancerEngine",
-         representation=list(
-           cm="CancerModel",
-           base="character",
-           altered="character",
-           localenv="environment"))
+         representation(cm="CancerModel",
+                        base="character",
+                        altered="character",
+                        localenv="environment"))
 
+
+##-----------------------------------------------------------------------------
+## Generates a CancerEngine object.
 CancerEngine <- function(cm, base, altered) {
   localenv <- new.env()
   if (is.character(base)) {
     x <- try(eval(as.name(base), parent.frame()))
     if (inherits(x, "try-error")) {
-      stop(paste("Unable to locate base engine via", base))
+      stop(paste("unable to locate base engine via", base))
     }
-    if(!inherits(x, "Engine")) {
-      stop(paste('base argument (', base, ") must evaluate to an Engine"))
+    if (!inherits(x, "Engine")) {
+      stop(paste("base argument (", base, ") must evaluate to an Engine"))
     }
     assign(base, x, envir=localenv)
   } else {
@@ -41,20 +44,27 @@ CancerEngine <- function(cm, base, altered) {
   if (is.character(altered)) {
     x <- try(eval(as.name(altered), parent.frame()))
     if (inherits(x, "try-error")) {
-      stop(paste("Unable to locate altered engine via", altered))
+      stop(paste("unable to locate altered engine via", altered))
     }
     if(!inherits(x, "Engine")) {
-      stop(paste('altered argument (', altered, ") must evaluate to an Engine"))
+      stop(paste("altered argument (", altered, ") must evaluate to an Engine"))
     }
     assign(altered, x, envir=localenv)
   } else {
     assign("altered", altered, envir=localenv)
     altered <- "altered"
   }
-  new("CancerEngine", cm=cm, base=base, altered=altered, localenv=localenv)
+  new("CancerEngine",
+      cm=cm,
+      base=base,
+      altered=altered,
+      localenv=localenv)
 }
 
-setMethod("rand", "CancerEngine", function(object, n, ...) {
+
+##-----------------------------------------------------------------------------
+setMethod("rand", signature(object="CancerEngine"),
+          function(object, n, ...) {
   # first generate the clinical data
   clinical <- rand(object@cm, n, ...)
   hitlist <- clinical$CancerSubType       # remember the subtypes
@@ -82,6 +92,4 @@ setMethod("rand", "CancerEngine", function(object, n, ...) {
   # note that the expression data does not include any noise....
   list(clinical=clinical, data=foo)
 })
-
-
 
