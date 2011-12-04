@@ -7,35 +7,69 @@
 # most methods of engines must also be defined for individual
 # components.
 
+##=============================================================================
 setClass("IndependentNormal",
-         representation = list(
-           mu="numeric",
-           sigma="numeric"))
+         representation(mu="numeric",
+                        sigma="numeric"))
 
+
+##-----------------------------------------------------------------------------
+## Generates an IndependentNormal object.
 IndependentNormal <- function(mu, sigma) {
   if (length(sigma) != 1 & length(sigma) != length(mu))
     stop("'mu' and 'sigma' have different lengths")
-  new("IndependentNormal", mu=mu, sigma=sigma)
+  new("IndependentNormal",
+      mu=mu,
+      sigma=sigma)
 }
 
-setMethod("summary", "IndependentNormal", function(object, ...) {
+
+##-----------------------------------------------------------------------------
+validIndependentNormal <- function(object) {
+  #cat("validating", class(object), "object", "\n")
+  msg <- NULL
+
+  ## Do checks
+  if (length(object@sigma) != 1) {
+    if (length(object@sigma) != length(object@mu)) {
+      msg <- c(msg, "lengths of sigma and mu differ")
+    }
+  }
+  if (!(object@sigma >= 0)) {
+    msg <- c(msg, "sigma is negative")
+  }
+
+  ## Pass or fail?
+  if (is.null(msg)) {
+    TRUE
+  } else {
+    msg
+  }
+}
+
+setValidity("IndependentNormal", validIndependentNormal)
+
+
+##-----------------------------------------------------------------------------
+setMethod("summary", signature(object="IndependentNormal"),
+          function(object, ...) {
   cat("An IndependentNormal object, representing a vector\n")
   cat(paste("of length", length(object@mu),
-              "of independent normal random variables.\n"))
+            "of independent normal random variables.\n"))
 })
 
-setMethod("rand", "IndependentNormal", function(object, n, ...) {
+
+##-----------------------------------------------------------------------------
+setMethod("rand", signature(object="IndependentNormal"),
+          function(object, n, ...) {
   p <- length(object@mu)
   matrix(rnorm(n*p, object@mu, object@sigma), ncol=n)
 })
 
-setMethod("nrow", signature(x="IndependentNormal"), function(x) {
-  length(x@mu)
-})
 
-setValidity("IndependentNormal", function(object) {
-  sizeIsRight <- length(object@sigma) == 1 ||
-                 length(object@sigma) == length(object@mu)
-  sizeIsRight && all(object@sigma >= 0)
+##-----------------------------------------------------------------------------
+setMethod("nrow", signature(x="IndependentNormal"),
+          function(x) {
+  length(x@mu)
 })
 
