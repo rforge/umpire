@@ -25,6 +25,7 @@ IndependentNormal <- function(mu, sigma) {
 
 
 ##-----------------------------------------------------------------------------
+## Invoked by validObject() method.
 validIndependentNormal <- function(object) {
   #cat("validating", class(object), "object", "\n")
   msg <- NULL
@@ -36,7 +37,7 @@ validIndependentNormal <- function(object) {
     }
   }
   if (!(object@sigma >= 0)) {
-    msg <- c(msg, "sigma is negative")
+    msg <- c(msg, "sigma must be non-negative")
   }
 
   ## Pass or fail?
