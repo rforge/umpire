@@ -18,29 +18,43 @@
 # expression are modeled at a higher level.
 
 
-setClass("Engine", representation=list(components="list"))
+##=============================================================================
+setClass("Engine",
+         representation(components="list"))
 
+
+##-----------------------------------------------------------------------------
+## Generates an Engine object.
 Engine <- function(components) {
-  new("Engine", components=components)
+  new("Engine",
+      components=components)
 }
 
-setMethod("summary", "Engine", function(object, ...) {
-  cat(paste("An Engine with", length(object@components),
-            "components.\n"))
+
+##-----------------------------------------------------------------------------
+setMethod("summary", signature(object="Engine"),
+          function(object, ...) {
+  cat(paste("An Engine with", length(object@components), "components.\n"))
 })
 
-setMethod("rand", "Engine", function(object, n, ...) {
+
+##-----------------------------------------------------------------------------
+setMethod("rand", signature(object="Engine"),
+          function(object, n, ...) {
   do.call(rbind, lapply(object@components, rand, n=n))
 })           
 
-# Every engine must know the number of genes (i.e, the length
-# of the vector) it generates.
 
-setMethod("nrow", "Engine", function(x) {
+##-----------------------------------------------------------------------------
+## Every engine must know the number of genes (i.e, the length of the vector)
+## it generates.
+setMethod("nrow", signature(x="Engine"),
+          function(x) {
   do.call(sum, lapply(x@components, nrow))
 })           
 
-# Every abstract engine is an ordered list of components.  For
+
+# Every abstract engine is an ordered list of components. For
 # all practical purposes, a COMPONENT should be viewed as an
 # irreducible abstract engine, which generates a contiguous
 # subvector of the total vector of gene expression.
@@ -50,6 +64,7 @@ setMethod("nrow", "Engine", function(x) {
 # may be implicitly taken to be the position of the component
 # in the ordered list.
 
+##-----------------------------------------------------------------------------
 nComponents <- function(object) {
   length(object@components)
 }
