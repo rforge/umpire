@@ -8,15 +8,20 @@
 # covariance matrix. This step is performed at construction and
 # the pieces are stored in the object.
 
+##=============================================================================
 setClass("MVN",
-         representation = list(mu="numeric",
-           lambda="numeric",
-           half="matrix"))
+         representation(mu="numeric",
+                        lambda="numeric",
+                        half="matrix"))
 
-MVN <- function(mu, Sigma, tol = 1e-06) {
+
+##-----------------------------------------------------------------------------
+## Generates an MVN object.
+MVN <- function(mu, Sigma, tol=1e-06) {
   p <- length(mu)
   if (!all(dim(Sigma) == c(p, p))) 
     stop("incompatible arguments")
+  ## :PLR: manpage recommends EISPACK=FALSE
   eS <- eigen(Sigma, sym = TRUE, EISPACK = TRUE)
   ev <- eS$values
 # JX: why not just all(ev>0)?
@@ -34,7 +39,9 @@ MVN <- function(mu, Sigma, tol = 1e-06) {
 # of the 'mvrnorm' function from the 'MASS' library.
 
 # JX: do I really understand this?
-setMethod("rand", "MVN", function(object, n, ...) {
+##-----------------------------------------------------------------------------
+setMethod("rand", signature(object="MVN"),
+          function(object, n, ...) {
   p <- length(object@mu)
 # JX: n is the number of samples. X is generated as n*p. Should it be p*n?
   X <- matrix(rnorm(p * n), n)
@@ -42,34 +49,44 @@ setMethod("rand", "MVN", function(object, n, ...) {
     diag(object@lambda, p) %*%  t(X)
 })
 
-setMethod("nrow", "MVN", function(x) {
+
+##-----------------------------------------------------------------------------
+setMethod("nrow", signature(x="MVN"),
+          function(x) {
   length(x@mu)
 })
 
-setMethod("summary", "MVN", function(object, ...) {
+
+##-----------------------------------------------------------------------------
+setMethod("summary", signature(object="MVN"),
+          function(object, ...) {
   cat("An MVN object, representing a vector\n")
   cat(paste("of length", length(object@mu),
               "of multivariate normal random variables.\n"))
 })
 
+
 # KRC: I suppose the 'covar' and 'correl' functions should be generic
 # versions of 'cov' and 'cor'. But after a while I get tired of
 # retrofitting S4 generic functions for everything.
 
+##-----------------------------------------------------------------------------
 # Assertion 1: This should return the same matrix that was used
 # in the function call to construct the MVN object.
 # Assertion 2: After applying an "alterMean" function (see e04-hit),
 # the covariance matrix is unchanged.
 covar <- function(object) {
-  if(!inherits(object, "MVN"))
+  if (!inherits(object, "MVN"))
     stop("'object' must be derived from class 'MVN'.")
   Y <- diag(object@lambda) %*% object@half
   t(Y) %*% Y
 }
 
+
+##-----------------------------------------------------------------------------
 # This is the correlation matrix that underlies the covariance
 # matrix.
-# Assertion 1: The diagonal consists of all 1's.
+# Assertion 1: The diagonal consists of all ones.
 # Assertion 2: After applying an "alterMean" or an "alterSD"
 # function (see e04-hit), the correlation matrix is unchanged.
 correl <- function(object) {
