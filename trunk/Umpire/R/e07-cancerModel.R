@@ -51,12 +51,11 @@ SurvivalModel <- function(baseHazard=1/5,
 
 ##-----------------------------------------------------------------------------
 ## Generate survival data.
-setMethod("rand",
-    signature(object="SurvivalModel"),
-    function(object,
-             n,
-             beta=NULL,
-             ...) {
+setMethod("rand", signature(object="SurvivalModel"),
+          function(object,
+                   n,
+                   beta=NULL,
+                   ...) {
   if (is.null(beta)) {
     beta <- rep(0, n)
   }
@@ -151,16 +150,14 @@ CancerModel <- function(name,
 
 
 ##-----------------------------------------------------------------------------
-setMethod("ncol",
-          signature(x="CancerModel"),
+setMethod("ncol", signature(x="CancerModel"),
           function(x) {
   ncol(x@hitPattern)
 })
 
 
 ##-----------------------------------------------------------------------------
-setMethod("nrow",
-          signature(x="CancerModel"),
+setMethod("nrow", signature(x="CancerModel"),
           function(x) {
   nrow(x@hitPattern)
 })
@@ -221,10 +218,8 @@ outcomeCoefficients <- function(object) {
 
 
 ##-----------------------------------------------------------------------------
-setMethod("summary",
-          signature(object="CancerModel"),
-          function(object,
-                   ...) {
+setMethod("summary", signature(object="CancerModel"),
+          function(object, ...) {
   cat(paste(object@name,
             ", a CancerModel object constructed via the function call:\n",
             as.character(list(object@call)), "\n"))
@@ -241,8 +236,7 @@ setMethod("summary",
 ## JX: what's hc? sample(1:nPossible)?
 ## KRC: check its usage below in the 'rand' method for a CancerModel
 ## hc represents the cancer subtype or Hit-pattern Class (HC).
-.realizeOutcome <- function(object,
-                            hc) {
+.realizeOutcome <- function(object, hc) {
   if (!inherits(object, "CancerModel")) {
     stop(sprintf("argument %s must be object of class %s",
                  sQuote("object"), "CancerModel"))
@@ -268,8 +262,7 @@ setMethod("summary",
 
 ##-----------------------------------------------------------------------------
 ## Here we generate a phenoData object
-setMethod("rand",
-          signature(object="CancerModel"),
+setMethod("rand", signature(object="CancerModel"),
           function(object,
                    n,
                    balance=FALSE,
