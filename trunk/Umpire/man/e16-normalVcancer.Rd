@@ -29,9 +29,9 @@ NormalVsCancerEngine(nBlocks, hyperp)
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
   P. Roebuck \email{plroebuck@mdanderson.org}}
 \seealso{
-  \code{\link{BlockHyperParameters}},
-  \code{\link{CancerEngine}},
-  \code{\link{CancerModel}}
+  \code{\linkS4class{BlockHyperParameters}},
+  \code{\linkS4class{CancerEngine}},
+  \code{\linkS4class{CancerModel}}
 }
 \examples{
 nvc <- NormalVsCancerModel(10)
