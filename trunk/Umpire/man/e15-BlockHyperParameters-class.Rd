@@ -124,8 +124,8 @@ makeBlockStructure(cm, hyperp)
   P. Roebuck \email{plroebuck@mdanderson.org}
 }
 \seealso{
-  \code{\link{CancerModel}},
-  \code{\link{CancerEngine}}
+  \code{\linkS4class{CancerModel}},
+  \code{\linkS4class{CancerEngine}}
 }
 \examples{
 showClass("BlockHyperParameters")
