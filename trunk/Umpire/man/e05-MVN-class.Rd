@@ -121,8 +121,8 @@ correl(object)
   P. Roebuck \email{plroebuck@mdanderson.org}
 }
 \seealso{
-  \code{\link{Engine}},
-  \code{\link{IndependentNormal}}
+  \code{\linkS4class{Engine}},
+  \code{\linkS4class{IndependentNormal}}
 }
 \examples{
 showClass("MVN")
