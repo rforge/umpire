@@ -278,7 +278,7 @@ setMethod("rand",
   if (balance) {
     m <- ncol(object@hitPattern)
     # Modified so that no matter balance is TRUE or FALSE, return nPatients data
-    count <- round(n/m) # JZ comment out
+    count <- round(n/m) 
     hc <- c(rep(1:m, each=count),1:(n%%m)) # JZ
   } else {
     cp <- cumsum(object@prevalence)
