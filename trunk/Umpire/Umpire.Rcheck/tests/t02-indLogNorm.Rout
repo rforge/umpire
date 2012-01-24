@@ -1,0 +1,2175 @@
+
+R version 2.10.1 (2009-12-14)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(Umpire)
+> # set seed to ensure reproducibility
+> set.seed(295997)
+> # set up the parameters for the test
+> nGenes <- 20
+> logmu <- rnorm(nGenes, 6, 1)
+> logsigma <- 1/rgamma(nGenes, rate=14, shape=6)
+> # create an object that generates independent log normal data
+> ln <- IndependentLogNormal(logmu, logsigma)
+> nrow(ln)
+[1] 20
+> summary(ln)
+An IndependentLogNormal object, representing a vector
+of length 20 of independent log normal random variables.
+> # verify the means
+> if(any(logmu - ln@logmu)) {
++   print("means do not match")
++ } else {
++   print("means verified")
++ }
+[1] "means verified"
+Warning message:
+In any(logmu - ln@logmu) : coercing argument of type 'double' to logical
+> # verify the standard deviations
+> if(any(logsigma - ln@logsigma)) {
++   print("standard deviations do not match")
++ } else {
++   print("sd verified")
++ }
+[1] "sd verified"
+Warning message:
+In any(logsigma - ln@logsigma) :
+  coercing argument of type 'double' to logical
+> # generate some random variables
+> x <- rand(ln, 1000)
+> print(dim(x))
+[1]   20 1000
+> print(summary(x))
+       V1                  V2                  V3                 V4           
+ Min.   :5.045e-02   Min.   :6.956e+00   Min.   :   11.43   Min.   :    16.27  
+ 1st Qu.:1.020e+02   1st Qu.:3.102e+01   1st Qu.:  153.68   1st Qu.:   162.69  
+ Median :7.195e+02   Median :2.308e+02   Median :  333.09   Median :   962.31  
+ Mean   :1.981e+03   Mean   :3.585e+04   Mean   : 5048.53   Mean   : 35634.84  
+ 3rd Qu.:2.972e+03   3rd Qu.:1.170e+03   3rd Qu.: 2184.30   3rd Qu.:  5120.99  
+ Max.   :9.822e+03   Max.   :6.995e+05   Max.   :53147.39   Max.   :371022.37  
+       V5                  V6                 V7                  V8           
+ Min.   :1.442e+01   Min.   :   12.75   Min.   :    14.55   Min.   :5.641e-02  
+ 1st Qu.:1.415e+02   1st Qu.:  118.47   1st Qu.:   193.04   1st Qu.:1.247e+02  
+ Median :4.230e+02   Median :  371.25   Median :   451.27   Median :7.303e+02  
+ Mean   :4.866e+06   Mean   : 2847.33   Mean   : 22128.85   Mean   :1.647e+04  
+ 3rd Qu.:1.271e+03   3rd Qu.: 1115.18   3rd Qu.:  1868.22   3rd Qu.:3.952e+03  
+ Max.   :9.714e+07   Max.   :24826.01   Max.   :330842.17   Max.   :2.790e+05  
+       V9                 V10                 V11           
+ Min.   :1.447e-01   Min.   :1.406e-01   Min.   :5.289e-01  
+ 1st Qu.:1.515e+02   1st Qu.:5.581e+01   1st Qu.:1.038e+02  
+ Median :3.432e+02   Median :3.082e+02   Median :9.226e+02  
+ Mean   :2.825e+03   Mean   :1.405e+04   Mean   :5.532e+03  
+ 3rd Qu.:1.030e+03   3rd Qu.:1.475e+03   3rd Qu.:2.628e+03  
+ Max.   :2.557e+04   Max.   :2.605e+05   Max.   :5.766e+04  
+      V12                 V13                 V14           
+ Min.   :4.746e-01   Min.   :2.650e+01   Min.   :4.139e+00  
+ 1st Qu.:3.456e+01   1st Qu.:1.485e+02   1st Qu.:1.463e+02  
+ Median :4.821e+02   Median :2.303e+02   Median :5.875e+02  
+ Mean   :1.120e+05   Mean   :1.789e+07   Mean   :1.084e+04  
+ 3rd Qu.:1.431e+03   3rd Qu.:2.088e+04   3rd Qu.:2.680e+03  
+ Max.   :2.226e+06   Max.   :3.575e+08   Max.   :1.315e+05  
+      V15                 V16                 V17           
+ Min.   :    1.373   Min.   :4.243e+00   Min.   :    0.716  
+ 1st Qu.:  200.544   1st Qu.:1.018e+02   1st Qu.:   52.167  
+ Median :  674.122   Median :6.629e+02   Median :  543.578  
+ Mean   : 2274.494   Mean   :9.296e+03   Mean   : 3193.359  
+ 3rd Qu.: 1112.062   3rd Qu.:1.670e+03   3rd Qu.: 2923.392  
+ Max.   :20693.117   Max.   :1.498e+05   Max.   :21084.262  
+      V18                 V19                 V20           
+ Min.   :2.063e-03   Min.   :1.296e+00   Min.   :1.949e-01  
+ 1st Qu.:8.844e+01   1st Qu.:8.349e+01   1st Qu.:2.123e+02  
+ Median :3.362e+02   Median :7.782e+02   Median :7.104e+02  
+ Mean   :8.011e+04   Mean   :1.888e+04   Mean   :5.903e+04  
+ 3rd Qu.:5.394e+02   3rd Qu.:2.892e+03   3rd Qu.:5.181e+03  
+ Max.   :1.539e+06   Max.   :3.362e+05   Max.   :7.559e+05  
+      V21                 V22                 V23           
+ Min.   :1.451e-01   Min.   :3.485e-01   Min.   :1.363e+00  
+ 1st Qu.:1.726e+01   1st Qu.:2.854e+01   1st Qu.:6.885e+01  
+ Median :3.967e+02   Median :4.218e+02   Median :2.642e+02  
+ Mean   :2.353e+04   Mean   :6.543e+03   Mean   :6.146e+03  
+ 3rd Qu.:5.658e+03   3rd Qu.:3.086e+03   3rd Qu.:1.213e+03  
+ Max.   :2.714e+05   Max.   :7.537e+04   Max.   :1.049e+05  
+      V24                 V25                 V26                 V27          
+ Min.   :    1.097   Min.   :    3.967   Min.   :    3.356   Min.   :   10.87  
+ 1st Qu.:   65.535   1st Qu.:   35.912   1st Qu.:  108.244   1st Qu.:  126.21  
+ Median :  256.065   Median :  640.823   Median :  630.573   Median :  326.47  
+ Mean   : 4073.545   Mean   : 2170.407   Mean   : 1912.902   Mean   : 4788.88  
+ 3rd Qu.: 3365.696   3rd Qu.: 1060.735   3rd Qu.: 1220.003   3rd Qu.: 2108.08  
+ Max.   :40536.107   Max.   :20735.932   Max.   :18127.473   Max.   :44762.62  
+      V28                 V29                 V30           
+ Min.   :2.891e-01   Min.   :9.735e+00   Min.   :5.049e-01  
+ 1st Qu.:3.233e+02   1st Qu.:2.910e+02   1st Qu.:1.141e+02  
+ Median :1.402e+03   Median :8.234e+02   Median :6.841e+02  
+ Mean   :1.570e+05   Mean   :3.057e+04   Mean   :2.483e+03  
+ 3rd Qu.:2.513e+03   3rd Qu.:3.784e+03   3rd Qu.:1.510e+03  
+ Max.   :2.569e+06   Max.   :5.260e+05   Max.   :1.788e+04  
+      V31                 V32                 V33                V34           
+ Min.   :5.055e-02   Min.   :1.189e+01   Min.   :    7.55   Min.   :1.255e+00  
+ 1st Qu.:9.653e+01   1st Qu.:7.199e+01   1st Qu.:   33.79   1st Qu.:4.240e+01  
+ Median :6.718e+02   Median :4.194e+02   Median :  243.03   Median :2.749e+02  
+ Mean   :4.835e+03   Mean   :2.161e+06   Mean   : 1770.31   Mean   :4.609e+04  
+ 3rd Qu.:2.956e+03   3rd Qu.:1.116e+03   3rd Qu.:  937.10   3rd Qu.:1.809e+03  
+ Max.   :3.744e+04   Max.   :4.320e+07   Max.   :15902.90   Max.   :8.915e+05  
+      V35                 V36                 V37           
+ Min.   :1.528e+00   Min.   :4.858e+00   Min.   :6.033e-03  
+ 1st Qu.:1.126e+02   1st Qu.:5.292e+01   1st Qu.:1.399e+01  
+ Median :7.546e+02   Median :2.993e+02   Median :5.313e+02  
+ Mean   :3.108e+05   Mean   :1.118e+04   Mean   :2.736e+03  
+ 3rd Qu.:2.218e+03   3rd Qu.:2.354e+03   3rd Qu.:1.412e+03  
+ Max.   :5.191e+06   Max.   :1.221e+05   Max.   :3.019e+04  
+      V38                 V39                 V40                V41           
+ Min.   :4.649e-01   Min.   :    20.21   Min.   :   33.12   Min.   :    7.726  
+ 1st Qu.:6.700e+01   1st Qu.:    85.15   1st Qu.:  399.13   1st Qu.:   89.863  
+ Median :2.748e+02   Median :   320.46   Median : 1720.31   Median :  341.854  
+ Mean   :3.796e+04   Mean   : 36624.29   Mean   : 4686.03   Mean   : 8588.439  
+ 3rd Qu.:1.855e+03   3rd Qu.:  1811.44   3rd Qu.: 3938.14   3rd Qu.: 2093.073  
+ Max.   :6.785e+05   Max.   :653479.95   Max.   :24084.57   Max.   :99425.469  
+      V42                 V43                 V44           
+ Min.   :    1.399   Min.   :   0.8834   Min.   :5.984e-01  
+ 1st Qu.:  116.228   1st Qu.:   9.8841   1st Qu.:3.285e+01  
+ Median :  174.726   Median : 279.8064   Median :2.861e+02  
+ Mean   : 3324.808   Mean   :1237.1637   Mean   :1.336e+04  
+ 3rd Qu.: 1394.954   3rd Qu.:1274.0161   3rd Qu.:9.575e+02  
+ Max.   :34472.563   Max.   :8992.9758   Max.   :2.548e+05  
+      V45                 V46                 V47           
+ Min.   :    2.565   Min.   :    2.347   Min.   :9.409e-03  
+ 1st Qu.:  113.309   1st Qu.:  186.486   1st Qu.:6.126e+01  
+ Median :  315.930   Median : 1177.477   Median :2.271e+02  
+ Mean   : 3374.179   Mean   : 6980.595   Mean   :1.241e+03  
+ 3rd Qu.: 1163.891   3rd Qu.: 3254.506   3rd Qu.:1.557e+03  
+ Max.   :55724.248   Max.   :71980.766   Max.   :9.928e+03  
+      V48                 V49                 V50           
+ Min.   :7.156e-01   Min.   :    12.12   Min.   :8.133e-01  
+ 1st Qu.:3.243e+01   1st Qu.:    74.53   1st Qu.:1.626e+01  
+ Median :1.973e+02   Median :   546.12   Median :4.353e+02  
+ Mean   :9.826e+07   Mean   : 18786.89   Mean   :1.026e+04  
+ 3rd Qu.:1.512e+03   3rd Qu.:  1540.43   3rd Qu.:1.261e+03  
+ Max.   :1.965e+09   Max.   :312866.18   Max.   :1.467e+05  
+      V51                 V52                 V53                 V54          
+ Min.   :2.049e-01   Min.   :3.065e+00   Min.   :    7.982   Min.   :   24.86  
+ 1st Qu.:6.919e+01   1st Qu.:7.002e+01   1st Qu.:  142.886   1st Qu.:  134.32  
+ Median :6.656e+02   Median :3.902e+02   Median :  628.880   Median :  493.53  
+ Mean   :2.204e+06   Mean   :1.750e+04   Mean   : 4781.846   Mean   : 4920.74  
+ 3rd Qu.:3.183e+03   3rd Qu.:2.314e+03   3rd Qu.: 2518.908   3rd Qu.: 1302.37  
+ Max.   :4.398e+07   Max.   :2.991e+05   Max.   :46150.200   Max.   :51801.33  
+      V55                 V56                 V57                 V58          
+ Min.   :3.608e-02   Min.   :3.668e-03   Min.   :1.657e-01   Min.   :   13.95  
+ 1st Qu.:6.365e+01   1st Qu.:1.192e+01   1st Qu.:6.322e+01   1st Qu.:   89.06  
+ Median :1.488e+02   Median :1.485e+02   Median :4.606e+02   Median :  245.89  
+ Mean   :4.224e+02   Mean   :1.066e+04   Mean   :2.426e+04   Mean   : 1904.55  
+ 3rd Qu.:4.850e+02   3rd Qu.:1.914e+03   3rd Qu.:2.564e+03   3rd Qu.:  732.87  
+ Max.   :2.029e+03   Max.   :1.934e+05   Max.   :4.508e+05   Max.   :22762.04  
+      V59                 V60                 V61           
+ Min.   :    1.901   Min.   :8.793e+00   Min.   :    6.384  
+ 1st Qu.:   23.765   1st Qu.:3.194e+02   1st Qu.:  177.045  
+ Median :  611.059   Median :5.875e+02   Median :  285.092  
+ Mean   : 3420.583   Mean   :5.483e+04   Mean   : 1913.075  
+ 3rd Qu.: 1710.164   3rd Qu.:2.221e+03   3rd Qu.: 1194.373  
+ Max.   :42039.719   Max.   :1.076e+06   Max.   :16722.755  
+      V62                 V63                 V64           
+ Min.   :    5.265   Min.   :2.856e-01   Min.   :2.449e-01  
+ 1st Qu.:   70.865   1st Qu.:4.296e+01   1st Qu.:1.839e+01  
+ Median :  186.382   Median :1.676e+02   Median :2.247e+02  
+ Mean   : 1892.214   Mean   :2.597e+03   Mean   :1.064e+03  
+ 3rd Qu.:  622.003   3rd Qu.:1.367e+03   3rd Qu.:7.181e+02  
+ Max.   :27148.976   Max.   :2.143e+04   Max.   :1.054e+04  
+      V65                 V66                 V67           
+ Min.   :2.146e-01   Min.   :   0.1434   Min.   :    4.262  
+ 1st Qu.:1.290e+01   1st Qu.:  11.3985   1st Qu.:  129.515  
+ Median :2.374e+02   Median : 125.6149   Median :  280.504  
+ Mean   :6.602e+04   Mean   : 711.7574   Mean   : 2962.611  
+ 3rd Qu.:7.889e+02   3rd Qu.: 768.1106   3rd Qu.:  896.584  
+ Max.   :1.293e+06   Max.   :4131.7010   Max.   :42478.039  
+      V68                 V69                V70                 V71           
+ Min.   :3.609e+00   Min.   :   15.11   Min.   :4.649e-01   Min.   :6.983e-03  
+ 1st Qu.:6.996e+01   1st Qu.:  162.69   1st Qu.:1.570e+02   1st Qu.:2.961e+01  
+ Median :3.569e+02   Median :  631.56   Median :1.334e+03   Median :7.469e+02  
+ Mean   :1.634e+05   Mean   : 5167.14   Mean   :2.321e+06   Mean   :4.750e+03  
+ 3rd Qu.:1.199e+03   3rd Qu.: 1228.36   3rd Qu.:5.959e+03   3rd Qu.:2.110e+03  
+ Max.   :2.958e+06   Max.   :62866.42   Max.   :4.636e+07   Max.   :3.632e+04  
+      V72                 V73                 V74           
+ Min.   :    6.176   Min.   :    18.66   Min.   :1.911e-01  
+ 1st Qu.:   60.996   1st Qu.:   178.81   1st Qu.:6.418e+01  
+ Median :  621.661   Median :  1001.99   Median :5.122e+02  
+ Mean   : 2887.257   Mean   : 11323.87   Mean   :2.896e+04  
+ 3rd Qu.: 3000.985   3rd Qu.:  3169.86   3rd Qu.:1.549e+03  
+ Max.   :15071.779   Max.   :183964.25   Max.   :5.582e+05  
+      V75                 V76                 V77           
+ Min.   :2.651e+00   Min.   :4.367e+00   Min.   :2.984e+00  
+ 1st Qu.:6.157e+01   1st Qu.:1.400e+02   1st Qu.:2.767e+02  
+ Median :3.129e+02   Median :5.061e+02   Median :5.437e+02  
+ Mean   :1.009e+04   Mean   :1.231e+05   Mean   :3.631e+05  
+ 3rd Qu.:8.184e+02   3rd Qu.:1.935e+03   3rd Qu.:1.104e+03  
+ Max.   :1.850e+05   Max.   :2.322e+06   Max.   :7.227e+06  
+      V78                 V79                 V80                 V81          
+ Min.   :1.890e-03   Min.   :2.516e-01   Min.   :    1.109   Min.   :   25.21  
+ 1st Qu.:1.121e+02   1st Qu.:2.596e+01   1st Qu.:  171.019   1st Qu.:  161.21  
+ Median :2.652e+02   Median :2.561e+02   Median :  473.483   Median : 1875.68  
+ Mean   :8.827e+04   Mean   :3.421e+05   Mean   : 1772.081   Mean   : 5871.65  
+ 3rd Qu.:1.537e+03   3rd Qu.:1.155e+03   3rd Qu.:  703.927   3rd Qu.: 3364.91  
+ Max.   :1.746e+06   Max.   :6.829e+06   Max.   :13705.856   Max.   :55706.37  
+      V82                 V83                 V84           
+ Min.   :    1.503   Min.   :2.528e-01   Min.   :6.680e-02  
+ 1st Qu.:  206.374   1st Qu.:1.208e+02   1st Qu.:1.601e+01  
+ Median :  443.082   Median :3.642e+02   Median :3.803e+02  
+ Mean   : 2940.499   Mean   :2.188e+03   Mean   :6.185e+03  
+ 3rd Qu.: 3294.056   3rd Qu.:1.330e+03   3rd Qu.:7.194e+02  
+ Max.   :18637.435   Max.   :1.122e+04   Max.   :1.133e+05  
+      V85                 V86                 V87           
+ Min.   :1.174e+00   Min.   :3.937e-01   Min.   :   0.8885  
+ 1st Qu.:1.595e+02   1st Qu.:5.125e+01   1st Qu.: 176.1545  
+ Median :3.792e+02   Median :2.470e+02   Median : 473.4875  
+ Mean   :6.497e+05   Mean   :2.571e+03   Mean   : 969.7000  
+ 3rd Qu.:2.777e+03   3rd Qu.:1.436e+03   3rd Qu.: 970.1561  
+ Max.   :1.287e+07   Max.   :2.519e+04   Max.   :4910.1823  
+      V88                 V89                 V90           
+ Min.   :1.504e+00   Min.   :    2.026   Min.   :1.000e+00  
+ 1st Qu.:3.566e+01   1st Qu.:   95.175   1st Qu.:8.913e+01  
+ Median :1.990e+02   Median :  237.596   Median :8.814e+02  
+ Mean   :1.372e+04   Mean   : 5565.218   Mean   :9.881e+03  
+ 3rd Qu.:7.140e+02   3rd Qu.: 1291.036   3rd Qu.:2.739e+03  
+ Max.   :2.183e+05   Max.   :62835.787   Max.   :1.472e+05  
+      V91                 V92                 V93                V94           
+ Min.   :   0.2030   Min.   :    8.569   Min.   :   8.627   Min.   :    37.68  
+ 1st Qu.: 120.7735   1st Qu.:  208.317   1st Qu.:  86.182   1st Qu.:   331.04  
+ Median : 444.3587   Median :  566.153   Median : 521.233   Median :  4251.55  
+ Mean   :1493.2669   Mean   : 5941.459   Mean   :1463.372   Mean   : 64349.04  
+ 3rd Qu.: 954.3543   3rd Qu.: 1572.376   3rd Qu.:1715.118   3rd Qu.: 10455.22  
+ Max.   :9104.6996   Max.   :77047.775   Max.   :7518.346   Max.   :791389.27  
+      V95                V96                 V97                 V98           
+ Min.   :   1.048   Min.   :    0.091   Min.   :7.226e-02   Min.   :1.159e-03  
+ 1st Qu.:  35.312   1st Qu.:   44.052   1st Qu.:9.047e+01   1st Qu.:6.905e+00  
+ Median : 174.967   Median :  283.589   Median :4.451e+02   Median :1.236e+02  
+ Mean   : 813.040   Mean   : 3443.702   Mean   :1.242e+06   Mean   :2.312e+03  
+ 3rd Qu.: 809.311   3rd Qu.: 1841.356   3rd Qu.:4.626e+03   3rd Qu.:7.405e+02  
+ Max.   :5994.532   Max.   :39595.858   Max.   :2.479e+07   Max.   :3.827e+04  
+      V99                 V100                V101                V102         
+ Min.   :    3.116   Min.   :2.382e+00   Min.   :8.313e-01   Min.   :    2.45  
+ 1st Qu.:   70.775   1st Qu.:1.707e+02   1st Qu.:8.331e+01   1st Qu.:   60.87  
+ Median :  368.879   Median :8.490e+02   Median :2.119e+02   Median :  467.85  
+ Mean   : 9687.915   Mean   :5.217e+04   Mean   :1.091e+04   Mean   : 2580.89  
+ 3rd Qu.:  917.749   3rd Qu.:3.588e+03   3rd Qu.:1.231e+03   3rd Qu.: 1055.22  
+ Max.   :76673.349   Max.   :8.106e+05   Max.   :1.921e+05   Max.   :34472.05  
+      V103                V104                V105          
+ Min.   :1.617e-01   Min.   :    4.438   Min.   :3.167e+00  
+ 1st Qu.:1.765e+02   1st Qu.:   41.840   1st Qu.:1.559e+02  
+ Median :9.018e+02   Median :  540.927   Median :7.627e+02  
+ Mean   :1.070e+05   Mean   : 3063.503   Mean   :3.407e+04  
+ 3rd Qu.:4.600e+03   3rd Qu.: 1389.843   3rd Qu.:2.098e+03  
+ Max.   :1.904e+06   Max.   :34003.270   Max.   :4.457e+05  
+      V106                V107                V108          
+ Min.   :4.301e-02   Min.   :    3.603   Min.   :3.589e+00  
+ 1st Qu.:4.680e+01   1st Qu.:   34.046   1st Qu.:9.914e+01  
+ Median :1.356e+02   Median :  533.989   Median :4.988e+02  
+ Mean   :1.007e+03   Mean   : 2632.863   Mean   :8.954e+04  
+ 3rd Qu.:4.098e+02   3rd Qu.: 2829.308   3rd Qu.:1.932e+03  
+ Max.   :1.036e+04   Max.   :25359.919   Max.   :1.308e+06  
+      V109                V110                V111          
+ Min.   :4.086e-02   Min.   :9.307e-02   Min.   :    7.023  
+ 1st Qu.:8.183e+01   1st Qu.:3.516e+01   1st Qu.:   86.474  
+ Median :6.058e+02   Median :2.933e+02   Median :  364.366  
+ Mean   :2.375e+05   Mean   :2.550e+04   Mean   : 2675.580  
+ 3rd Qu.:2.599e+03   3rd Qu.:3.412e+03   3rd Qu.: 1483.747  
+ Max.   :4.551e+06   Max.   :3.378e+05   Max.   :37877.789  
+      V112                V113                V114          
+ Min.   :1.841e+00   Min.   :9.368e-01   Min.   :8.830e+00  
+ 1st Qu.:2.818e+02   1st Qu.:3.525e+01   1st Qu.:1.130e+02  
+ Median :6.531e+02   Median :7.480e+01   Median :2.717e+02  
+ Mean   :6.964e+05   Mean   :6.766e+03   Mean   :1.866e+05  
+ 3rd Qu.:4.073e+03   3rd Qu.:1.059e+03   3rd Qu.:8.973e+02  
+ Max.   :1.359e+07   Max.   :9.213e+04   Max.   :3.698e+06  
+      V115                V116                V117          
+ Min.   :   0.6853   Min.   :8.801e-01   Min.   :2.051e+00  
+ 1st Qu.:  12.2245   1st Qu.:2.824e+01   1st Qu.:5.052e+01  
+ Median : 104.8771   Median :2.725e+02   Median :1.740e+02  
+ Mean   : 443.4110   Mean   :1.666e+03   Mean   :8.032e+06  
+ 3rd Qu.: 445.3980   3rd Qu.:1.255e+03   3rd Qu.:2.334e+03  
+ Max.   :2817.6150   Max.   :1.751e+04   Max.   :1.606e+08  
+      V118                V119                V120          
+ Min.   :1.133e-01   Min.   :1.835e+00   Min.   :    1.729  
+ 1st Qu.:1.525e+02   1st Qu.:9.792e+01   1st Qu.:   22.889  
+ Median :5.322e+02   Median :1.180e+03   Median :  139.818  
+ Mean   :6.245e+03   Mean   :3.517e+04   Mean   : 2503.732  
+ 3rd Qu.:2.608e+03   3rd Qu.:6.822e+03   3rd Qu.:  680.966  
+ Max.   :9.691e+04   Max.   :3.254e+05   Max.   :30460.706  
+      V121                V122                V123          
+ Min.   :    14.46   Min.   :    3.938   Min.   :6.540e-03  
+ 1st Qu.:    63.86   1st Qu.:  122.144   1st Qu.:1.387e+02  
+ Median :   245.03   Median :  467.561   Median :9.997e+02  
+ Mean   : 48850.66   Mean   : 3494.602   Mean   :4.507e+03  
+ 3rd Qu.:  1142.73   3rd Qu.: 1459.215   3rd Qu.:2.293e+03  
+ Max.   :959457.24   Max.   :20522.312   Max.   :4.945e+04  
+      V124                V125                V126                V127         
+ Min.   :2.565e+00   Min.   :4.982e-01   Min.   :1.258e-01   Min.   :    2.78  
+ 1st Qu.:2.447e+02   1st Qu.:7.673e+01   1st Qu.:3.745e+01   1st Qu.:  177.37  
+ Median :1.290e+03   Median :5.233e+02   Median :2.397e+02   Median :  439.42  
+ Mean   :1.635e+04   Mean   :3.742e+03   Mean   :1.530e+03   Mean   : 8612.60  
+ 3rd Qu.:7.459e+03   3rd Qu.:3.553e+03   3rd Qu.:5.212e+02   3rd Qu.: 7584.31  
+ Max.   :2.509e+05   Max.   :3.060e+04   Max.   :2.239e+04   Max.   :88995.85  
+      V128                V129                V130                V131         
+ Min.   :6.242e-01   Min.   :5.660e-02   Min.   :    4.713   Min.   :   28.93  
+ 1st Qu.:5.133e+01   1st Qu.:1.096e+02   1st Qu.:   62.476   1st Qu.:  139.99  
+ Median :1.640e+02   Median :1.398e+03   Median :  232.036   Median :  356.98  
+ Mean   :2.153e+03   Mean   :1.236e+04   Mean   : 2125.853   Mean   : 1446.72  
+ 3rd Qu.:9.533e+02   3rd Qu.:3.216e+03   3rd Qu.:  511.192   3rd Qu.:  788.32  
+ Max.   :3.228e+04   Max.   :2.094e+05   Max.   :22929.692   Max.   :18923.13  
+      V132                V133                V134          
+ Min.   :    2.335   Min.   :6.181e-02   Min.   :3.761e+00  
+ 1st Qu.:   44.849   1st Qu.:8.899e+01   1st Qu.:1.454e+02  
+ Median :  897.069   Median :1.845e+02   Median :2.755e+02  
+ Mean   : 3442.603   Mean   :1.448e+03   Mean   :3.014e+04  
+ 3rd Qu.: 5510.888   3rd Qu.:8.124e+02   3rd Qu.:5.011e+02  
+ Max.   :18188.751   Max.   :1.488e+04   Max.   :5.919e+05  
+      V135                V136                V137          
+ Min.   :2.703e-03   Min.   :2.297e-01   Min.   :    9.014  
+ 1st Qu.:1.829e+01   1st Qu.:1.900e+02   1st Qu.:   69.016  
+ Median :2.155e+02   Median :8.839e+02   Median :  298.215  
+ Mean   :8.153e+02   Mean   :5.069e+03   Mean   : 4234.004  
+ 3rd Qu.:4.626e+02   3rd Qu.:2.241e+03   3rd Qu.:  803.143  
+ Max.   :5.939e+03   Max.   :6.609e+04   Max.   :65095.784  
+      V138                V139                V140                V141         
+ Min.   :    1.494   Min.   :    1.107   Min.   :3.933e+00   Min.   :   2.389  
+ 1st Qu.:   62.801   1st Qu.:   63.307   1st Qu.:1.510e+02   1st Qu.:  32.207  
+ Median :  790.567   Median :  509.214   Median :4.557e+02   Median : 200.136  
+ Mean   : 2965.615   Mean   : 2959.023   Mean   :2.081e+04   Mean   : 607.785  
+ 3rd Qu.: 3248.299   3rd Qu.: 5049.163   3rd Qu.:3.209e+03   3rd Qu.: 911.001  
+ Max.   :23090.692   Max.   :20619.829   Max.   :2.652e+05   Max.   :2942.218  
+      V142                V143                V144          
+ Min.   :3.155e-01   Min.   :4.150e-02   Min.   :5.527e+00  
+ 1st Qu.:2.527e+01   1st Qu.:8.963e+01   1st Qu.:2.379e+01  
+ Median :3.914e+02   Median :2.600e+02   Median :2.246e+02  
+ Mean   :1.838e+04   Mean   :3.214e+03   Mean   :3.026e+05  
+ 3rd Qu.:9.696e+02   3rd Qu.:1.434e+03   3rd Qu.:1.261e+03  
+ Max.   :3.568e+05   Max.   :2.776e+04   Max.   :6.033e+06  
+      V145                V146                V147          
+ Min.   :    1.023   Min.   :1.221e+00   Min.   :3.405e+00  
+ 1st Qu.:  121.494   1st Qu.:4.650e+01   1st Qu.:2.292e+02  
+ Median : 1016.764   Median :3.337e+02   Median :6.829e+02  
+ Mean   : 4518.437   Mean   :2.283e+04   Mean   :2.585e+05  
+ 3rd Qu.: 3683.827   3rd Qu.:2.310e+03   3rd Qu.:8.010e+03  
+ Max.   :47339.089   Max.   :2.791e+05   Max.   :3.702e+06  
+      V148                V149                V150          
+ Min.   :2.877e+00   Min.   :2.025e+00   Min.   :9.638e-01  
+ 1st Qu.:5.136e+01   1st Qu.:8.912e+01   1st Qu.:1.250e+02  
+ Median :2.848e+02   Median :2.782e+02   Median :3.298e+02  
+ Mean   :8.014e+03   Mean   :2.456e+06   Mean   :2.333e+03  
+ 3rd Qu.:1.413e+03   3rd Qu.:1.278e+03   3rd Qu.:1.638e+03  
+ Max.   :1.378e+05   Max.   :4.908e+07   Max.   :2.638e+04  
+      V151                V152                V153          
+ Min.   :8.362e-01   Min.   :2.310e+00   Min.   :7.581e-01  
+ 1st Qu.:3.186e+01   1st Qu.:1.315e+02   1st Qu.:2.448e+02  
+ Median :2.915e+02   Median :4.460e+02   Median :8.126e+02  
+ Mean   :1.160e+07   Mean   :5.962e+04   Mean   :3.207e+05  
+ 3rd Qu.:2.913e+03   3rd Qu.:1.737e+03   3rd Qu.:5.175e+03  
+ Max.   :2.320e+08   Max.   :1.155e+06   Max.   :6.250e+06  
+      V154                V155                V156          
+ Min.   :    3.817   Min.   :    10.24   Min.   :2.658e+00  
+ 1st Qu.:   44.851   1st Qu.:   101.57   1st Qu.:1.047e+02  
+ Median :  415.535   Median :   277.10   Median :9.248e+02  
+ Mean   : 2474.688   Mean   : 19435.06   Mean   :4.966e+04  
+ 3rd Qu.: 1686.843   3rd Qu.:   593.28   3rd Qu.:2.054e+03  
+ Max.   :12559.601   Max.   :356143.78   Max.   :7.074e+05  
+      V157                V158                V159               V160          
+ Min.   :2.037e-01   Min.   :    1.284   Min.   :   0.399   Min.   :    2.583  
+ 1st Qu.:1.080e+02   1st Qu.:   29.300   1st Qu.:  21.195   1st Qu.:  169.441  
+ Median :1.331e+03   Median :  137.831   Median : 178.368   Median :  229.307  
+ Mean   :2.960e+04   Mean   : 4036.539   Mean   : 878.421   Mean   : 1410.530  
+ 3rd Qu.:7.671e+03   3rd Qu.: 2209.303   3rd Qu.: 923.495   3rd Qu.: 1207.149  
+ Max.   :2.587e+05   Max.   :56001.521   Max.   :5408.965   Max.   :13144.094  
+      V161                V162                V163          
+ Min.   :1.304e-02   Min.   :    7.811   Min.   :6.291e-01  
+ 1st Qu.:5.563e+01   1st Qu.:   44.576   1st Qu.:1.504e+02  
+ Median :2.053e+02   Median :  188.528   Median :3.660e+02  
+ Mean   :1.206e+04   Mean   : 1278.356   Mean   :1.417e+03  
+ 3rd Qu.:5.335e+02   3rd Qu.:  679.741   3rd Qu.:7.762e+02  
+ Max.   :2.307e+05   Max.   :12267.215   Max.   :1.397e+04  
+      V164                V165               V166                V167          
+ Min.   :    2.036   Min.   :    1.86   Min.   :1.511e+00   Min.   :1.179e-01  
+ 1st Qu.:  217.684   1st Qu.:  159.00   1st Qu.:1.091e+02   1st Qu.:7.282e+00  
+ Median :  362.495   Median :  751.08   Median :9.396e+02   Median :4.464e+02  
+ Mean   : 3108.765   Mean   : 8973.81   Mean   :4.959e+05   Mean   :2.890e+03  
+ 3rd Qu.: 3289.799   3rd Qu.: 4063.15   3rd Qu.:2.085e+03   3rd Qu.:1.921e+03  
+ Max.   :30578.389   Max.   :71119.50   Max.   :9.842e+06   Max.   :3.011e+04  
+      V168                V169                V170              V171          
+ Min.   :2.363e-01   Min.   :2.710e-01   Min.   :  14.25   Min.   :4.250e+00  
+ 1st Qu.:1.161e+01   1st Qu.:6.614e+02   1st Qu.:  95.23   1st Qu.:7.492e+01  
+ Median :1.795e+02   Median :9.537e+02   Median : 171.78   Median :5.349e+02  
+ Mean   :2.220e+04   Mean   :5.070e+04   Mean   : 618.51   Mean   :1.331e+06  
+ 3rd Qu.:3.464e+03   3rd Qu.:3.383e+03   3rd Qu.: 514.78   3rd Qu.:2.358e+03  
+ Max.   :4.018e+05   Max.   :9.444e+05   Max.   :3744.42   Max.   :2.658e+07  
+      V172                V173                V174          
+ Min.   :    5.154   Min.   :    0.708   Min.   :6.394e+00  
+ 1st Qu.:   61.491   1st Qu.:   73.235   1st Qu.:1.333e+02  
+ Median :  174.165   Median :  208.745   Median :5.467e+02  
+ Mean   : 2886.721   Mean   : 2216.814   Mean   :1.279e+05  
+ 3rd Qu.: 1028.090   3rd Qu.:  576.549   3rd Qu.:1.855e+03  
+ Max.   :46071.393   Max.   :14804.798   Max.   :2.477e+06  
+      V175                V176                V177          
+ Min.   :    1.687   Min.   :    2.561   Min.   :4.851e-01  
+ 1st Qu.:  103.536   1st Qu.:  170.419   1st Qu.:5.617e+01  
+ Median :  315.499   Median :  628.574   Median :3.881e+02  
+ Mean   : 3322.551   Mean   : 4268.098   Mean   :3.015e+03  
+ 3rd Qu.: 1558.332   3rd Qu.: 1722.709   3rd Qu.:1.777e+03  
+ Max.   :29183.695   Max.   :62249.119   Max.   :3.665e+04  
+      V178                V179                V180               V181          
+ Min.   :7.463e-01   Min.   :    7.043   Min.   :   4.053   Min.   :9.351e-01  
+ 1st Qu.:8.739e+01   1st Qu.:   44.891   1st Qu.:  86.175   1st Qu.:4.564e+01  
+ Median :3.653e+02   Median :  290.892   Median : 247.725   Median :8.632e+02  
+ Mean   :3.457e+03   Mean   : 1826.784   Mean   : 672.716   Mean   :6.321e+03  
+ 3rd Qu.:8.896e+02   3rd Qu.:  500.986   3rd Qu.: 738.748   3rd Qu.:1.521e+03  
+ Max.   :5.064e+04   Max.   :17105.533   Max.   :4014.635   Max.   :7.988e+04  
+      V182                V183                V184          
+ Min.   :   0.9267   Min.   :3.743e+00   Min.   :    10.62  
+ 1st Qu.: 160.2757   1st Qu.:7.916e+01   1st Qu.:   370.15  
+ Median : 880.2014   Median :3.563e+02   Median :   953.80  
+ Mean   :1914.4144   Mean   :2.266e+04   Mean   : 28301.81  
+ 3rd Qu.:2534.9921   3rd Qu.:1.436e+03   3rd Qu.:  3569.39  
+ Max.   :9971.4134   Max.   :2.798e+05   Max.   :518837.71  
+      V185                V186                V187          
+ Min.   :6.468e-01   Min.   :2.139e+00   Min.   :4.142e-01  
+ 1st Qu.:6.316e+01   1st Qu.:1.482e+02   1st Qu.:3.813e+01  
+ Median :2.560e+02   Median :2.582e+02   Median :3.604e+02  
+ Mean   :8.419e+03   Mean   :5.023e+04   Mean   :5.222e+06  
+ 3rd Qu.:9.441e+02   3rd Qu.:3.772e+03   3rd Qu.:9.101e+02  
+ Max.   :1.470e+05   Max.   :8.476e+05   Max.   :1.031e+08  
+      V188                V189                V190          
+ Min.   :4.875e+00   Min.   :   0.2022   Min.   :    11.27  
+ 1st Qu.:3.399e+01   1st Qu.:  50.7717   1st Qu.:   224.28  
+ Median :1.167e+02   Median : 368.1016   Median :   539.90  
+ Mean   :2.099e+05   Mean   :1125.6520   Mean   : 44387.57  
+ 3rd Qu.:3.459e+03   3rd Qu.:1489.7297   3rd Qu.:  3238.05  
+ Max.   :3.013e+06   Max.   :8625.3421   Max.   :712042.00  
+      V191                V192                V193               V194          
+ Min.   :5.351e-04   Min.   :1.961e-01   Min.   :   2.453   Min.   :6.217e-01  
+ 1st Qu.:7.525e+01   1st Qu.:8.578e+01   1st Qu.:  96.960   1st Qu.:6.194e+00  
+ Median :3.085e+02   Median :5.437e+02   Median : 294.174   Median :1.899e+02  
+ Mean   :7.214e+03   Mean   :4.213e+06   Mean   : 772.840   Mean   :2.632e+03  
+ 3rd Qu.:1.586e+03   3rd Qu.:1.671e+03   3rd Qu.: 651.727   3rd Qu.:1.194e+03  
+ Max.   :8.430e+04   Max.   :8.423e+07   Max.   :4728.046   Max.   :2.724e+04  
+      V195                V196                V197          
+ Min.   :    2.544   Min.   :5.029e-01   Min.   :1.119e+00  
+ 1st Qu.:   83.306   1st Qu.:8.887e+01   1st Qu.:2.065e+01  
+ Median :  770.677   Median :1.102e+03   Median :1.336e+03  
+ Mean   : 2627.488   Mean   :3.341e+03   Mean   :9.429e+04  
+ 3rd Qu.: 1759.738   3rd Qu.:2.217e+03   3rd Qu.:4.334e+03  
+ Max.   :20598.094   Max.   :2.417e+04   Max.   :1.816e+06  
+      V198                V199                V200              V201          
+ Min.   :3.308e-03   Min.   :6.201e-03   Min.   :  20.13   Min.   :1.583e-02  
+ 1st Qu.:3.858e+01   1st Qu.:1.822e+01   1st Qu.: 164.83   1st Qu.:5.237e+01  
+ Median :1.047e+02   Median :3.281e+02   Median : 414.76   Median :2.835e+02  
+ Mean   :3.194e+03   Mean   :5.610e+03   Mean   : 959.79   Mean   :2.773e+05  
+ 3rd Qu.:2.510e+03   3rd Qu.:1.328e+03   3rd Qu.: 975.22   3rd Qu.:8.158e+02  
+ Max.   :2.968e+04   Max.   :6.777e+04   Max.   :5305.12   Max.   :5.535e+06  
+      V202                V203                V204          
+ Min.   :8.346e-01   Min.   :1.347e+00   Min.   :9.142e-01  
+ 1st Qu.:8.044e+01   1st Qu.:5.031e+01   1st Qu.:1.601e+02  
+ Median :2.765e+02   Median :1.472e+02   Median :4.956e+02  
+ Mean   :1.996e+03   Mean   :4.171e+04   Mean   :4.416e+03  
+ 3rd Qu.:1.829e+03   3rd Qu.:1.272e+03   3rd Qu.:1.665e+03  
+ Max.   :2.158e+04   Max.   :8.156e+05   Max.   :4.758e+04  
+      V205                V206                V207          
+ Min.   :    12.14   Min.   :1.731e-02   Min.   :3.159e-02  
+ 1st Qu.:   124.26   1st Qu.:1.475e+01   1st Qu.:3.757e+01  
+ Median :   668.16   Median :1.413e+02   Median :8.182e+02  
+ Mean   : 14193.28   Mean   :7.291e+03   Mean   :2.202e+05  
+ 3rd Qu.:  4456.19   3rd Qu.:3.154e+02   3rd Qu.:3.861e+03  
+ Max.   :147283.93   Max.   :1.415e+05   Max.   :3.382e+06  
+      V208                V209                V210          
+ Min.   :5.753e-01   Min.   :1.952e-01   Min.   :3.312e-02  
+ 1st Qu.:1.988e+02   1st Qu.:5.257e+01   1st Qu.:1.184e+02  
+ Median :7.330e+02   Median :2.214e+02   Median :2.813e+02  
+ Mean   :2.020e+04   Mean   :4.821e+05   Mean   :6.020e+02  
+ 3rd Qu.:2.452e+03   3rd Qu.:2.274e+03   3rd Qu.:3.936e+02  
+ Max.   :3.666e+05   Max.   :9.618e+06   Max.   :5.929e+03  
+      V211                V212                V213          
+ Min.   :2.852e-01   Min.   :    1.118   Min.   :    16.81  
+ 1st Qu.:2.177e+01   1st Qu.:  104.807   1st Qu.:    79.14  
+ Median :3.127e+02   Median :  314.414   Median :   319.62  
+ Mean   :2.539e+03   Mean   : 3129.680   Mean   : 20672.82  
+ 3rd Qu.:7.779e+02   3rd Qu.: 1217.565   3rd Qu.:   692.30  
+ Max.   :3.082e+04   Max.   :37724.493   Max.   :393411.18  
+      V214                V215                V216          
+ Min.   :1.265e+00   Min.   :1.040e+00   Min.   :3.575e-05  
+ 1st Qu.:1.084e+02   1st Qu.:8.806e+01   1st Qu.:9.813e+01  
+ Median :4.025e+02   Median :2.845e+02   Median :2.509e+02  
+ Mean   :1.202e+05   Mean   :5.644e+05   Mean   :4.740e+03  
+ 3rd Qu.:7.220e+03   3rd Qu.:1.014e+03   3rd Qu.:2.584e+03  
+ Max.   :2.106e+06   Max.   :6.085e+06   Max.   :5.917e+04  
+      V217                V218                V219          
+ Min.   :1.689e-03   Min.   :9.904e-01   Min.   :1.595e-02  
+ 1st Qu.:7.618e+01   1st Qu.:6.031e+01   1st Qu.:3.034e+01  
+ Median :1.702e+02   Median :1.309e+03   Median :1.372e+02  
+ Mean   :1.896e+07   Mean   :3.088e+03   Mean   :6.849e+05  
+ 3rd Qu.:1.278e+03   3rd Qu.:2.366e+03   3rd Qu.:1.687e+03  
+ Max.   :3.673e+08   Max.   :2.092e+04   Max.   :1.361e+07  
+      V220                V221                V222          
+ Min.   :1.015e-01   Min.   :1.338e+00   Min.   :    9.144  
+ 1st Qu.:6.431e+01   1st Qu.:6.331e+01   1st Qu.:   49.995  
+ Median :2.508e+02   Median :3.179e+02   Median :  677.003  
+ Mean   :9.798e+04   Mean   :9.071e+03   Mean   : 1828.267  
+ 3rd Qu.:2.125e+03   3rd Qu.:7.276e+03   3rd Qu.: 2132.302  
+ Max.   :1.934e+06   Max.   :1.156e+05   Max.   :17235.926  
+      V223                V224                V225          
+ Min.   :2.994e-01   Min.   :4.807e-01   Min.   :7.717e-01  
+ 1st Qu.:7.361e+01   1st Qu.:1.387e+02   1st Qu.:9.968e+01  
+ Median :4.714e+02   Median :4.094e+02   Median :4.715e+02  
+ Mean   :4.550e+04   Mean   :5.967e+03   Mean   :1.572e+03  
+ 3rd Qu.:1.655e+03   3rd Qu.:1.950e+03   3rd Qu.:1.166e+03  
+ Max.   :8.217e+05   Max.   :8.295e+04   Max.   :1.352e+04  
+      V226                V227                V228          
+ Min.   :4.879e-03   Min.   :3.511e+00   Min.   :2.223e-01  
+ 1st Qu.:2.055e+02   1st Qu.:8.025e+01   1st Qu.:4.879e+01  
+ Median :5.192e+02   Median :3.084e+02   Median :3.599e+02  
+ Mean   :6.748e+03   Mean   :3.577e+05   Mean   :6.883e+03  
+ 3rd Qu.:5.810e+03   3rd Qu.:1.683e+03   3rd Qu.:3.996e+03  
+ Max.   :7.083e+04   Max.   :7.128e+06   Max.   :6.848e+04  
+      V229                V230                V231          
+ Min.   :8.058e+00   Min.   :3.645e+00   Min.   :1.241e-01  
+ 1st Qu.:2.769e+02   1st Qu.:1.534e+02   1st Qu.:5.899e+01  
+ Median :4.870e+02   Median :6.271e+02   Median :4.156e+02  
+ Mean   :1.378e+05   Mean   :9.043e+03   Mean   :2.092e+03  
+ 3rd Qu.:2.734e+03   3rd Qu.:3.228e+03   3rd Qu.:2.202e+03  
+ Max.   :2.720e+06   Max.   :1.166e+05   Max.   :1.778e+04  
+      V232                V233                V234          
+ Min.   :   0.4715   Min.   :7.360e-02   Min.   :1.952e+00  
+ 1st Qu.:  40.9445   1st Qu.:1.106e+02   1st Qu.:3.079e+02  
+ Median : 197.2282   Median :2.901e+02   Median :5.214e+02  
+ Mean   : 830.0960   Mean   :1.500e+03   Mean   :9.822e+03  
+ 3rd Qu.: 686.8721   3rd Qu.:1.012e+03   3rd Qu.:1.689e+03  
+ Max.   :9538.4338   Max.   :1.706e+04   Max.   :1.726e+05  
+      V235                V236                V237               V238          
+ Min.   :4.218e+00   Min.   :7.511e+00   Min.   :   28.52   Min.   :1.088e+00  
+ 1st Qu.:1.922e+02   1st Qu.:9.851e+01   1st Qu.:  533.27   1st Qu.:2.589e+02  
+ Median :3.541e+02   Median :5.038e+02   Median : 2265.21   Median :7.916e+02  
+ Mean   :3.056e+05   Mean   :1.878e+05   Mean   : 9046.82   Mean   :6.914e+04  
+ 3rd Qu.:7.506e+03   3rd Qu.:3.100e+03   3rd Qu.: 8835.02   3rd Qu.:7.346e+03  
+ Max.   :6.010e+06   Max.   :3.715e+06   Max.   :82406.84   Max.   :9.098e+05  
+      V239                V240                V241          
+ Min.   :7.064e-01   Min.   :    4.889   Min.   :2.483e+00  
+ 1st Qu.:8.217e+01   1st Qu.:  212.358   1st Qu.:1.747e+02  
+ Median :2.748e+02   Median :  991.486   Median :4.502e+02  
+ Mean   :2.543e+03   Mean   : 4903.654   Mean   :9.574e+04  
+ 3rd Qu.:1.985e+03   3rd Qu.: 4839.924   3rd Qu.:9.157e+02  
+ Max.   :1.594e+04   Max.   :27253.196   Max.   :1.252e+06  
+      V242                V243                V244          
+ Min.   :    8.443   Min.   :    19.83   Min.   :    2.273  
+ 1st Qu.:   81.385   1st Qu.:    67.37   1st Qu.:  214.177  
+ Median :  309.632   Median :   408.04   Median :  912.573  
+ Mean   : 5043.239   Mean   : 25772.30   Mean   : 4236.732  
+ 3rd Qu.: 1025.205   3rd Qu.:  2892.48   3rd Qu.: 1623.978  
+ Max.   :48681.194   Max.   :447556.82   Max.   :48950.418  
+      V245                V246                V247          
+ Min.   :7.232e-01   Min.   :    1.011   Min.   :5.933e-01  
+ 1st Qu.:6.622e+01   1st Qu.:  123.587   1st Qu.:8.505e+01  
+ Median :4.227e+02   Median : 1038.102   Median :1.598e+02  
+ Mean   :5.158e+04   Mean   : 7767.046   Mean   :1.229e+04  
+ 3rd Qu.:2.151e+03   3rd Qu.: 1844.223   3rd Qu.:2.950e+02  
+ Max.   :9.901e+05   Max.   :98314.037   Max.   :2.370e+05  
+      V248                V249                V250                V251         
+ Min.   :    10.37   Min.   :1.281e-01   Min.   :2.199e-01   Min.   :   11.08  
+ 1st Qu.:    74.24   1st Qu.:1.175e+02   1st Qu.:4.625e+01   1st Qu.:   93.76  
+ Median :   233.76   Median :4.863e+02   Median :5.792e+02   Median :  728.86  
+ Mean   : 20475.59   Mean   :8.717e+04   Mean   :1.710e+04   Mean   : 6733.91  
+ 3rd Qu.:  1350.10   3rd Qu.:7.079e+03   3rd Qu.:1.374e+03   3rd Qu.: 2334.59  
+ Max.   :389939.80   Max.   :1.504e+06   Max.   :3.256e+05   Max.   :51073.31  
+      V252               V253                V254                V255          
+ Min.   :   15.82   Min.   :3.003e+00   Min.   :1.421e-01   Min.   :    1.003  
+ 1st Qu.:   48.48   1st Qu.:1.315e+02   1st Qu.:3.263e+01   1st Qu.:  188.330  
+ Median :  272.87   Median :4.696e+02   Median :2.414e+02   Median :  645.932  
+ Mean   : 6623.15   Mean   :6.593e+05   Mean   :2.278e+03   Mean   : 2209.511  
+ 3rd Qu.: 2408.37   3rd Qu.:4.008e+03   3rd Qu.:9.672e+02   3rd Qu.: 1366.997  
+ Max.   :97414.36   Max.   :1.136e+07   Max.   :2.297e+04   Max.   :16390.204  
+      V256                V257                V258          
+ Min.   :    1.337   Min.   :    4.494   Min.   :1.645e+01  
+ 1st Qu.:   71.072   1st Qu.:  251.023   1st Qu.:1.823e+02  
+ Median :  157.861   Median :  778.287   Median :6.511e+02  
+ Mean   : 3497.121   Mean   : 3608.960   Mean   :3.871e+06  
+ 3rd Qu.: 1259.090   3rd Qu.: 1785.528   3rd Qu.:8.620e+03  
+ Max.   :52653.916   Max.   :46060.464   Max.   :7.595e+07  
+      V259                V260               V261                V262          
+ Min.   :1.912e+00   Min.   :   11.66   Min.   :1.923e-01   Min.   :4.373e-01  
+ 1st Qu.:3.762e+01   1st Qu.:  103.60   1st Qu.:1.046e+02   1st Qu.:4.879e+01  
+ Median :1.149e+02   Median :  347.03   Median :4.949e+02   Median :4.378e+02  
+ Mean   :5.654e+04   Mean   : 3845.25   Mean   :1.581e+04   Mean   :2.192e+03  
+ 3rd Qu.:6.592e+02   3rd Qu.: 1752.81   3rd Qu.:1.686e+03   3rd Qu.:1.352e+03  
+ Max.   :1.098e+06   Max.   :42950.19   Max.   :3.020e+05   Max.   :2.229e+04  
+      V263                V264                V265          
+ Min.   :    0.059   Min.   :    5.912   Min.   :    5.716  
+ 1st Qu.:   30.478   1st Qu.:   90.665   1st Qu.:   53.393  
+ Median :  384.971   Median :  264.210   Median :  657.912  
+ Mean   : 3131.455   Mean   : 2280.734   Mean   : 5595.392  
+ 3rd Qu.: 5833.628   3rd Qu.:  858.987   3rd Qu.: 2907.952  
+ Max.   :17635.169   Max.   :17974.725   Max.   :74636.608  
+      V266                V267                V268          
+ Min.   :4.297e+00   Min.   :    3.478   Min.   :2.449e+01  
+ 1st Qu.:5.808e+01   1st Qu.:   73.135   1st Qu.:1.437e+02  
+ Median :5.139e+02   Median :  436.446   Median :3.913e+02  
+ Mean   :1.607e+04   Mean   : 2598.105   Mean   :3.174e+05  
+ 3rd Qu.:1.249e+03   3rd Qu.: 1466.220   3rd Qu.:1.612e+03  
+ Max.   :3.013e+05   Max.   :28275.811   Max.   :6.142e+06  
+      V269                V270                V271                V272         
+ Min.   :7.100e-01   Min.   :   0.2673   Min.   :5.981e+00   Min.   :    2.77  
+ 1st Qu.:8.280e+01   1st Qu.:  29.7084   1st Qu.:1.228e+02   1st Qu.:  187.55  
+ Median :3.784e+02   Median : 145.8167   Median :4.361e+02   Median :  862.75  
+ Mean   :3.798e+05   Mean   : 857.9472   Mean   :2.322e+04   Mean   : 5102.40  
+ 3rd Qu.:5.750e+03   3rd Qu.: 954.3605   3rd Qu.:2.015e+03   3rd Qu.: 4520.72  
+ Max.   :7.438e+06   Max.   :9392.1770   Max.   :2.897e+05   Max.   :57245.19  
+      V273                V274                V275          
+ Min.   :1.291e-01   Min.   :2.294e+00   Min.   :4.131e-01  
+ 1st Qu.:9.630e+01   1st Qu.:3.567e+02   1st Qu.:4.097e+01  
+ Median :3.428e+02   Median :1.636e+03   Median :1.074e+03  
+ Mean   :1.014e+05   Mean   :2.281e+04   Mean   :5.394e+03  
+ 3rd Qu.:1.744e+03   3rd Qu.:4.010e+03   3rd Qu.:1.174e+04  
+ Max.   :2.003e+06   Max.   :2.565e+05   Max.   :2.368e+04  
+      V276                V277                V278          
+ Min.   :2.699e+00   Min.   :1.804e+00   Min.   :2.451e+01  
+ 1st Qu.:1.172e+02   1st Qu.:3.890e+02   1st Qu.:2.974e+02  
+ Median :3.329e+02   Median :1.648e+03   Median :4.856e+02  
+ Mean   :8.388e+10   Mean   :4.750e+04   Mean   :1.683e+05  
+ 3rd Qu.:1.080e+03   3rd Qu.:3.171e+03   3rd Qu.:3.210e+03  
+ Max.   :1.678e+12   Max.   :8.238e+05   Max.   :2.711e+06  
+      V279                V280                V281          
+ Min.   :7.661e-02   Min.   :6.870e-01   Min.   :2.860e+00  
+ 1st Qu.:8.699e+01   1st Qu.:4.085e+01   1st Qu.:9.304e+01  
+ Median :2.531e+02   Median :2.607e+02   Median :4.598e+02  
+ Mean   :1.138e+04   Mean   :1.209e+04   Mean   :1.677e+05  
+ 3rd Qu.:6.873e+02   3rd Qu.:1.250e+03   3rd Qu.:4.800e+03  
+ Max.   :2.132e+05   Max.   :2.270e+05   Max.   :3.308e+06  
+      V282                V283                V284          
+ Min.   :8.833e-02   Min.   :1.650e-01   Min.   :    7.196  
+ 1st Qu.:8.808e+01   1st Qu.:2.015e+00   1st Qu.:   49.901  
+ Median :2.595e+02   Median :3.144e+02   Median :  284.230  
+ Mean   :7.857e+03   Mean   :1.447e+04   Mean   : 5865.467  
+ 3rd Qu.:1.517e+03   3rd Qu.:3.258e+03   3rd Qu.:  462.582  
+ Max.   :7.472e+04   Max.   :2.128e+05   Max.   :52736.961  
+      V285                V286                V287               V288          
+ Min.   :5.535e+00   Min.   :    11.55   Min.   :   4.349   Min.   :7.199e-01  
+ 1st Qu.:2.919e+02   1st Qu.:   145.18   1st Qu.:  80.933   1st Qu.:4.009e+01  
+ Median :1.160e+03   Median :   344.51   Median : 437.856   Median :3.843e+02  
+ Mean   :5.051e+04   Mean   : 24443.60   Mean   : 829.714   Mean   :3.440e+04  
+ 3rd Qu.:5.332e+03   3rd Qu.:  1076.18   3rd Qu.:1370.307   3rd Qu.:1.532e+03  
+ Max.   :6.876e+05   Max.   :476353.26   Max.   :3675.066   Max.   :6.237e+05  
+      V289                V290                V291          
+ Min.   :1.095e+00   Min.   :4.311e+00   Min.   :    2.942  
+ 1st Qu.:1.027e+02   1st Qu.:3.674e+01   1st Qu.:   75.234  
+ Median :4.496e+02   Median :2.184e+02   Median :  260.480  
+ Mean   :7.132e+04   Mean   :2.798e+06   Mean   : 6456.074  
+ 3rd Qu.:1.220e+03   3rd Qu.:3.343e+03   3rd Qu.: 1123.831  
+ Max.   :1.385e+06   Max.   :5.583e+07   Max.   :80551.996  
+      V292                V293                V294               V295          
+ Min.   :    3.754   Min.   :8.891e-01   Min.   :   4.809   Min.   :    1.878  
+ 1st Qu.:   61.926   1st Qu.:8.511e+01   1st Qu.:  80.964   1st Qu.:   19.572  
+ Median :  437.521   Median :6.751e+02   Median : 339.889   Median :  152.673  
+ Mean   : 3087.558   Mean   :1.185e+04   Mean   :1145.254   Mean   : 1076.061  
+ 3rd Qu.: 1673.522   3rd Qu.:2.940e+03   3rd Qu.:2101.369   3rd Qu.:  356.007  
+ Max.   :30639.564   Max.   :2.089e+05   Max.   :5622.968   Max.   :16736.640  
+      V296                V297                V298                V299         
+ Min.   :3.986e-02   Min.   :    1.051   Min.   :5.730e-01   Min.   :     9.1  
+ 1st Qu.:8.477e+01   1st Qu.:   69.633   1st Qu.:7.488e+01   1st Qu.:    79.8  
+ Median :2.219e+02   Median :  443.866   Median :3.012e+02   Median :   264.6  
+ Mean   :2.403e+03   Mean   : 8280.619   Mean   :1.829e+04   Mean   : 12642.7  
+ 3rd Qu.:8.984e+02   3rd Qu.: 7219.305   3rd Qu.:2.061e+03   3rd Qu.:   429.0  
+ Max.   :2.397e+04   Max.   :71252.531   Max.   :2.305e+05   Max.   :227796.0  
+      V300                V301                V302          
+ Min.   :1.480e-01   Min.   :5.114e-01   Min.   :2.217e-01  
+ 1st Qu.:1.237e+02   1st Qu.:2.651e+01   1st Qu.:8.926e+01  
+ Median :5.964e+02   Median :1.752e+02   Median :7.511e+02  
+ Mean   :3.222e+03   Mean   :2.048e+03   Mean   :3.339e+03  
+ 3rd Qu.:3.142e+03   3rd Qu.:7.615e+02   3rd Qu.:2.207e+03  
+ Max.   :1.657e+04   Max.   :1.613e+04   Max.   :2.924e+04  
+      V303                V304                V305          
+ Min.   :5.652e-02   Min.   :3.953e-01   Min.   :1.264e-02  
+ 1st Qu.:6.850e+01   1st Qu.:1.729e+02   1st Qu.:1.253e+02  
+ Median :3.582e+02   Median :5.221e+02   Median :1.337e+03  
+ Mean   :1.198e+03   Mean   :1.493e+03   Mean   :4.954e+03  
+ 3rd Qu.:1.477e+03   3rd Qu.:1.091e+03   3rd Qu.:4.318e+03  
+ Max.   :7.316e+03   Max.   :1.677e+04   Max.   :5.918e+04  
+      V306                V307               V308                V309          
+ Min.   :    2.212   Min.   :   9.866   Min.   :    1.905   Min.   :    4.802  
+ 1st Qu.:   72.993   1st Qu.:  36.603   1st Qu.:   24.731   1st Qu.:  143.894  
+ Median :  313.626   Median : 192.729   Median :   74.930   Median :  427.904  
+ Mean   : 3162.977   Mean   : 774.397   Mean   : 7806.437   Mean   : 1831.828  
+ 3rd Qu.: 1688.412   3rd Qu.: 718.734   3rd Qu.: 1893.185   3rd Qu.: 1248.231  
+ Max.   :29501.874   Max.   :5707.232   Max.   :69078.585   Max.   :18937.970  
+      V310               V311                V312                V313          
+ Min.   :   8.397   Min.   :6.602e-01   Min.   :1.949e-02   Min.   :7.801e-02  
+ 1st Qu.:  50.170   1st Qu.:1.852e+01   1st Qu.:2.224e+01   1st Qu.:7.941e+01  
+ Median : 116.518   Median :2.145e+02   Median :4.538e+02   Median :3.523e+02  
+ Mean   :1303.083   Mean   :8.373e+03   Mean   :3.496e+03   Mean   :2.490e+03  
+ 3rd Qu.: 985.746   3rd Qu.:1.281e+03   3rd Qu.:2.522e+03   3rd Qu.:1.479e+03  
+ Max.   :8202.915   Max.   :1.532e+05   Max.   :4.568e+04   Max.   :3.461e+04  
+      V314                V315                V316                V317         
+ Min.   :8.134e-01   Min.   :1.057e-01   Min.   :4.985e-02   Min.   :   4.144  
+ 1st Qu.:4.895e+01   1st Qu.:8.087e+01   1st Qu.:5.969e+01   1st Qu.:  47.672  
+ Median :2.009e+02   Median :6.039e+02   Median :5.786e+02   Median : 426.572  
+ Mean   :5.338e+03   Mean   :1.585e+04   Mean   :2.763e+03   Mean   :1579.893  
+ 3rd Qu.:1.912e+03   3rd Qu.:1.108e+03   3rd Qu.:1.393e+03   3rd Qu.: 937.197  
+ Max.   :7.579e+04   Max.   :2.383e+05   Max.   :3.796e+04   Max.   :8683.771  
+      V318                V319                V320          
+ Min.   :8.151e-01   Min.   :3.826e+00   Min.   :1.704e+00  
+ 1st Qu.:4.748e+01   1st Qu.:4.691e+01   1st Qu.:7.067e+01  
+ Median :3.157e+02   Median :1.803e+02   Median :3.167e+02  
+ Mean   :3.314e+03   Mean   :6.327e+04   Mean   :1.241e+04  
+ 3rd Qu.:1.284e+03   3rd Qu.:6.617e+03   3rd Qu.:1.349e+03  
+ Max.   :2.854e+04   Max.   :9.514e+05   Max.   :2.234e+05  
+      V321                V322                V323                V324        
+ Min.   :3.445e-01   Min.   :    2.111   Min.   :4.428e-01   Min.   :  11.24  
+ 1st Qu.:1.235e+02   1st Qu.:  131.625   1st Qu.:1.051e+01   1st Qu.:  83.75  
+ Median :5.606e+02   Median :  376.521   Median :1.769e+02   Median : 521.49  
+ Mean   :4.568e+04   Mean   : 3127.932   Mean   :4.102e+03   Mean   :1151.32  
+ 3rd Qu.:3.859e+03   3rd Qu.: 2099.744   3rd Qu.:1.058e+03   3rd Qu.:1509.24  
+ Max.   :8.630e+05   Max.   :43079.531   Max.   :5.838e+04   Max.   :4717.98  
+      V325                V326                V327          
+ Min.   :7.335e+00   Min.   :8.667e+00   Min.   :7.918e-01  
+ 1st Qu.:2.737e+01   1st Qu.:1.502e+02   1st Qu.:1.032e+02  
+ Median :2.117e+02   Median :4.927e+02   Median :4.749e+02  
+ Mean   :2.261e+04   Mean   :1.982e+04   Mean   :4.988e+03  
+ 3rd Qu.:6.889e+02   3rd Qu.:1.718e+03   3rd Qu.:2.010e+03  
+ Max.   :4.264e+05   Max.   :2.458e+05   Max.   :5.016e+04  
+      V328                V329                V330          
+ Min.   :1.765e-01   Min.   :1.467e-01   Min.   :8.935e+00  
+ 1st Qu.:6.375e+01   1st Qu.:4.307e+01   1st Qu.:1.200e+02  
+ Median :7.109e+02   Median :2.370e+02   Median :1.638e+03  
+ Mean   :2.002e+03   Mean   :3.308e+04   Mean   :9.879e+03  
+ 3rd Qu.:2.117e+03   3rd Qu.:3.240e+03   3rd Qu.:2.735e+03  
+ Max.   :1.430e+04   Max.   :5.882e+05   Max.   :1.585e+05  
+      V331                V332                V333          
+ Min.   :4.656e+00   Min.   :8.105e-01   Min.   :4.759e-01  
+ 1st Qu.:9.309e+01   1st Qu.:2.039e+02   1st Qu.:2.098e+01  
+ Median :4.516e+02   Median :4.993e+02   Median :1.392e+02  
+ Mean   :1.791e+04   Mean   :1.624e+04   Mean   :5.917e+03  
+ 3rd Qu.:3.159e+03   3rd Qu.:1.113e+03   3rd Qu.:8.785e+02  
+ Max.   :2.208e+05   Max.   :1.663e+05   Max.   :1.062e+05  
+      V334                V335                V336          
+ Min.   :3.336e+00   Min.   :7.704e-01   Min.   :6.705e+00  
+ 1st Qu.:3.155e+02   1st Qu.:1.372e+02   1st Qu.:1.544e+02  
+ Median :7.940e+02   Median :4.287e+02   Median :2.770e+02  
+ Mean   :1.022e+04   Mean   :4.906e+04   Mean   :6.592e+04  
+ 3rd Qu.:3.170e+03   3rd Qu.:1.741e+03   3rd Qu.:7.361e+02  
+ Max.   :1.231e+05   Max.   :9.217e+05   Max.   :1.306e+06  
+      V337                V338                V339          
+ Min.   :    1.693   Min.   :    0.139   Min.   :3.787e+00  
+ 1st Qu.:  164.697   1st Qu.:   54.161   1st Qu.:1.105e+02  
+ Median :  533.765   Median :  304.932   Median :4.490e+02  
+ Mean   : 2018.180   Mean   : 1916.301   Mean   :3.246e+04  
+ 3rd Qu.: 1059.755   3rd Qu.: 2438.382   3rd Qu.:3.066e+03  
+ Max.   :13159.866   Max.   :13273.746   Max.   :5.906e+05  
+      V340                V341                V342          
+ Min.   :1.006e+00   Min.   :2.933e-01   Min.   :5.985e-01  
+ 1st Qu.:8.992e+01   1st Qu.:2.283e+01   1st Qu.:7.213e+01  
+ Median :6.102e+02   Median :2.138e+02   Median :5.209e+02  
+ Mean   :6.232e+04   Mean   :5.275e+03   Mean   :9.694e+03  
+ 3rd Qu.:4.964e+03   3rd Qu.:6.689e+02   3rd Qu.:1.928e+03  
+ Max.   :1.175e+06   Max.   :7.812e+04   Max.   :1.281e+05  
+      V343                V344                V345               V346         
+ Min.   :6.206e-03   Min.   :    11.17   Min.   :   3.069   Min.   :   5.756  
+ 1st Qu.:7.698e+01   1st Qu.:    53.46   1st Qu.:  64.394   1st Qu.:  53.309  
+ Median :3.481e+02   Median :   503.92   Median : 139.224   Median : 338.826  
+ Mean   :2.068e+03   Mean   : 29388.37   Mean   : 715.443   Mean   : 853.882  
+ 3rd Qu.:1.488e+03   3rd Qu.:  1182.64   3rd Qu.:1064.439   3rd Qu.: 955.513  
+ Max.   :1.719e+04   Max.   :537434.67   Max.   :3563.090   Max.   :5325.190  
+      V347                V348                V349          
+ Min.   :1.488e-01   Min.   :   0.1259   Min.   :1.183e-01  
+ 1st Qu.:5.998e+01   1st Qu.: 218.8599   1st Qu.:6.151e+01  
+ Median :3.142e+02   Median : 387.7287   Median :4.234e+02  
+ Mean   :1.427e+03   Mean   :1002.9772   Mean   :1.676e+05  
+ 3rd Qu.:9.604e+02   3rd Qu.: 848.5294   3rd Qu.:1.882e+03  
+ Max.   :1.901e+04   Max.   :4949.2109   Max.   :2.123e+06  
+      V350                V351                V352          
+ Min.   :    3.893   Min.   :    9.114   Min.   :1.232e+01  
+ 1st Qu.:  125.830   1st Qu.:  241.077   1st Qu.:5.112e+01  
+ Median :  489.378   Median :  566.442   Median :1.598e+02  
+ Mean   : 2916.078   Mean   : 2661.498   Mean   :5.942e+05  
+ 3rd Qu.: 2216.141   3rd Qu.: 1195.531   3rd Qu.:6.169e+02  
+ Max.   :32660.127   Max.   :29082.614   Max.   :1.183e+07  
+      V353                V354                V355          
+ Min.   :6.212e-01   Min.   :    5.793   Min.   :2.609e-01  
+ 1st Qu.:1.031e+02   1st Qu.:  144.821   1st Qu.:1.583e+02  
+ Median :2.082e+02   Median :  341.165   Median :4.753e+02  
+ Mean   :9.620e+03   Mean   : 6177.571   Mean   :6.539e+03  
+ 3rd Qu.:6.168e+02   3rd Qu.: 1617.696   3rd Qu.:4.398e+03  
+ Max.   :1.844e+05   Max.   :53531.241   Max.   :7.571e+04  
+      V356                V357                V358          
+ Min.   :    1.706   Min.   :1.171e-03   Min.   :1.804e+00  
+ 1st Qu.:  111.613   1st Qu.:5.568e+01   1st Qu.:1.399e+02  
+ Median :  174.284   Median :4.281e+02   Median :5.363e+02  
+ Mean   : 1734.563   Mean   :4.830e+03   Mean   :1.284e+05  
+ 3rd Qu.:  369.236   3rd Qu.:1.056e+03   3rd Qu.:1.954e+03  
+ Max.   :25800.760   Max.   :8.264e+04   Max.   :2.540e+06  
+      V359                V360                V361                V362        
+ Min.   :3.638e-01   Min.   :6.734e-01   Min.   :6.006e+00   Min.   :    7.6  
+ 1st Qu.:1.046e+02   1st Qu.:6.734e+01   1st Qu.:7.724e+01   1st Qu.:  103.9  
+ Median :3.651e+02   Median :3.290e+02   Median :3.150e+02   Median :  272.4  
+ Mean   :4.963e+03   Mean   :2.731e+03   Mean   :1.365e+06   Mean   : 6330.8  
+ 3rd Qu.:1.552e+03   3rd Qu.:1.351e+03   3rd Qu.:1.652e+03   3rd Qu.:  651.3  
+ Max.   :4.149e+04   Max.   :2.137e+04   Max.   :2.727e+07   Max.   :82153.3  
+      V363                V364                V365               V366         
+ Min.   :1.501e+00   Min.   :9.651e-01   Min.   :   23.16   Min.   :   19.45  
+ 1st Qu.:5.379e+01   1st Qu.:6.013e+01   1st Qu.:  164.26   1st Qu.:   71.86  
+ Median :7.713e+02   Median :4.836e+02   Median :  486.41   Median :  203.61  
+ Mean   :6.492e+05   Mean   :9.250e+03   Mean   : 4832.39   Mean   : 2005.42  
+ 3rd Qu.:1.246e+03   3rd Qu.:2.600e+03   3rd Qu.: 2258.46   3rd Qu.:  800.85  
+ Max.   :1.295e+07   Max.   :1.404e+05   Max.   :62887.73   Max.   :17930.93  
+      V367                V368               V369               V370          
+ Min.   :    3.335   Min.   :   11.59   Min.   :   23.62   Min.   :    2.315  
+ 1st Qu.:  155.564   1st Qu.:  105.81   1st Qu.:  144.19   1st Qu.:   83.349  
+ Median :  518.047   Median :  816.47   Median :  333.65   Median :  211.686  
+ Mean   : 3208.858   Mean   : 2147.93   Mean   : 6635.63   Mean   : 4800.703  
+ 3rd Qu.: 4884.531   3rd Qu.: 2466.64   3rd Qu.: 3938.39   3rd Qu.: 1860.498  
+ Max.   :15635.625   Max.   :12696.73   Max.   :49248.05   Max.   :56756.484  
+      V371                V372                V373          
+ Min.   :1.505e+00   Min.   :6.373e+00   Min.   :2.402e+00  
+ 1st Qu.:1.064e+02   1st Qu.:4.904e+01   1st Qu.:1.181e+02  
+ Median :4.247e+02   Median :2.108e+02   Median :4.008e+02  
+ Mean   :3.800e+04   Mean   :2.588e+05   Mean   :1.840e+04  
+ 3rd Qu.:3.747e+03   3rd Qu.:2.006e+03   3rd Qu.:2.131e+03  
+ Max.   :5.678e+05   Max.   :5.156e+06   Max.   :2.814e+05  
+      V374                V375                V376          
+ Min.   :   0.5367   Min.   :5.363e-01   Min.   :    2.168  
+ 1st Qu.:  36.0441   1st Qu.:3.185e+01   1st Qu.:   31.162  
+ Median : 239.9686   Median :2.936e+02   Median :  346.073  
+ Mean   :1901.4481   Mean   :1.316e+03   Mean   : 3398.298  
+ 3rd Qu.:2196.9865   3rd Qu.:7.909e+02   3rd Qu.: 1249.374  
+ Max.   :9111.3365   Max.   :1.281e+04   Max.   :30587.298  
+      V377                V378                V379          
+ Min.   :2.151e-01   Min.   :1.503e+00   Min.   :1.586e+00  
+ 1st Qu.:1.324e+02   1st Qu.:6.737e+01   1st Qu.:4.351e+01  
+ Median :3.652e+02   Median :2.732e+02   Median :1.447e+02  
+ Mean   :2.917e+03   Mean   :4.615e+04   Mean   :1.736e+05  
+ 3rd Qu.:4.706e+03   3rd Qu.:6.703e+03   3rd Qu.:1.467e+03  
+ Max.   :1.774e+04   Max.   :6.167e+05   Max.   :3.450e+06  
+      V380                V381                V382          
+ Min.   :3.352e-01   Min.   :7.817e+00   Min.   :3.455e-01  
+ 1st Qu.:8.601e+01   1st Qu.:1.751e+02   1st Qu.:1.082e+02  
+ Median :5.134e+02   Median :3.165e+02   Median :4.762e+02  
+ Mean   :3.678e+04   Mean   :1.426e+06   Mean   :3.988e+04  
+ 3rd Qu.:4.775e+03   3rd Qu.:3.243e+03   3rd Qu.:1.557e+03  
+ Max.   :6.757e+05   Max.   :2.847e+07   Max.   :7.783e+05  
+      V383                V384                V385          
+ Min.   :6.764e-02   Min.   :6.441e-02   Min.   :9.971e-01  
+ 1st Qu.:2.662e+01   1st Qu.:5.729e+01   1st Qu.:9.978e+01  
+ Median :2.578e+02   Median :3.572e+02   Median :4.950e+02  
+ Mean   :4.094e+06   Mean   :9.980e+02   Mean   :1.675e+04  
+ 3rd Qu.:7.399e+02   3rd Qu.:1.195e+03   3rd Qu.:1.081e+03  
+ Max.   :8.187e+07   Max.   :5.518e+03   Max.   :2.022e+05  
+      V386                V387                V388          
+ Min.   :    1.618   Min.   :    5.578   Min.   :5.888e+00  
+ 1st Qu.:    4.543   1st Qu.:   33.423   1st Qu.:1.202e+02  
+ Median :  111.234   Median :  514.502   Median :4.630e+02  
+ Mean   : 1642.965   Mean   : 2916.884   Mean   :9.612e+04  
+ 3rd Qu.:  605.517   3rd Qu.: 1557.752   3rd Qu.:2.139e+03  
+ Max.   :16598.810   Max.   :28735.951   Max.   :1.642e+06  
+      V389                V390                V391          
+ Min.   :3.574e+00   Min.   :5.049e-01   Min.   :1.104e+00  
+ 1st Qu.:7.002e+01   1st Qu.:1.182e+02   1st Qu.:7.752e+01  
+ Median :2.639e+02   Median :4.014e+02   Median :4.540e+02  
+ Mean   :1.337e+05   Mean   :9.014e+04   Mean   :2.735e+04  
+ 3rd Qu.:2.318e+03   3rd Qu.:1.517e+03   3rd Qu.:1.979e+03  
+ Max.   :2.592e+06   Max.   :1.769e+06   Max.   :4.267e+05  
+      V392                V393                V394          
+ Min.   :    3.229   Min.   :    19.78   Min.   :    3.798  
+ 1st Qu.:   70.565   1st Qu.:   372.66   1st Qu.:   70.145  
+ Median :  396.932   Median :   606.03   Median :  442.822  
+ Mean   : 7649.260   Mean   :  9469.94   Mean   : 1904.487  
+ 3rd Qu.: 2269.810   3rd Qu.:  3110.87   3rd Qu.: 1637.218  
+ Max.   :80174.281   Max.   :151390.67   Max.   :12819.013  
+      V395                V396                V397          
+ Min.   :7.228e+00   Min.   :8.189e-01   Min.   :2.132e+00  
+ 1st Qu.:1.695e+02   1st Qu.:3.280e+01   1st Qu.:1.543e+02  
+ Median :3.900e+02   Median :2.473e+02   Median :7.794e+02  
+ Mean   :4.931e+04   Mean   :8.394e+04   Mean   :2.194e+06  
+ 3rd Qu.:2.842e+03   3rd Qu.:5.964e+02   3rd Qu.:3.710e+03  
+ Max.   :9.218e+05   Max.   :1.669e+06   Max.   :4.382e+07  
+      V398                V399                V400               V401          
+ Min.   :2.586e-04   Min.   :2.896e+00   Min.   :   3.612   Min.   :7.509e-02  
+ 1st Qu.:5.563e+01   1st Qu.:2.056e+02   1st Qu.:  52.337   1st Qu.:1.350e+02  
+ Median :3.489e+02   Median :1.697e+03   Median : 168.688   Median :5.344e+02  
+ Mean   :2.377e+04   Mean   :1.346e+05   Mean   :1019.905   Mean   :4.284e+03  
+ 3rd Qu.:3.271e+03   3rd Qu.:3.868e+03   3rd Qu.: 837.196   3rd Qu.:1.870e+03  
+ Max.   :3.883e+05   Max.   :2.529e+06   Max.   :6643.320   Max.   :4.090e+04  
+      V402               V403                V404                V405          
+ Min.   :   3.008   Min.   :9.066e-01   Min.   :1.890e+00   Min.   :3.104e-01  
+ 1st Qu.:  57.376   1st Qu.:6.648e+01   1st Qu.:3.867e+02   1st Qu.:2.626e+02  
+ Median : 443.923   Median :3.862e+02   Median :1.089e+03   Median :8.160e+02  
+ Mean   :1636.593   Mean   :6.505e+03   Mean   :7.392e+06   Mean   :3.272e+03  
+ 3rd Qu.:1117.493   3rd Qu.:1.251e+03   3rd Qu.:3.921e+03   3rd Qu.:2.227e+03  
+ Max.   :8814.243   Max.   :1.080e+05   Max.   :1.477e+08   Max.   :2.846e+04  
+      V406                V407               V408                V409          
+ Min.   :    1.437   Min.   :   1.536   Min.   :    1.241   Min.   :    1.061  
+ 1st Qu.:   53.665   1st Qu.:  56.968   1st Qu.:   76.060   1st Qu.:   41.603  
+ Median :  170.285   Median : 208.050   Median :  244.922   Median :  676.979  
+ Mean   : 1850.789   Mean   : 885.510   Mean   : 4494.472   Mean   : 3233.275  
+ 3rd Qu.: 1915.382   3rd Qu.: 563.215   3rd Qu.: 2021.094   3rd Qu.: 1280.156  
+ Max.   :14779.501   Max.   :7177.184   Max.   :61206.703   Max.   :51576.745  
+      V410                V411                V412          
+ Min.   :1.430e+00   Min.   :3.556e+00   Min.   :5.103e-03  
+ 1st Qu.:3.336e+02   1st Qu.:1.445e+02   1st Qu.:7.149e+01  
+ Median :9.156e+02   Median :5.874e+02   Median :3.549e+02  
+ Mean   :2.286e+04   Mean   :3.114e+04   Mean   :3.212e+03  
+ 3rd Qu.:1.376e+03   3rd Qu.:4.668e+03   3rd Qu.:7.864e+02  
+ Max.   :2.659e+05   Max.   :4.462e+05   Max.   :3.511e+04  
+      V413                V414                V415          
+ Min.   :8.042e+00   Min.   :1.736e+00   Min.   :    2.508  
+ 1st Qu.:2.852e+02   1st Qu.:3.321e+01   1st Qu.:   45.522  
+ Median :1.022e+03   Median :3.344e+02   Median :  671.462  
+ Mean   :5.318e+05   Mean   :3.778e+04   Mean   : 1733.222  
+ 3rd Qu.:2.409e+03   3rd Qu.:2.502e+03   3rd Qu.: 1306.826  
+ Max.   :1.053e+07   Max.   :5.257e+05   Max.   :16002.243  
+      V416                V417                V418          
+ Min.   :2.109e+01   Min.   :    1.378   Min.   :    1.417  
+ 1st Qu.:1.071e+02   1st Qu.:   42.311   1st Qu.:  116.802  
+ Median :2.840e+02   Median :  130.530   Median :  399.767  
+ Mean   :7.862e+07   Mean   : 2072.720   Mean   : 5451.890  
+ 3rd Qu.:3.478e+03   3rd Qu.:  709.242   3rd Qu.: 1090.289  
+ Max.   :1.572e+09   Max.   :29406.145   Max.   :88935.914  
+      V419                V420                V421          
+ Min.   :4.124e+00   Min.   :    2.017   Min.   :2.995e-02  
+ 1st Qu.:2.001e+01   1st Qu.:   64.819   1st Qu.:2.109e+01  
+ Median :1.640e+02   Median :  368.617   Median :4.970e+02  
+ Mean   :1.933e+05   Mean   : 2065.668   Mean   :4.157e+03  
+ 3rd Qu.:7.033e+02   3rd Qu.: 1387.519   3rd Qu.:2.286e+03  
+ Max.   :3.834e+06   Max.   :17944.398   Max.   :4.256e+04  
+      V422                V423                V424               V425          
+ Min.   :     4.81   Min.   :6.915e-01   Min.   :   19.98   Min.   :3.773e+00  
+ 1st Qu.:    78.89   1st Qu.:9.619e+01   1st Qu.:  149.54   1st Qu.:1.397e+02  
+ Median :   353.33   Median :3.252e+02   Median :  404.57   Median :5.711e+02  
+ Mean   :  6289.19   Mean   :1.203e+04   Mean   : 2069.95   Mean   :3.217e+05  
+ 3rd Qu.:   754.30   3rd Qu.:1.700e+03   3rd Qu.:  832.04   3rd Qu.:2.431e+03  
+ Max.   :105674.06   Max.   :2.217e+05   Max.   :17696.91   Max.   :6.408e+06  
+      V426                V427                V428                V429         
+ Min.   :1.245e+00   Min.   :3.331e-01   Min.   :    0.578   Min.   :   2.854  
+ 1st Qu.:9.239e+01   1st Qu.:5.333e+01   1st Qu.:  114.576   1st Qu.: 105.750  
+ Median :4.489e+02   Median :4.540e+02   Median :  389.291   Median : 304.311  
+ Mean   :1.100e+04   Mean   :1.094e+04   Mean   : 6778.284   Mean   :1233.767  
+ 3rd Qu.:1.960e+03   3rd Qu.:1.623e+03   3rd Qu.: 1485.144   3rd Qu.:1399.344  
+ Max.   :1.971e+05   Max.   :1.944e+05   Max.   :55767.975   Max.   :6216.420  
+      V430                V431                V432          
+ Min.   :4.239e+00   Min.   :4.431e-01   Min.   :2.272e+00  
+ 1st Qu.:1.314e+02   1st Qu.:7.510e+00   1st Qu.:1.858e+01  
+ Median :3.493e+02   Median :1.265e+02   Median :1.923e+02  
+ Mean   :1.862e+04   Mean   :2.161e+06   Mean   :1.314e+04  
+ 3rd Qu.:2.886e+03   3rd Qu.:6.262e+02   3rd Qu.:2.686e+03  
+ Max.   :1.780e+05   Max.   :4.322e+07   Max.   :2.193e+05  
+      V433                V434                V435          
+ Min.   :8.357e+00   Min.   :   0.1868   Min.   :3.119e-02  
+ 1st Qu.:9.245e+01   1st Qu.:  14.3745   1st Qu.:1.865e+02  
+ Median :2.544e+02   Median : 384.6610   Median :1.242e+03  
+ Mean   :1.192e+04   Mean   : 791.6512   Mean   :5.147e+04  
+ 3rd Qu.:2.850e+03   3rd Qu.: 833.2941   3rd Qu.:2.617e+03  
+ Max.   :1.106e+05   Max.   :4194.6227   Max.   :9.859e+05  
+      V436                V437                V438                V439         
+ Min.   :1.463e+00   Min.   :2.330e+00   Min.   :4.620e-03   Min.   :   37.23  
+ 1st Qu.:4.468e+01   1st Qu.:1.284e+02   1st Qu.:8.957e+01   1st Qu.:  106.86  
+ Median :3.627e+02   Median :6.359e+02   Median :3.093e+02   Median :  312.45  
+ Mean   :8.631e+03   Mean   :4.830e+06   Mean   :2.816e+04   Mean   : 4428.64  
+ 3rd Qu.:1.752e+03   3rd Qu.:2.982e+03   3rd Qu.:1.009e+03   3rd Qu.: 1524.49  
+ Max.   :1.461e+05   Max.   :9.641e+07   Max.   :4.922e+05   Max.   :32365.13  
+      V440                V441                V442          
+ Min.   :1.196e-01   Min.   :   0.2045   Min.   :4.294e+00  
+ 1st Qu.:7.100e+01   1st Qu.:  11.3612   1st Qu.:1.482e+02  
+ Median :5.680e+02   Median :  71.0124   Median :3.550e+02  
+ Mean   :7.834e+04   Mean   : 662.2097   Mean   :1.999e+06  
+ 3rd Qu.:2.470e+03   3rd Qu.: 408.7233   3rd Qu.:2.967e+03  
+ Max.   :1.532e+06   Max.   :3945.6807   Max.   :3.989e+07  
+      V443                V444                V445          
+ Min.   :2.888e-03   Min.   :4.618e-02   Min.   :7.854e-01  
+ 1st Qu.:7.329e+01   1st Qu.:9.792e+01   1st Qu.:1.731e+02  
+ Median :5.379e+02   Median :9.609e+02   Median :3.180e+02  
+ Mean   :5.273e+03   Mean   :3.991e+04   Mean   :4.220e+05  
+ 3rd Qu.:1.783e+03   3rd Qu.:1.181e+04   3rd Qu.:3.754e+03  
+ Max.   :3.643e+04   Max.   :5.238e+05   Max.   :7.199e+06  
+      V446                V447                V448          
+ Min.   :3.399e-02   Min.   :3.585e-02   Min.   :5.886e-02  
+ 1st Qu.:6.632e+01   1st Qu.:1.338e+02   1st Qu.:9.073e+01  
+ Median :3.905e+02   Median :5.700e+02   Median :3.251e+02  
+ Mean   :9.021e+02   Mean   :1.461e+04   Mean   :2.045e+06  
+ 3rd Qu.:5.257e+02   3rd Qu.:1.158e+03   3rd Qu.:6.345e+02  
+ Max.   :6.516e+03   Max.   :2.124e+05   Max.   :4.081e+07  
+      V449                V450                V451               V452          
+ Min.   :2.382e-01   Min.   :    1.269   Min.   :   0.439   Min.   :3.651e+00  
+ 1st Qu.:1.529e+01   1st Qu.:   64.771   1st Qu.: 285.023   1st Qu.:6.568e+01  
+ Median :1.004e+02   Median :  224.541   Median : 553.882   Median :5.064e+02  
+ Mean   :1.493e+03   Mean   : 5245.304   Mean   :1156.512   Mean   :9.963e+03  
+ 3rd Qu.:3.990e+02   3rd Qu.: 1432.144   3rd Qu.:1220.877   3rd Qu.:2.616e+03  
+ Max.   :2.509e+04   Max.   :47696.742   Max.   :5870.047   Max.   :1.673e+05  
+      V453                V454                V455          
+ Min.   :7.270e+00   Min.   :1.994e-01   Min.   :4.014e+01  
+ 1st Qu.:1.136e+02   1st Qu.:5.417e+01   1st Qu.:1.848e+02  
+ Median :3.718e+02   Median :1.731e+02   Median :6.845e+02  
+ Mean   :2.262e+06   Mean   :2.146e+03   Mean   :1.234e+07  
+ 3rd Qu.:1.789e+03   3rd Qu.:1.616e+03   3rd Qu.:3.494e+03  
+ Max.   :4.522e+07   Max.   :1.519e+04   Max.   :2.467e+08  
+      V456                V457                V458          
+ Min.   :3.692e-02   Min.   :   0.8073   Min.   :1.318e+00  
+ 1st Qu.:1.357e+02   1st Qu.:  98.5569   1st Qu.:4.267e+01  
+ Median :4.660e+02   Median : 182.8744   Median :2.280e+02  
+ Mean   :1.007e+04   Mean   : 871.7726   Mean   :1.903e+04  
+ 3rd Qu.:1.203e+03   3rd Qu.: 769.3027   3rd Qu.:1.810e+03  
+ Max.   :1.112e+05   Max.   :5008.6552   Max.   :3.582e+05  
+      V459                V460                V461          
+ Min.   :9.396e+00   Min.   :    2.082   Min.   :7.718e-01  
+ 1st Qu.:1.117e+02   1st Qu.:   17.607   1st Qu.:6.629e+01  
+ Median :3.685e+02   Median :  173.528   Median :2.379e+02  
+ Mean   :1.063e+04   Mean   : 5379.636   Mean   :2.149e+03  
+ 3rd Qu.:1.172e+03   3rd Qu.: 3593.182   3rd Qu.:8.583e+02  
+ Max.   :2.002e+05   Max.   :75872.745   Max.   :2.539e+04  
+      V462                V463                V464                V465         
+ Min.   :3.422e-02   Min.   :3.376e-02   Min.   :1.276e-01   Min.   :   1.784  
+ 1st Qu.:5.200e+00   1st Qu.:3.757e+01   1st Qu.:4.964e+01   1st Qu.:  50.040  
+ Median :5.074e+02   Median :3.970e+02   Median :1.836e+02   Median : 545.459  
+ Mean   :4.045e+03   Mean   :5.076e+03   Mean   :4.217e+03   Mean   :1172.736  
+ 3rd Qu.:1.650e+03   3rd Qu.:3.265e+03   3rd Qu.:8.372e+02   3rd Qu.:1552.021  
+ Max.   :4.503e+04   Max.   :3.509e+04   Max.   :7.074e+04   Max.   :7340.388  
+      V466               V467                V468                V469          
+ Min.   :    3.67   Min.   :7.093e-02   Min.   :3.156e+00   Min.   :8.888e-04  
+ 1st Qu.:   59.25   1st Qu.:9.010e+01   1st Qu.:1.694e+02   1st Qu.:6.741e+00  
+ Median :  706.68   Median :1.279e+02   Median :2.983e+02   Median :2.478e+02  
+ Mean   : 2010.24   Mean   :4.876e+03   Mean   :2.194e+04   Mean   :2.204e+03  
+ 3rd Qu.: 1714.38   3rd Qu.:1.130e+03   3rd Qu.:1.458e+03   3rd Qu.:1.757e+03  
+ Max.   :20580.59   Max.   :8.452e+04   Max.   :3.700e+05   Max.   :2.411e+04  
+      V470                V471                V472          
+ Min.   :    1.445   Min.   :3.164e-02   Min.   :    5.063  
+ 1st Qu.:  228.702   1st Qu.:2.711e+01   1st Qu.:  185.685  
+ Median : 1046.139   Median :1.280e+02   Median :  442.035  
+ Mean   : 8719.294   Mean   :2.197e+03   Mean   : 6354.768  
+ 3rd Qu.: 4910.584   3rd Qu.:2.261e+03   3rd Qu.: 2162.853  
+ Max.   :68243.249   Max.   :1.211e+04   Max.   :55634.981  
+      V473                V474                V475          
+ Min.   :    1.042   Min.   :    2.585   Min.   :8.137e+00  
+ 1st Qu.:   33.772   1st Qu.:   82.038   1st Qu.:4.327e+02  
+ Median :  726.227   Median :  261.345   Median :8.772e+02  
+ Mean   : 3040.724   Mean   : 7104.544   Mean   :2.916e+07  
+ 3rd Qu.: 2628.781   3rd Qu.: 2125.373   3rd Qu.:4.496e+03  
+ Max.   :16600.925   Max.   :86979.132   Max.   :5.831e+08  
+      V476                V477               V478                V479          
+ Min.   :9.306e-01   Min.   :   7.854   Min.   :8.480e+00   Min.   :    4.676  
+ 1st Qu.:1.202e+02   1st Qu.:  58.101   1st Qu.:3.511e+01   1st Qu.:  150.731  
+ Median :5.217e+02   Median : 236.967   Median :5.975e+02   Median :  407.352  
+ Mean   :2.943e+04   Mean   : 620.700   Mean   :3.358e+06   Mean   : 1893.802  
+ 3rd Qu.:3.674e+03   3rd Qu.: 662.363   3rd Qu.:4.797e+03   3rd Qu.: 2110.552  
+ Max.   :4.092e+05   Max.   :3373.291   Max.   :4.235e+07   Max.   :12316.299  
+      V480                V481                V482          
+ Min.   :4.580e+00   Min.   :1.939e-03   Min.   :   0.2149  
+ 1st Qu.:1.252e+02   1st Qu.:5.263e+01   1st Qu.:  22.0368  
+ Median :8.750e+02   Median :5.516e+02   Median : 210.4955  
+ Mean   :9.479e+04   Mean   :6.074e+03   Mean   : 474.5560  
+ 3rd Qu.:2.525e+03   3rd Qu.:4.520e+03   3rd Qu.: 732.7635  
+ Max.   :1.807e+06   Max.   :5.192e+04   Max.   :2204.0786  
+      V483                V484                V485          
+ Min.   :1.322e-01   Min.   :    13.37   Min.   :6.132e+00  
+ 1st Qu.:4.055e+01   1st Qu.:   243.58   1st Qu.:5.948e+01  
+ Median :7.799e+02   Median :   671.42   Median :2.916e+02  
+ Mean   :4.779e+03   Mean   :  6147.14   Mean   :1.379e+04  
+ 3rd Qu.:3.897e+03   3rd Qu.:  1284.21   3rd Qu.:1.905e+03  
+ Max.   :4.353e+04   Max.   :100096.24   Max.   :1.483e+05  
+      V486                V487               V488                V489          
+ Min.   :5.111e-01   Min.   :   2.275   Min.   :5.377e+00   Min.   :    1.079  
+ 1st Qu.:1.613e+02   1st Qu.:  32.308   1st Qu.:1.749e+02   1st Qu.:   42.570  
+ Median :5.439e+02   Median : 405.940   Median :5.290e+02   Median :  296.765  
+ Mean   :3.462e+03   Mean   : 693.221   Mean   :2.497e+05   Mean   : 3072.698  
+ 3rd Qu.:2.367e+03   3rd Qu.: 677.570   3rd Qu.:1.268e+03   3rd Qu.: 1582.881  
+ Max.   :3.042e+04   Max.   :3614.808   Max.   :4.963e+06   Max.   :42134.720  
+      V490               V491                V492                V493          
+ Min.   :   1.343   Min.   :    6.198   Min.   :3.726e-01   Min.   :1.406e+00  
+ 1st Qu.: 116.446   1st Qu.:  143.028   1st Qu.:1.859e+02   1st Qu.:3.057e+02  
+ Median : 331.600   Median : 1422.122   Median :3.365e+02   Median :7.760e+02  
+ Mean   : 813.102   Mean   : 3014.152   Mean   :2.436e+03   Mean   :1.704e+05  
+ 3rd Qu.: 967.273   3rd Qu.: 2007.621   3rd Qu.:8.227e+02   3rd Qu.:9.368e+03  
+ Max.   :5912.997   Max.   :32952.665   Max.   :2.177e+04   Max.   :3.219e+06  
+      V494                V495                V496          
+ Min.   :1.858e+00   Min.   :3.215e+00   Min.   :2.066e+00  
+ 1st Qu.:1.072e+02   1st Qu.:7.667e+01   1st Qu.:1.390e+02  
+ Median :2.811e+02   Median :2.211e+02   Median :8.905e+02  
+ Mean   :1.433e+04   Mean   :7.826e+03   Mean   :6.524e+04  
+ 3rd Qu.:2.000e+03   3rd Qu.:2.665e+03   3rd Qu.:3.359e+03  
+ Max.   :2.207e+05   Max.   :1.012e+05   Max.   :1.236e+06  
+      V497                V498                V499          
+ Min.   :4.078e-01   Min.   :    6.486   Min.   :4.899e+00  
+ 1st Qu.:3.373e+01   1st Qu.:  126.911   1st Qu.:1.006e+02  
+ Median :5.243e+02   Median :  734.581   Median :9.622e+02  
+ Mean   :1.214e+04   Mean   : 6206.930   Mean   :1.008e+06  
+ 3rd Qu.:6.817e+03   3rd Qu.: 2391.638   3rd Qu.:2.915e+03  
+ Max.   :1.254e+05   Max.   :97381.156   Max.   :2.001e+07  
+      V500                V501                V502          
+ Min.   :6.580e-01   Min.   :4.251e-03   Min.   :    2.194  
+ 1st Qu.:1.742e+02   1st Qu.:7.345e+00   1st Qu.:   64.961  
+ Median :5.632e+02   Median :3.662e+02   Median :  559.441  
+ Mean   :1.552e+06   Mean   :1.640e+03   Mean   : 4506.157  
+ 3rd Qu.:6.450e+03   3rd Qu.:9.498e+02   3rd Qu.: 1891.449  
+ Max.   :3.089e+07   Max.   :2.074e+04   Max.   :40204.609  
+      V503                V504                V505          
+ Min.   :1.154e-01   Min.   :4.852e-01   Min.   :1.770e+00  
+ 1st Qu.:2.166e+01   1st Qu.:1.896e+02   1st Qu.:1.185e+02  
+ Median :1.182e+02   Median :1.334e+03   Median :6.545e+02  
+ Mean   :1.601e+04   Mean   :3.645e+05   Mean   :3.407e+05  
+ 3rd Qu.:1.597e+03   3rd Qu.:1.198e+04   3rd Qu.:4.879e+03  
+ Max.   :2.478e+05   Max.   :7.123e+06   Max.   :6.470e+06  
+      V506                V507                V508          
+ Min.   :    4.482   Min.   :    4.151   Min.   :4.766e-01  
+ 1st Qu.:   69.715   1st Qu.:   50.099   1st Qu.:1.414e+02  
+ Median :  184.067   Median :  202.321   Median :7.400e+02  
+ Mean   : 3653.825   Mean   : 1531.821   Mean   :3.110e+03  
+ 3rd Qu.:  671.880   3rd Qu.:  942.694   3rd Qu.:1.418e+03  
+ Max.   :31677.595   Max.   :20364.221   Max.   :2.943e+04  
+      V509                V510                V511          
+ Min.   :3.139e+00   Min.   :    1.587   Min.   :    1.442  
+ 1st Qu.:1.373e+02   1st Qu.:   15.090   1st Qu.:   53.415  
+ Median :6.101e+02   Median :  182.791   Median :  144.462  
+ Mean   :1.965e+06   Mean   : 1541.506   Mean   : 2176.025  
+ 3rd Qu.:9.538e+03   3rd Qu.:  616.566   3rd Qu.:  604.380  
+ Max.   :3.916e+07   Max.   :22084.392   Max.   :20890.092  
+      V512                V513                V514          
+ Min.   :6.844e+00   Min.   :2.183e-01   Min.   :1.177e-01  
+ 1st Qu.:2.486e+02   1st Qu.:1.497e+02   1st Qu.:1.264e+02  
+ Median :5.604e+02   Median :4.860e+02   Median :7.213e+02  
+ Mean   :5.961e+05   Mean   :1.918e+05   Mean   :9.331e+05  
+ 3rd Qu.:1.197e+03   3rd Qu.:3.782e+03   3rd Qu.:2.905e+03  
+ Max.   :1.189e+07   Max.   :3.792e+06   Max.   :1.748e+07  
+      V515                V516                V517          
+ Min.   :3.439e-01   Min.   :    10.61   Min.   :1.908e+00  
+ 1st Qu.:2.935e+01   1st Qu.:   144.18   1st Qu.:7.276e+01  
+ Median :1.743e+02   Median :   436.84   Median :2.770e+02  
+ Mean   :2.375e+03   Mean   :  9831.69   Mean   :2.565e+04  
+ 3rd Qu.:1.052e+03   3rd Qu.:  1921.00   3rd Qu.:1.023e+03  
+ Max.   :2.928e+04   Max.   :177017.23   Max.   :3.673e+05  
+      V518                V519                V520          
+ Min.   :2.623e-01   Min.   :2.456e-01   Min.   :2.304e-01  
+ 1st Qu.:1.209e+02   1st Qu.:1.898e+01   1st Qu.:1.215e+02  
+ Median :2.598e+02   Median :2.192e+02   Median :3.658e+02  
+ Mean   :2.247e+04   Mean   :4.991e+03   Mean   :1.837e+05  
+ 3rd Qu.:3.403e+03   3rd Qu.:1.070e+03   3rd Qu.:1.121e+03  
+ Max.   :4.142e+05   Max.   :7.113e+04   Max.   :3.639e+06  
+      V521                V522                V523          
+ Min.   :3.421e-01   Min.   :8.586e-01   Min.   :1.200e-01  
+ 1st Qu.:2.399e+02   1st Qu.:1.026e+02   1st Qu.:1.031e+02  
+ Median :4.130e+02   Median :4.861e+02   Median :3.212e+02  
+ Mean   :1.662e+04   Mean   :5.327e+03   Mean   :1.745e+04  
+ 3rd Qu.:1.872e+03   3rd Qu.:4.362e+03   3rd Qu.:2.538e+03  
+ Max.   :2.508e+05   Max.   :5.761e+04   Max.   :2.737e+05  
+      V524                V525                V526          
+ Min.   :6.177e+00   Min.   :3.160e-02   Min.   :1.189e-02  
+ 1st Qu.:1.468e+02   1st Qu.:1.617e+01   1st Qu.:1.012e+02  
+ Median :1.212e+03   Median :1.178e+02   Median :2.474e+02  
+ Mean   :2.341e+04   Mean   :8.022e+03   Mean   :2.194e+04  
+ 3rd Qu.:8.117e+03   3rd Qu.:1.619e+03   3rd Qu.:9.307e+02  
+ Max.   :3.354e+05   Max.   :1.112e+05   Max.   :2.150e+05  
+      V527                V528                V529          
+ Min.   :8.186e-02   Min.   :    1.323   Min.   :3.681e-02  
+ 1st Qu.:1.040e+01   1st Qu.:   52.373   1st Qu.:1.528e+02  
+ Median :9.303e+02   Median :  200.549   Median :4.938e+02  
+ Mean   :7.807e+03   Mean   : 1737.772   Mean   :1.001e+04  
+ 3rd Qu.:1.833e+03   3rd Qu.: 1617.732   3rd Qu.:7.785e+03  
+ Max.   :1.268e+05   Max.   :11836.502   Max.   :7.060e+04  
+      V530                V531                V532          
+ Min.   :2.962e-02   Min.   :    2.517   Min.   :2.762e+00  
+ 1st Qu.:3.824e+01   1st Qu.:   61.959   1st Qu.:8.741e+01  
+ Median :1.541e+02   Median :  417.738   Median :7.289e+02  
+ Mean   :8.605e+02   Mean   : 5513.787   Mean   :5.641e+07  
+ 3rd Qu.:6.498e+02   3rd Qu.:  936.522   3rd Qu.:9.183e+03  
+ Max.   :5.230e+03   Max.   :78000.450   Max.   :1.128e+09  
+      V533                V534                V535          
+ Min.   :3.446e-01   Min.   :6.583e-01   Min.   :4.096e-02  
+ 1st Qu.:7.135e+01   1st Qu.:4.084e+01   1st Qu.:5.933e+01  
+ Median :5.309e+02   Median :1.178e+02   Median :4.926e+02  
+ Mean   :9.719e+03   Mean   :2.932e+03   Mean   :2.145e+03  
+ 3rd Qu.:2.384e+03   3rd Qu.:7.642e+02   3rd Qu.:1.109e+03  
+ Max.   :8.265e+04   Max.   :2.419e+04   Max.   :2.483e+04  
+      V536                V537                V538          
+ Min.   :5.192e+00   Min.   :    21.52   Min.   :4.436e-01  
+ 1st Qu.:3.602e+02   1st Qu.:   199.51   1st Qu.:9.486e+01  
+ Median :9.545e+02   Median :   419.69   Median :2.010e+02  
+ Mean   :7.317e+04   Mean   : 17340.61   Mean   :1.750e+03  
+ 3rd Qu.:4.104e+03   3rd Qu.:  3571.53   3rd Qu.:6.221e+02  
+ Max.   :1.163e+06   Max.   :293416.64   Max.   :2.009e+04  
+      V539                V540                V541          
+ Min.   :2.546e-02   Min.   :6.093e-01   Min.   :   0.9115  
+ 1st Qu.:2.644e+01   1st Qu.:2.760e+01   1st Qu.:  61.1019  
+ Median :1.031e+02   Median :4.447e+02   Median : 129.7918  
+ Mean   :1.322e+03   Mean   :6.558e+05   Mean   :1494.0492  
+ 3rd Qu.:5.922e+02   3rd Qu.:2.810e+03   3rd Qu.:2202.7891  
+ Max.   :1.346e+04   Max.   :1.302e+07   Max.   :9916.6038  
+      V542                V543               V544                V545          
+ Min.   :6.434e-01   Min.   :   1.198   Min.   :2.225e+00   Min.   :6.563e-03  
+ 1st Qu.:2.335e+02   1st Qu.: 161.352   1st Qu.:4.573e+01   1st Qu.:5.152e+01  
+ Median :5.789e+02   Median : 319.543   Median :1.548e+02   Median :8.892e+02  
+ Mean   :1.634e+04   Mean   : 444.117   Mean   :1.818e+04   Mean   :3.497e+03  
+ 3rd Qu.:5.285e+03   3rd Qu.: 774.241   3rd Qu.:1.137e+03   3rd Qu.:3.847e+03  
+ Max.   :1.761e+05   Max.   :1393.145   Max.   :3.443e+05   Max.   :1.978e+04  
+      V546                V547                V548          
+ Min.   :5.108e-01   Min.   :2.218e+00   Min.   :1.440e-01  
+ 1st Qu.:8.435e+01   1st Qu.:5.339e+01   1st Qu.:6.461e+01  
+ Median :7.057e+02   Median :3.289e+02   Median :4.812e+02  
+ Mean   :3.876e+03   Mean   :3.743e+04   Mean   :1.666e+04  
+ 3rd Qu.:2.990e+03   3rd Qu.:1.681e+03   3rd Qu.:2.011e+03  
+ Max.   :3.954e+04   Max.   :7.195e+05   Max.   :2.934e+05  
+      V549                V550                V551               V552          
+ Min.   :2.527e+00   Min.   :9.671e-02   Min.   :   13.12   Min.   :2.078e+00  
+ 1st Qu.:1.539e+02   1st Qu.:7.397e+00   1st Qu.:   55.94   1st Qu.:5.479e+01  
+ Median :3.668e+02   Median :2.017e+02   Median :  331.67   Median :5.304e+02  
+ Mean   :1.799e+05   Mean   :6.513e+03   Mean   : 2603.39   Mean   :1.304e+05  
+ 3rd Qu.:1.764e+03   3rd Qu.:2.348e+03   3rd Qu.: 2526.05   3rd Qu.:2.555e+03  
+ Max.   :3.387e+06   Max.   :8.831e+04   Max.   :15558.97   Max.   :2.561e+06  
+      V553                V554                V555          
+ Min.   :5.947e-02   Min.   :    5.368   Min.   :5.183e+00  
+ 1st Qu.:5.011e+01   1st Qu.:  153.378   1st Qu.:1.262e+02  
+ Median :1.571e+02   Median :  381.529   Median :4.429e+02  
+ Mean   :6.027e+03   Mean   : 1629.064   Mean   :2.688e+04  
+ 3rd Qu.:5.678e+02   3rd Qu.:  828.590   3rd Qu.:1.353e+03  
+ Max.   :1.090e+05   Max.   :13341.358   Max.   :4.287e+05  
+      V556                V557               V558                V559          
+ Min.   :3.522e+00   Min.   :   11.85   Min.   :4.814e-05   Min.   :1.393e+00  
+ 1st Qu.:4.829e+01   1st Qu.:   66.19   1st Qu.:2.500e+01   1st Qu.:3.619e+01  
+ Median :2.784e+02   Median :  872.94   Median :1.736e+02   Median :2.254e+02  
+ Mean   :3.084e+04   Mean   : 3169.28   Mean   :1.022e+04   Mean   :5.305e+04  
+ 3rd Qu.:2.141e+03   3rd Qu.: 3564.80   3rd Qu.:1.998e+03   3rd Qu.:1.633e+03  
+ Max.   :3.888e+05   Max.   :21004.76   Max.   :1.457e+05   Max.   :8.498e+05  
+      V560                V561                V562                V563         
+ Min.   :6.807e-01   Min.   :3.850e+00   Min.   :3.180e-01   Min.   :   10.44  
+ 1st Qu.:8.659e+01   1st Qu.:7.721e+01   1st Qu.:5.739e+01   1st Qu.:  176.50  
+ Median :2.020e+02   Median :4.485e+02   Median :2.602e+02   Median :  582.76  
+ Mean   :3.067e+04   Mean   :4.738e+05   Mean   :1.848e+04   Mean   : 4707.71  
+ 3rd Qu.:3.133e+03   3rd Qu.:1.492e+03   3rd Qu.:2.069e+03   3rd Qu.: 4339.23  
+ Max.   :4.534e+05   Max.   :7.013e+06   Max.   :2.211e+05   Max.   :46772.22  
+      V564               V565                V566                V567          
+ Min.   :    8.94   Min.   :1.043e-01   Min.   :4.071e+00   Min.   :    1.131  
+ 1st Qu.:   80.64   1st Qu.:3.609e+01   1st Qu.:4.664e+01   1st Qu.:  418.148  
+ Median :  388.19   Median :2.166e+02   Median :8.484e+01   Median : 1012.744  
+ Mean   : 4573.53   Mean   :1.564e+06   Mean   :2.208e+04   Mean   : 4383.046  
+ 3rd Qu.: 1172.50   3rd Qu.:1.261e+03   3rd Qu.:8.411e+02   3rd Qu.: 2696.010  
+ Max.   :66153.95   Max.   :3.127e+07   Max.   :2.298e+05   Max.   :45144.015  
+      V568               V569                V570                V571          
+ Min.   :    2.54   Min.   :8.900e-01   Min.   :7.735e+00   Min.   :6.905e-02  
+ 1st Qu.:  126.69   1st Qu.:1.016e+02   1st Qu.:1.632e+02   1st Qu.:2.707e+01  
+ Median :  577.34   Median :2.832e+02   Median :4.624e+02   Median :1.838e+02  
+ Mean   : 5120.07   Mean   :2.250e+05   Mean   :1.702e+05   Mean   :2.785e+03  
+ 3rd Qu.: 2653.17   3rd Qu.:2.143e+03   3rd Qu.:2.639e+03   3rd Qu.:1.930e+03  
+ Max.   :37381.05   Max.   :2.541e+06   Max.   :2.776e+06   Max.   :3.185e+04  
+      V572                V573                V574          
+ Min.   :5.563e+00   Min.   :7.049e+00   Min.   :6.161e-01  
+ 1st Qu.:1.027e+02   1st Qu.:7.444e+01   1st Qu.:8.802e+01  
+ Median :5.040e+02   Median :3.843e+02   Median :4.552e+02  
+ Mean   :2.369e+04   Mean   :6.264e+05   Mean   :8.259e+03  
+ 3rd Qu.:3.299e+03   3rd Qu.:2.674e+03   3rd Qu.:1.948e+03  
+ Max.   :3.665e+05   Max.   :1.230e+07   Max.   :1.390e+05  
+      V575                V576                V577          
+ Min.   :3.229e-02   Min.   :4.141e-01   Min.   :1.028e+00  
+ 1st Qu.:9.415e+01   1st Qu.:1.611e+02   1st Qu.:1.261e+02  
+ Median :3.288e+02   Median :1.064e+03   Median :4.670e+02  
+ Mean   :4.769e+03   Mean   :5.620e+05   Mean   :8.926e+04  
+ 3rd Qu.:3.440e+03   3rd Qu.:2.731e+03   3rd Qu.:1.102e+03  
+ Max.   :5.280e+04   Max.   :1.119e+07   Max.   :1.763e+06  
+      V578                V579                V580          
+ Min.   :    1.227   Min.   :2.319e+00   Min.   :1.049e+00  
+ 1st Qu.:   57.708   1st Qu.:3.329e+01   1st Qu.:1.266e+02  
+ Median :  211.636   Median :7.640e+02   Median :5.655e+02  
+ Mean   : 1924.409   Mean   :2.979e+04   Mean   :2.469e+05  
+ 3rd Qu.: 1554.200   3rd Qu.:1.093e+03   3rd Qu.:1.412e+03  
+ Max.   :15857.755   Max.   :5.758e+05   Max.   :4.914e+06  
+      V581                V582                V583          
+ Min.   :4.742e-01   Min.   :2.406e+00   Min.   :1.080e-01  
+ 1st Qu.:1.780e+01   1st Qu.:1.146e+02   1st Qu.:1.194e+02  
+ Median :1.497e+02   Median :1.089e+03   Median :1.013e+03  
+ Mean   :4.006e+03   Mean   :1.052e+04   Mean   :1.028e+04  
+ 3rd Qu.:6.614e+02   3rd Qu.:2.362e+03   3rd Qu.:5.324e+03  
+ Max.   :6.507e+04   Max.   :1.218e+05   Max.   :1.163e+05  
+      V584                V585                V586          
+ Min.   :1.301e-01   Min.   :    2.835   Min.   :2.740e-01  
+ 1st Qu.:6.095e+01   1st Qu.:   39.880   1st Qu.:3.878e+02  
+ Median :5.398e+02   Median :  373.489   Median :9.761e+02  
+ Mean   :4.999e+03   Mean   : 3094.667   Mean   :2.100e+04  
+ 3rd Qu.:1.833e+03   3rd Qu.: 1145.860   3rd Qu.:1.567e+04  
+ Max.   :4.098e+04   Max.   :24645.225   Max.   :1.382e+05  
+      V587                V588                V589          
+ Min.   :8.223e-01   Min.   :    2.688   Min.   :    1.652  
+ 1st Qu.:1.040e+02   1st Qu.:   61.043   1st Qu.:  278.374  
+ Median :2.613e+02   Median :  319.323   Median :  642.298  
+ Mean   :5.343e+03   Mean   : 4697.930   Mean   :11240.791  
+ 3rd Qu.:7.433e+02   3rd Qu.: 3806.996   3rd Qu.: 5374.279  
+ Max.   :9.533e+04   Max.   :25096.446   Max.   :93593.659  
+      V590                V591                V592                V593         
+ Min.   :3.664e+01   Min.   :4.774e+00   Min.   :4.042e+00   Min.   :   0.325  
+ 1st Qu.:1.903e+02   1st Qu.:2.788e+01   1st Qu.:4.988e+01   1st Qu.:  44.351  
+ Median :6.591e+02   Median :4.276e+02   Median :4.350e+02   Median : 244.869  
+ Mean   :1.222e+05   Mean   :1.779e+04   Mean   :2.252e+04   Mean   :1122.474  
+ 3rd Qu.:3.633e+03   3rd Qu.:9.074e+02   3rd Qu.:1.304e+03   3rd Qu.:1483.023  
+ Max.   :1.836e+06   Max.   :2.667e+05   Max.   :4.075e+05   Max.   :5081.908  
+      V594                V595                V596          
+ Min.   :6.153e-01   Min.   :7.271e-01   Min.   :   0.8706  
+ 1st Qu.:6.835e+01   1st Qu.:2.123e+02   1st Qu.:  82.4842  
+ Median :4.970e+02   Median :6.604e+02   Median : 220.8818  
+ Mean   :5.067e+03   Mean   :3.849e+04   Mean   : 894.2369  
+ 3rd Qu.:2.939e+03   3rd Qu.:2.500e+03   3rd Qu.:1111.4166  
+ Max.   :4.884e+04   Max.   :7.291e+05   Max.   :7966.9056  
+      V597                V598                V599          
+ Min.   :3.285e+00   Min.   :    1.774   Min.   :3.048e+00  
+ 1st Qu.:3.232e+01   1st Qu.:   96.489   1st Qu.:1.757e+02  
+ Median :2.173e+02   Median :  357.587   Median :3.730e+02  
+ Mean   :4.635e+05   Mean   : 2650.729   Mean   :3.598e+05  
+ 3rd Qu.:1.859e+03   3rd Qu.:  914.362   3rd Qu.:1.285e+03  
+ Max.   :9.250e+06   Max.   :38352.353   Max.   :7.132e+06  
+      V600                V601                V602          
+ Min.   :7.345e-01   Min.   :2.945e+01   Min.   :1.749e-01  
+ 1st Qu.:7.220e+01   1st Qu.:1.552e+02   1st Qu.:5.686e+01  
+ Median :4.312e+02   Median :3.673e+02   Median :6.162e+02  
+ Mean   :3.660e+03   Mean   :8.621e+06   Mean   :2.360e+07  
+ 3rd Qu.:1.291e+03   3rd Qu.:8.444e+02   3rd Qu.:3.180e+03  
+ Max.   :4.246e+04   Max.   :1.723e+08   Max.   :4.719e+08  
+      V603                V604                V605               V606          
+ Min.   :3.292e-01   Min.   :    3.374   Min.   :   12.75   Min.   :4.775e-01  
+ 1st Qu.:3.167e+01   1st Qu.:   73.128   1st Qu.:  150.70   1st Qu.:8.543e+01  
+ Median :2.608e+02   Median :  216.693   Median :  389.60   Median :4.262e+02  
+ Mean   :8.409e+03   Mean   : 3757.155   Mean   : 2818.02   Mean   :1.706e+04  
+ 3rd Qu.:1.172e+03   3rd Qu.:  872.570   3rd Qu.: 1296.90   3rd Qu.:2.612e+03  
+ Max.   :1.326e+05   Max.   :64240.256   Max.   :18330.48   Max.   :2.020e+05  
+      V607                V608                V609          
+ Min.   :6.422e+00   Min.   :6.273e-01   Min.   :9.257e-01  
+ 1st Qu.:9.063e+01   1st Qu.:1.348e+01   1st Qu.:2.847e+02  
+ Median :5.974e+02   Median :1.522e+02   Median :1.039e+03  
+ Mean   :2.455e+04   Mean   :1.852e+03   Mean   :1.491e+04  
+ 3rd Qu.:1.782e+03   3rd Qu.:6.906e+02   3rd Qu.:3.572e+03  
+ Max.   :4.718e+05   Max.   :1.882e+04   Max.   :1.984e+05  
+      V610                V611              V612                V613          
+ Min.   :1.511e+00   Min.   :   6.31   Min.   :6.599e-02   Min.   :   0.3919  
+ 1st Qu.:6.392e+02   1st Qu.:  44.20   1st Qu.:1.054e+02   1st Qu.:  77.5841  
+ Median :2.267e+03   Median : 311.36   Median :4.061e+02   Median : 320.9313  
+ Mean   :3.287e+04   Mean   :1286.48   Mean   :9.519e+03   Mean   :1417.9821  
+ 3rd Qu.:1.295e+04   3rd Qu.: 728.01   3rd Qu.:1.149e+03   3rd Qu.: 634.0757  
+ Max.   :3.312e+05   Max.   :9947.91   Max.   :1.678e+05   Max.   :9737.1288  
+      V614                V615                V616          
+ Min.   :    31.61   Min.   :1.451e+00   Min.   :    1.953  
+ 1st Qu.:   160.98   1st Qu.:2.363e+01   1st Qu.:   89.931  
+ Median :   425.81   Median :2.601e+02   Median : 1289.405  
+ Mean   : 23869.83   Mean   :4.078e+04   Mean   :12494.171  
+ 3rd Qu.:  2086.16   3rd Qu.:1.067e+03   3rd Qu.: 3644.022  
+ Max.   :366684.48   Max.   :7.863e+05   Max.   :93270.334  
+      V617                V618                V619                V620         
+ Min.   :   0.9583   Min.   :    1.905   Min.   :3.391e+00   Min.   :   16.15  
+ 1st Qu.:  24.4752   1st Qu.:   17.459   1st Qu.:2.208e+02   1st Qu.:   75.12  
+ Median : 209.6938   Median :  139.196   Median :5.395e+02   Median :  202.79  
+ Mean   : 547.8023   Mean   : 2214.319   Mean   :1.672e+07   Mean   : 2841.29  
+ 3rd Qu.: 650.9396   3rd Qu.:  287.065   3rd Qu.:1.572e+03   3rd Qu.: 1119.91  
+ Max.   :2730.6484   Max.   :28923.318   Max.   :3.343e+08   Max.   :36372.94  
+      V621                V622                V623          
+ Min.   :2.615e-01   Min.   :    78.42   Min.   :   0.5338  
+ 1st Qu.:1.462e+01   1st Qu.:   208.72   1st Qu.:  19.9326  
+ Median :1.750e+02   Median :   475.96   Median : 199.9993  
+ Mean   :1.736e+04   Mean   : 25323.41   Mean   :1678.8796  
+ 3rd Qu.:5.433e+03   3rd Qu.:  2869.70   3rd Qu.:2934.3565  
+ Max.   :2.175e+05   Max.   :449880.18   Max.   :8147.8877  
+      V624                V625                V626          
+ Min.   :1.992e-02   Min.   :2.461e-02   Min.   :    1.955  
+ 1st Qu.:3.519e+01   1st Qu.:1.022e+02   1st Qu.:   88.902  
+ Median :2.457e+02   Median :3.279e+02   Median :  230.020  
+ Mean   :1.461e+03   Mean   :1.056e+03   Mean   : 1525.579  
+ 3rd Qu.:6.413e+02   3rd Qu.:9.988e+02   3rd Qu.: 1585.481  
+ Max.   :1.249e+04   Max.   :8.143e+03   Max.   :10883.733  
+      V627                V628                V629          
+ Min.   :1.881e+00   Min.   :5.856e+00   Min.   :3.349e-02  
+ 1st Qu.:7.519e+01   1st Qu.:1.028e+02   1st Qu.:9.568e+01  
+ Median :4.251e+02   Median :7.018e+02   Median :7.685e+02  
+ Mean   :4.524e+07   Mean   :6.309e+03   Mean   :4.552e+04  
+ 3rd Qu.:2.958e+03   3rd Qu.:1.372e+03   3rd Qu.:2.555e+03  
+ Max.   :9.048e+08   Max.   :1.116e+05   Max.   :5.475e+05  
+      V630                V631                V632              V633         
+ Min.   :    1.438   Min.   :7.002e+00   Min.   :   0.98   Min.   :   1.308  
+ 1st Qu.:   59.319   1st Qu.:1.374e+02   1st Qu.: 100.32   1st Qu.:  44.190  
+ Median :  292.053   Median :6.279e+02   Median : 254.96   Median : 309.731  
+ Mean   : 2856.159   Mean   :1.040e+04   Mean   : 960.46   Mean   :1003.066  
+ 3rd Qu.: 3836.128   3rd Qu.:3.987e+03   3rd Qu.: 935.74   3rd Qu.: 845.929  
+ Max.   :24883.920   Max.   :1.682e+05   Max.   :9181.27   Max.   :9425.115  
+      V634                V635                V636          
+ Min.   :    4.709   Min.   :8.063e+00   Min.   :    1.702  
+ 1st Qu.:  141.521   1st Qu.:1.374e+02   1st Qu.:   80.826  
+ Median :  547.092   Median :5.724e+02   Median :  589.967  
+ Mean   : 2028.770   Mean   :1.672e+05   Mean   : 2407.987  
+ 3rd Qu.: 1065.937   3rd Qu.:3.798e+03   3rd Qu.: 2381.701  
+ Max.   :25126.336   Max.   :3.309e+06   Max.   :13314.963  
+      V637                V638                V639          
+ Min.   :2.552e-01   Min.   :3.330e-01   Min.   :3.018e-02  
+ 1st Qu.:1.157e+02   1st Qu.:1.092e+02   1st Qu.:1.449e+02  
+ Median :4.388e+02   Median :7.127e+02   Median :3.056e+02  
+ Mean   :1.281e+04   Mean   :1.229e+04   Mean   :9.241e+02  
+ 3rd Qu.:2.512e+03   3rd Qu.:1.496e+03   3rd Qu.:9.325e+02  
+ Max.   :2.019e+05   Max.   :2.106e+05   Max.   :4.449e+03  
+      V640                V641                V642          
+ Min.   :1.615e-02   Min.   :1.149e+00   Min.   :4.099e-01  
+ 1st Qu.:1.273e+02   1st Qu.:9.996e+01   1st Qu.:2.521e+01  
+ Median :3.495e+02   Median :8.270e+02   Median :1.300e+02  
+ Mean   :1.486e+03   Mean   :3.688e+04   Mean   :1.283e+03  
+ 3rd Qu.:8.710e+02   3rd Qu.:1.726e+03   3rd Qu.:9.220e+02  
+ Max.   :9.925e+03   Max.   :4.525e+05   Max.   :1.158e+04  
+      V643                V644                V645          
+ Min.   :5.093e-01   Min.   :2.907e+00   Min.   :    1.109  
+ 1st Qu.:1.315e+02   1st Qu.:2.300e+02   1st Qu.:   81.978  
+ Median :5.107e+02   Median :5.465e+02   Median :  445.887  
+ Mean   :5.572e+03   Mean   :5.227e+06   Mean   : 2023.619  
+ 3rd Qu.:1.156e+03   3rd Qu.:1.452e+03   3rd Qu.: 2184.223  
+ Max.   :9.425e+04   Max.   :1.045e+08   Max.   :11197.543  
+      V646                V647                V648          
+ Min.   :4.276e+00   Min.   :    3.668   Min.   :1.613e-01  
+ 1st Qu.:9.763e+01   1st Qu.:   60.516   1st Qu.:9.925e+01  
+ Median :4.934e+02   Median :  270.121   Median :4.048e+02  
+ Mean   :4.906e+06   Mean   : 2492.889   Mean   :3.190e+05  
+ 3rd Qu.:8.673e+03   3rd Qu.: 1702.970   3rd Qu.:1.521e+03  
+ Max.   :9.798e+07   Max.   :34991.270   Max.   :6.045e+06  
+      V649                V650                V651               V652          
+ Min.   :1.755e+01   Min.   :    1.463   Min.   :   5.663   Min.   :1.084e+01  
+ 1st Qu.:1.227e+02   1st Qu.:  229.472   1st Qu.: 105.574   1st Qu.:1.318e+02  
+ Median :6.947e+02   Median :  909.617   Median : 267.155   Median :1.208e+03  
+ Mean   :5.807e+04   Mean   : 4810.352   Mean   :1073.508   Mean   :1.109e+06  
+ 3rd Qu.:1.391e+03   3rd Qu.: 3026.309   3rd Qu.:1346.341   3rd Qu.:9.213e+03  
+ Max.   :1.134e+06   Max.   :33387.567   Max.   :5536.969   Max.   :1.063e+07  
+      V653                V654                V655          
+ Min.   :5.944e-01   Min.   :1.171e+00   Min.   :     88.0  
+ 1st Qu.:1.036e+02   1st Qu.:1.119e+02   1st Qu.:    442.7  
+ Median :6.961e+02   Median :2.354e+02   Median :    866.6  
+ Mean   :2.544e+03   Mean   :8.930e+03   Mean   : 229260.2  
+ 3rd Qu.:1.324e+03   3rd Qu.:1.394e+03   3rd Qu.:   1781.3  
+ Max.   :3.517e+04   Max.   :1.357e+05   Max.   :4563001.8  
+      V656                V657                V658          
+ Min.   :8.137e-02   Min.   :4.507e-02   Min.   :1.429e-01  
+ 1st Qu.:2.284e+01   1st Qu.:4.634e+02   1st Qu.:3.618e+01  
+ Median :4.056e+02   Median :1.063e+03   Median :2.736e+02  
+ Mean   :3.614e+03   Mean   :2.000e+05   Mean   :9.342e+03  
+ 3rd Qu.:4.165e+03   3rd Qu.:2.879e+03   3rd Qu.:2.394e+03  
+ Max.   :1.931e+04   Max.   :3.961e+06   Max.   :1.484e+05  
+      V659                V660                V661          
+ Min.   :6.525e-01   Min.   :6.672e-01   Min.   :    1.150  
+ 1st Qu.:1.201e+01   1st Qu.:4.761e+01   1st Qu.:  220.566  
+ Median :6.060e+01   Median :1.944e+02   Median :  790.785  
+ Mean   :1.457e+03   Mean   :5.441e+03   Mean   : 3954.825  
+ 3rd Qu.:2.319e+02   3rd Qu.:1.277e+03   3rd Qu.: 1848.554  
+ Max.   :1.491e+04   Max.   :8.797e+04   Max.   :31504.532  
+      V662                V663               V664                V665          
+ Min.   :4.439e-01   Min.   :   1.011   Min.   :4.456e-01   Min.   :5.556e-01  
+ 1st Qu.:7.201e+01   1st Qu.: 156.474   1st Qu.:1.224e+02   1st Qu.:2.730e+02  
+ Median :4.306e+02   Median : 360.303   Median :2.306e+02   Median :4.442e+02  
+ Mean   :5.535e+04   Mean   :1241.519   Mean   :3.748e+03   Mean   :1.563e+04  
+ 3rd Qu.:1.042e+03   3rd Qu.:1290.722   3rd Qu.:2.032e+03   3rd Qu.:1.190e+03  
+ Max.   :1.052e+06   Max.   :6711.673   Max.   :5.019e+04   Max.   :2.940e+05  
+      V666                V667               V668                V669        
+ Min.   :5.568e-01   Min.   :   24.38   Min.   :3.089e+00   Min.   :  10.03  
+ 1st Qu.:6.568e+01   1st Qu.:  160.02   1st Qu.:5.180e+01   1st Qu.: 112.70  
+ Median :4.047e+02   Median :  564.79   Median :4.125e+02   Median : 549.18  
+ Mean   :1.052e+04   Mean   : 4325.85   Mean   :1.469e+05   Mean   :1428.41  
+ 3rd Qu.:2.391e+03   3rd Qu.: 4196.64   3rd Qu.:3.830e+03   3rd Qu.:1549.71  
+ Max.   :1.058e+05   Max.   :29732.41   Max.   :2.896e+06   Max.   :8935.92  
+      V670                V671                V672          
+ Min.   :2.281e+00   Min.   :3.940e-01   Min.   :1.146e-01  
+ 1st Qu.:1.421e+02   1st Qu.:8.188e+00   1st Qu.:1.223e+02  
+ Median :3.023e+02   Median :1.148e+02   Median :5.996e+02  
+ Mean   :2.444e+04   Mean   :3.665e+04   Mean   :3.467e+03  
+ 3rd Qu.:9.758e+02   3rd Qu.:1.391e+03   3rd Qu.:1.598e+03  
+ Max.   :4.492e+05   Max.   :7.169e+05   Max.   :3.542e+04  
+      V673                V674                V675               V676          
+ Min.   :2.528e+01   Min.   :7.052e-01   Min.   :    1.06   Min.   :1.309e+00  
+ 1st Qu.:1.309e+02   1st Qu.:2.798e+01   1st Qu.:  116.83   1st Qu.:3.255e+01  
+ Median :7.164e+02   Median :2.068e+02   Median :  348.65   Median :2.481e+02  
+ Mean   :1.033e+08   Mean   :2.619e+05   Mean   : 5391.07   Mean   :5.508e+06  
+ 3rd Qu.:1.897e+03   3rd Qu.:5.136e+03   3rd Qu.: 2733.11   3rd Qu.:2.146e+03  
+ Max.   :2.065e+09   Max.   :3.822e+06   Max.   :60416.12   Max.   :1.101e+08  
+      V677                V678                V679          
+ Min.   :    20.66   Min.   :7.315e-01   Min.   :    11.81  
+ 1st Qu.:   109.59   1st Qu.:3.243e+01   1st Qu.:   110.60  
+ Median :   472.68   Median :1.770e+02   Median :   479.01  
+ Mean   : 36705.59   Mean   :9.145e+05   Mean   :  8588.28  
+ 3rd Qu.:  1282.07   3rd Qu.:1.710e+03   3rd Qu.:  2445.90  
+ Max.   :697659.17   Max.   :1.824e+07   Max.   :102223.47  
+      V680                V681                V682          
+ Min.   :    1.335   Min.   :    3.671   Min.   :    4.574  
+ 1st Qu.:  115.310   1st Qu.:   64.297   1st Qu.:   60.613  
+ Median :  522.489   Median :  926.739   Median :  398.974  
+ Mean   : 3962.014   Mean   : 2145.622   Mean   : 4557.220  
+ 3rd Qu.: 2568.123   3rd Qu.: 1517.077   3rd Qu.: 1617.729  
+ Max.   :25038.731   Max.   :20661.933   Max.   :61199.892  
+      V683                V684                V685          
+ Min.   :4.339e+00   Min.   :2.508e+00   Min.   :3.072e-01  
+ 1st Qu.:1.695e+02   1st Qu.:1.866e+02   1st Qu.:1.183e+02  
+ Median :5.073e+02   Median :7.153e+02   Median :1.186e+03  
+ Mean   :8.307e+03   Mean   :8.123e+04   Mean   :1.268e+05  
+ 3rd Qu.:1.197e+03   3rd Qu.:2.343e+03   3rd Qu.:2.085e+03  
+ Max.   :1.333e+05   Max.   :1.569e+06   Max.   :2.437e+06  
+      V686                V687                V688          
+ Min.   :2.267e-03   Min.   :1.542e+01   Min.   :2.329e+00  
+ 1st Qu.:1.050e+02   1st Qu.:8.237e+01   1st Qu.:5.783e+01  
+ Median :1.077e+03   Median :2.119e+02   Median :9.599e+02  
+ Mean   :2.631e+04   Mean   :2.089e+07   Mean   :5.860e+06  
+ 3rd Qu.:5.945e+03   3rd Qu.:4.355e+03   3rd Qu.:5.023e+03  
+ Max.   :2.427e+05   Max.   :4.176e+08   Max.   :1.154e+08  
+      V689                V690               V691                V692          
+ Min.   :7.867e-02   Min.   :   2.808   Min.   :    0.541   Min.   :    2.750  
+ 1st Qu.:5.588e+01   1st Qu.: 112.260   1st Qu.:   19.970   1st Qu.:  158.508  
+ Median :1.504e+02   Median : 214.711   Median :   49.955   Median :  847.608  
+ Mean   :3.241e+03   Mean   : 669.372   Mean   : 3439.680   Mean   : 4420.896  
+ 3rd Qu.:2.134e+03   3rd Qu.: 720.129   3rd Qu.: 1170.920   3rd Qu.: 4110.577  
+ Max.   :3.492e+04   Max.   :2921.451   Max.   :27486.769   Max.   :30277.895  
+      V693                V694                V695          
+ Min.   :4.336e-01   Min.   :2.556e-02   Min.   :1.325e-01  
+ 1st Qu.:3.716e+01   1st Qu.:2.938e+01   1st Qu.:7.722e+01  
+ Median :1.879e+02   Median :2.314e+02   Median :5.609e+02  
+ Mean   :2.980e+03   Mean   :1.669e+05   Mean   :3.041e+03  
+ 3rd Qu.:1.280e+03   3rd Qu.:1.073e+03   3rd Qu.:2.285e+03  
+ Max.   :3.228e+04   Max.   :3.326e+06   Max.   :1.648e+04  
+      V696                V697                V698          
+ Min.   :    8.392   Min.   :3.962e-02   Min.   :7.769e+00  
+ 1st Qu.:  179.829   1st Qu.:3.120e+01   1st Qu.:1.493e+02  
+ Median :  491.124   Median :2.054e+02   Median :4.377e+02  
+ Mean   : 3075.656   Mean   :2.493e+05   Mean   :2.640e+05  
+ 3rd Qu.: 3085.697   3rd Qu.:1.018e+03   3rd Qu.:1.815e+03  
+ Max.   :19796.183   Max.   :4.882e+06   Max.   :5.259e+06  
+      V699                V700                V701          
+ Min.   :    2.105   Min.   :1.338e+00   Min.   :2.310e+00  
+ 1st Qu.:   61.926   1st Qu.:3.953e+01   1st Qu.:5.451e+01  
+ Median :  543.660   Median :3.931e+02   Median :7.580e+02  
+ Mean   : 3260.328   Mean   :4.895e+04   Mean   :1.423e+04  
+ 3rd Qu.:  887.392   3rd Qu.:7.542e+02   3rd Qu.:2.262e+03  
+ Max.   :38469.044   Max.   :9.355e+05   Max.   :1.176e+05  
+      V702                V703                V704          
+ Min.   :    1.905   Min.   :4.075e-01   Min.   :2.599e-02  
+ 1st Qu.:   77.892   1st Qu.:4.322e+01   1st Qu.:1.473e+01  
+ Median :  268.052   Median :8.664e+02   Median :5.879e+02  
+ Mean   : 2280.959   Mean   :1.587e+04   Mean   :1.097e+04  
+ 3rd Qu.:  929.765   3rd Qu.:3.407e+03   3rd Qu.:2.605e+03  
+ Max.   :32106.808   Max.   :1.499e+05   Max.   :1.694e+05  
+      V705                V706                V707          
+ Min.   :1.549e+00   Min.   :1.319e+00   Min.   :6.035e-01  
+ 1st Qu.:1.030e+02   1st Qu.:2.170e+02   1st Qu.:8.455e+01  
+ Median :2.918e+02   Median :4.878e+02   Median :4.092e+02  
+ Mean   :1.140e+04   Mean   :7.921e+03   Mean   :7.265e+03  
+ 3rd Qu.:2.161e+03   3rd Qu.:1.012e+03   3rd Qu.:2.027e+03  
+ Max.   :2.038e+05   Max.   :1.066e+05   Max.   :1.127e+05  
+      V708                V709                V710          
+ Min.   :4.942e+00   Min.   :3.128e+00   Min.   :    50.77  
+ 1st Qu.:1.248e+02   1st Qu.:3.439e+01   1st Qu.:   132.69  
+ Median :8.734e+02   Median :1.407e+02   Median :   876.27  
+ Mean   :2.215e+04   Mean   :1.737e+05   Mean   : 12184.78  
+ 3rd Qu.:2.336e+03   3rd Qu.:2.440e+03   3rd Qu.:  2227.45  
+ Max.   :3.431e+05   Max.   :2.076e+06   Max.   :136150.96  
+      V711                V712                V713                V714         
+ Min.   :    1.768   Min.   :7.397e-01   Min.   :1.039e+00   Min.   :   0.839  
+ 1st Qu.:   28.172   1st Qu.:1.810e+01   1st Qu.:2.160e+02   1st Qu.:  32.286  
+ Median :  384.266   Median :1.933e+02   Median :4.054e+02   Median : 267.803  
+ Mean   : 5310.011   Mean   :1.360e+03   Mean   :7.477e+03   Mean   :1058.652  
+ 3rd Qu.: 1560.281   3rd Qu.:9.607e+02   3rd Qu.:1.118e+03   3rd Qu.:1712.372  
+ Max.   :80602.029   Max.   :1.437e+04   Max.   :1.260e+05   Max.   :4046.724  
+      V715                V716                V717                V718         
+ Min.   :4.951e-01   Min.   :5.037e-01   Min.   :4.941e+00   Min.   :   15.55  
+ 1st Qu.:1.050e+02   1st Qu.:8.298e+01   1st Qu.:1.378e+02   1st Qu.:   51.81  
+ Median :8.078e+02   Median :2.719e+02   Median :6.111e+02   Median :  311.04  
+ Mean   :1.178e+04   Mean   :8.262e+03   Mean   :1.500e+05   Mean   : 1820.70  
+ 3rd Qu.:1.731e+03   3rd Qu.:8.958e+02   3rd Qu.:3.630e+03   3rd Qu.: 1366.25  
+ Max.   :1.189e+05   Max.   :1.434e+05   Max.   :2.959e+06   Max.   :19572.38  
+      V719                V720               V721                V722          
+ Min.   :3.231e-01   Min.   :    1.20   Min.   :1.155e+00   Min.   :   0.1969  
+ 1st Qu.:3.017e+01   1st Qu.:   42.87   1st Qu.:6.459e+01   1st Qu.:  85.2445  
+ Median :2.073e+02   Median :  132.74   Median :8.050e+02   Median : 223.1881  
+ Mean   :6.130e+03   Mean   : 2760.79   Mean   :9.812e+03   Mean   : 557.4600  
+ 3rd Qu.:9.244e+02   3rd Qu.:  778.57   3rd Qu.:1.200e+03   3rd Qu.:1058.5222  
+ Max.   :6.490e+04   Max.   :37841.62   Max.   :1.337e+05   Max.   :2173.4455  
+      V723                V724                V725          
+ Min.   :3.947e-02   Min.   :3.753e-01   Min.   :4.095e+00  
+ 1st Qu.:1.201e+02   1st Qu.:7.738e+01   1st Qu.:5.927e+01  
+ Median :3.226e+02   Median :3.830e+02   Median :2.277e+02  
+ Mean   :4.109e+03   Mean   :2.624e+03   Mean   :7.704e+03  
+ 3rd Qu.:8.636e+02   3rd Qu.:1.978e+03   3rd Qu.:1.855e+03  
+ Max.   :5.308e+04   Max.   :2.195e+04   Max.   :1.259e+05  
+      V726                V727                V728               V729          
+ Min.   :1.653e-01   Min.   :    7.101   Min.   :   14.04   Min.   :8.867e-02  
+ 1st Qu.:5.306e+01   1st Qu.:  540.213   1st Qu.:  102.57   1st Qu.:3.418e+01  
+ Median :3.188e+02   Median : 1753.634   Median :  227.27   Median :1.697e+02  
+ Mean   :6.434e+05   Mean   : 5193.262   Mean   : 5073.76   Mean   :9.402e+04  
+ 3rd Qu.:6.330e+02   3rd Qu.: 3418.492   3rd Qu.: 4033.61   3rd Qu.:1.791e+03  
+ Max.   :1.284e+07   Max.   :59350.650   Max.   :29946.06   Max.   :1.846e+06  
+      V730                V731                V732          
+ Min.   :    11.88   Min.   :    1.771   Min.   :    6.583  
+ 1st Qu.:    65.77   1st Qu.:   75.368   1st Qu.:   51.837  
+ Median :   421.78   Median :  142.157   Median :  292.555  
+ Mean   : 21536.38   Mean   : 1473.948   Mean   : 4392.833  
+ 3rd Qu.:   987.33   3rd Qu.:  468.617   3rd Qu.:  737.268  
+ Max.   :365639.58   Max.   :11015.499   Max.   :73974.428  
+      V733                V734                V735          
+ Min.   :1.139e+00   Min.   :5.258e-01   Min.   :7.936e+00  
+ 1st Qu.:7.976e+01   1st Qu.:4.948e+01   1st Qu.:1.037e+02  
+ Median :3.943e+02   Median :1.206e+02   Median :1.125e+03  
+ Mean   :4.412e+04   Mean   :6.327e+03   Mean   :2.082e+04  
+ 3rd Qu.:3.487e+03   3rd Qu.:1.103e+03   3rd Qu.:4.080e+03  
+ Max.   :7.837e+05   Max.   :5.366e+04   Max.   :3.685e+05  
+      V736                V737                V738               V739          
+ Min.   :2.117e+00   Min.   :1.307e+00   Min.   :   1.225   Min.   :1.069e+00  
+ 1st Qu.:1.842e+02   1st Qu.:4.520e+02   1st Qu.:  33.351   1st Qu.:1.827e+02  
+ Median :7.233e+02   Median :1.036e+03   Median : 204.018   Median :5.766e+02  
+ Mean   :3.496e+04   Mean   :3.243e+04   Mean   :1670.452   Mean   :4.480e+04  
+ 3rd Qu.:5.053e+03   3rd Qu.:4.996e+03   3rd Qu.:1207.581   3rd Qu.:2.224e+03  
+ Max.   :4.548e+05   Max.   :5.727e+05   Max.   :9716.590   Max.   :8.498e+05  
+      V740               V741                V742                V743          
+ Min.   :   18.81   Min.   :7.127e-02   Min.   :4.385e-02   Min.   :7.263e-04  
+ 1st Qu.:  122.22   1st Qu.:2.612e+01   1st Qu.:1.693e+02   1st Qu.:3.840e+01  
+ Median :  620.11   Median :1.744e+02   Median :7.584e+02   Median :2.277e+02  
+ Mean   : 2809.42   Mean   :4.036e+03   Mean   :3.207e+03   Mean   :2.083e+03  
+ 3rd Qu.: 2829.80   3rd Qu.:1.231e+03   3rd Qu.:2.883e+03   3rd Qu.:8.124e+02  
+ Max.   :30524.05   Max.   :3.906e+04   Max.   :2.877e+04   Max.   :2.385e+04  
+      V744                V745                V746          
+ Min.   :2.958e-03   Min.   :    6.558   Min.   :    2.272  
+ 1st Qu.:4.413e+01   1st Qu.:   59.857   1st Qu.:   68.547  
+ Median :6.729e+02   Median :  758.065   Median :  429.930  
+ Mean   :1.068e+04   Mean   : 2203.641   Mean   : 3243.709  
+ 3rd Qu.:1.423e+03   3rd Qu.: 2077.117   3rd Qu.: 2157.926  
+ Max.   :1.934e+05   Max.   :10602.720   Max.   :36642.608  
+      V747                V748                V749          
+ Min.   :3.330e-02   Min.   :   0.1269   Min.   :   0.4852  
+ 1st Qu.:1.520e+02   1st Qu.:  63.0768   1st Qu.:  44.3177  
+ Median :3.822e+02   Median : 479.2290   Median : 448.9618  
+ Mean   :4.803e+03   Mean   :1201.2695   Mean   :1279.9866  
+ 3rd Qu.:1.731e+03   3rd Qu.:1205.8197   3rd Qu.:1406.7944  
+ Max.   :4.804e+04   Max.   :8521.6839   Max.   :9098.5946  
+      V750                V751                V752          
+ Min.   :7.537e-01   Min.   :5.788e-05   Min.   :    1.212  
+ 1st Qu.:1.439e+02   1st Qu.:7.596e+01   1st Qu.:  114.292  
+ Median :5.174e+02   Median :1.993e+02   Median :  356.530  
+ Mean   :5.504e+03   Mean   :7.274e+04   Mean   : 1114.526  
+ 3rd Qu.:1.149e+03   3rd Qu.:7.361e+02   3rd Qu.:  510.495  
+ Max.   :8.434e+04   Max.   :1.419e+06   Max.   :14442.245  
+      V753                V754               V755                V756          
+ Min.   :1.058e-01   Min.   :   8.236   Min.   :1.025e+00   Min.   :1.246e+00  
+ 1st Qu.:8.556e+01   1st Qu.:  78.232   1st Qu.:5.569e+01   1st Qu.:1.333e+02  
+ Median :2.940e+02   Median : 324.881   Median :2.638e+02   Median :5.276e+02  
+ Mean   :1.326e+03   Mean   : 551.409   Mean   :5.177e+05   Mean   :1.847e+04  
+ 3rd Qu.:8.289e+02   3rd Qu.: 884.631   3rd Qu.:7.440e+02   3rd Qu.:6.217e+03  
+ Max.   :1.773e+04   Max.   :1648.864   Max.   :1.032e+07   Max.   :3.053e+05  
+      V757                V758                V759               V760          
+ Min.   :5.412e-01   Min.   :    19.71   Min.   :   7.053   Min.   :    1.623  
+ 1st Qu.:1.179e+02   1st Qu.:   163.06   1st Qu.: 114.142   1st Qu.:   71.726  
+ Median :1.205e+03   Median :   343.28   Median : 510.205   Median :  273.309  
+ Mean   :3.766e+03   Mean   : 17153.09   Mean   :1636.644   Mean   : 3045.869  
+ 3rd Qu.:3.752e+03   3rd Qu.:  1283.70   3rd Qu.:1978.133   3rd Qu.: 1119.191  
+ Max.   :2.796e+04   Max.   :327956.49   Max.   :7952.685   Max.   :21865.245  
+      V761                V762                V763                V764         
+ Min.   :2.239e+00   Min.   :1.740e+00   Min.   :1.948e+00   Min.   :   2.198  
+ 1st Qu.:5.944e+01   1st Qu.:6.898e+01   1st Qu.:5.025e+01   1st Qu.:  43.524  
+ Median :2.902e+02   Median :2.030e+02   Median :3.609e+02   Median :1045.659  
+ Mean   :8.765e+06   Mean   :1.267e+04   Mean   :1.845e+04   Mean   : 932.878  
+ 3rd Qu.:6.143e+02   3rd Qu.:2.030e+03   3rd Qu.:2.036e+03   3rd Qu.:1791.761  
+ Max.   :1.753e+08   Max.   :1.386e+05   Max.   :2.308e+05   Max.   :2284.291  
+      V765                V766                V767          
+ Min.   :    17.81   Min.   :2.988e-02   Min.   :2.691e+01  
+ 1st Qu.:    65.56   1st Qu.:9.466e+01   1st Qu.:3.844e+02  
+ Median :   420.22   Median :2.303e+02   Median :1.371e+03  
+ Mean   : 24858.71   Mean   :2.950e+04   Mean   :6.706e+04  
+ 3rd Qu.:  3001.82   3rd Qu.:9.350e+02   3rd Qu.:5.617e+03  
+ Max.   :412727.24   Max.   :5.522e+05   Max.   :1.207e+06  
+      V768                V769                V770               V771          
+ Min.   :1.271e-01   Min.   :5.058e+00   Min.   :   13.79   Min.   :     2.73  
+ 1st Qu.:3.797e+01   1st Qu.:2.125e+02   1st Qu.:   31.46   1st Qu.:    59.64  
+ Median :2.662e+02   Median :7.835e+02   Median :  109.83   Median :   305.03  
+ Mean   :8.676e+03   Mean   :5.235e+05   Mean   : 2492.32   Mean   :  7180.58  
+ 3rd Qu.:7.850e+03   3rd Qu.:9.612e+03   3rd Qu.:  250.86   3rd Qu.:   991.34  
+ Max.   :8.636e+04   Max.   :1.038e+07   Max.   :35045.47   Max.   :121691.99  
+      V772                V773                V774          
+ Min.   :    0.974   Min.   :1.606e-01   Min.   :8.295e-01  
+ 1st Qu.:   18.830   1st Qu.:1.057e+02   1st Qu.:1.049e+02  
+ Median :  396.126   Median :4.049e+02   Median :1.112e+03  
+ Mean   : 1463.702   Mean   :1.810e+04   Mean   :1.138e+04  
+ 3rd Qu.: 1461.167   3rd Qu.:1.189e+03   3rd Qu.:8.896e+03  
+ Max.   :11918.296   Max.   :3.343e+05   Max.   :1.182e+05  
+      V775                V776                V777          
+ Min.   :1.869e+00   Min.   :    3.233   Min.   :3.357e-01  
+ 1st Qu.:5.438e+01   1st Qu.:   34.119   1st Qu.:1.225e+02  
+ Median :1.033e+02   Median :  213.100   Median :6.157e+02  
+ Mean   :2.105e+04   Mean   : 4069.067   Mean   :5.373e+03  
+ 3rd Qu.:1.405e+03   3rd Qu.:  498.294   3rd Qu.:2.881e+03  
+ Max.   :3.796e+05   Max.   :65121.122   Max.   :7.127e+04  
+      V778                V779                V780          
+ Min.   :5.130e-01   Min.   :2.252e-01   Min.   :1.121e-01  
+ 1st Qu.:4.594e+01   1st Qu.:1.241e+02   1st Qu.:5.425e+01  
+ Median :1.505e+02   Median :6.049e+02   Median :2.130e+02  
+ Mean   :1.083e+04   Mean   :2.429e+04   Mean   :9.056e+04  
+ 3rd Qu.:1.416e+03   3rd Qu.:4.765e+03   3rd Qu.:1.509e+03  
+ Max.   :1.066e+05   Max.   :3.165e+05   Max.   :1.789e+06  
+      V781                V782                V783          
+ Min.   :9.418e-02   Min.   :2.853e+00   Min.   :   0.7068  
+ 1st Qu.:6.981e+01   1st Qu.:3.553e+01   1st Qu.:  43.1346  
+ Median :3.341e+02   Median :3.232e+02   Median : 309.1012  
+ Mean   :4.298e+03   Mean   :1.830e+04   Mean   :1013.2270  
+ 3rd Qu.:8.712e+02   3rd Qu.:1.241e+03   3rd Qu.: 606.7622  
+ Max.   :6.340e+04   Max.   :2.153e+05   Max.   :8989.3566  
+      V784                V785                V786                V787        
+ Min.   :8.784e-03   Min.   :3.755e+01   Min.   :    2.922   Min.   :  12.92  
+ 1st Qu.:5.199e+01   1st Qu.:1.311e+02   1st Qu.:   97.762   1st Qu.:  46.75  
+ Median :1.631e+02   Median :3.197e+02   Median :  398.261   Median : 169.75  
+ Mean   :6.716e+02   Mean   :1.172e+05   Mean   : 9377.142   Mean   :1165.70  
+ 3rd Qu.:7.860e+02   3rd Qu.:2.364e+03   3rd Qu.: 7108.031   3rd Qu.:1081.93  
+ Max.   :4.149e+03   Max.   :2.284e+06   Max.   :83417.158   Max.   :7254.81  
+      V788                V789               V790              V791          
+ Min.   :     9.08   Min.   :   6.094   Min.   :  49.36   Min.   :5.103e+00  
+ 1st Qu.:   131.94   1st Qu.:  66.781   1st Qu.: 559.50   1st Qu.:6.642e+01  
+ Median :   463.15   Median : 366.272   Median :1687.63   Median :1.693e+02  
+ Mean   : 12958.59   Mean   : 922.015   Mean   :2869.55   Mean   :2.287e+04  
+ 3rd Qu.:  2408.86   3rd Qu.: 975.624   3rd Qu.:3728.49   3rd Qu.:6.613e+02  
+ Max.   :173241.87   Max.   :8090.572   Max.   :9331.90   Max.   :3.832e+05  
+      V792                V793                V794          
+ Min.   :4.162e-01   Min.   :    1.534   Min.   :9.487e+00  
+ 1st Qu.:9.891e+01   1st Qu.:   89.119   1st Qu.:2.819e+02  
+ Median :4.292e+02   Median :  316.648   Median :9.397e+02  
+ Mean   :1.288e+04   Mean   : 4223.156   Mean   :1.140e+04  
+ 3rd Qu.:2.247e+03   3rd Qu.: 2339.855   3rd Qu.:6.046e+03  
+ Max.   :2.205e+05   Max.   :35669.924   Max.   :1.060e+05  
+      V795                V796                V797          
+ Min.   :    55.18   Min.   :    1.077   Min.   :8.459e+00  
+ 1st Qu.:   142.24   1st Qu.:  159.039   1st Qu.:6.097e+01  
+ Median :   322.76   Median :  513.197   Median :3.576e+02  
+ Mean   : 29055.14   Mean   : 5193.642   Mean   :1.209e+04  
+ 3rd Qu.:  5666.24   3rd Qu.: 1895.664   3rd Qu.:4.302e+03  
+ Max.   :293141.50   Max.   :51929.381   Max.   :1.843e+05  
+      V798                V799                V800          
+ Min.   :7.266e-01   Min.   :    5.648   Min.   :2.500e+00  
+ 1st Qu.:1.438e+02   1st Qu.:  148.469   1st Qu.:5.964e+01  
+ Median :5.554e+02   Median :  441.822   Median :2.166e+02  
+ Mean   :1.288e+04   Mean   : 4123.782   Mean   :1.772e+04  
+ 3rd Qu.:3.117e+03   3rd Qu.: 1442.151   3rd Qu.:9.374e+02  
+ Max.   :1.290e+05   Max.   :44671.805   Max.   :3.434e+05  
+      V801                V802                V803          
+ Min.   :7.421e-01   Min.   :1.655e-02   Min.   :    3.352  
+ 1st Qu.:6.044e+01   1st Qu.:3.887e+01   1st Qu.:   39.305  
+ Median :4.919e+02   Median :1.854e+02   Median :  300.965  
+ Mean   :2.231e+03   Mean   :4.341e+04   Mean   : 5244.665  
+ 3rd Qu.:2.293e+03   3rd Qu.:1.177e+03   3rd Qu.: 1851.573  
+ Max.   :1.067e+04   Max.   :8.366e+05   Max.   :68043.587  
+      V804                V805                V806          
+ Min.   :7.915e-01   Min.   :9.672e-01   Min.   :2.212e+00  
+ 1st Qu.:2.543e+02   1st Qu.:6.838e+01   1st Qu.:2.175e+02  
+ Median :9.032e+02   Median :1.956e+02   Median :1.085e+03  
+ Mean   :1.814e+04   Mean   :1.570e+03   Mean   :2.027e+06  
+ 3rd Qu.:5.784e+03   3rd Qu.:9.192e+02   3rd Qu.:2.189e+03  
+ Max.   :2.467e+05   Max.   :1.059e+04   Max.   :4.048e+07  
+      V807                V808                V809          
+ Min.   :3.568e-01   Min.   :8.337e-01   Min.   :9.787e-01  
+ 1st Qu.:6.333e+00   1st Qu.:9.189e+01   1st Qu.:8.276e+01  
+ Median :2.741e+02   Median :4.139e+02   Median :4.147e+02  
+ Mean   :9.491e+03   Mean   :2.237e+05   Mean   :7.769e+04  
+ 3rd Qu.:1.646e+03   3rd Qu.:1.830e+03   3rd Qu.:1.881e+03  
+ Max.   :1.493e+05   Max.   :4.439e+06   Max.   :1.526e+06  
+      V810                V811                V812          
+ Min.   :3.195e-01   Min.   :2.854e+00   Min.   :3.246e-01  
+ 1st Qu.:1.155e+02   1st Qu.:1.987e+02   1st Qu.:1.547e+02  
+ Median :2.859e+02   Median :4.363e+02   Median :7.634e+02  
+ Mean   :7.443e+03   Mean   :9.960e+03   Mean   :2.272e+03  
+ 3rd Qu.:7.875e+02   3rd Qu.:3.477e+03   3rd Qu.:2.039e+03  
+ Max.   :8.605e+04   Max.   :1.316e+05   Max.   :1.351e+04  
+      V813                V814               V815                V816          
+ Min.   :6.322e+00   Min.   :   4.929   Min.   :9.160e-01   Min.   :5.485e-03  
+ 1st Qu.:9.356e+01   1st Qu.:  57.178   1st Qu.:4.788e+01   1st Qu.:6.106e+01  
+ Median :2.309e+02   Median : 292.048   Median :5.474e+02   Median :5.216e+02  
+ Mean   :1.517e+04   Mean   : 976.901   Mean   :7.492e+04   Mean   :8.184e+05  
+ 3rd Qu.:1.090e+03   3rd Qu.: 846.222   3rd Qu.:1.918e+03   3rd Qu.:2.586e+03  
+ Max.   :2.802e+05   Max.   :6621.570   Max.   :1.275e+06   Max.   :1.631e+07  
+      V817               V818                V819                V820          
+ Min.   :   20.47   Min.   :4.522e-01   Min.   :    5.679   Min.   :6.143e-01  
+ 1st Qu.:   90.28   1st Qu.:3.032e+01   1st Qu.:  215.564   1st Qu.:1.906e+01  
+ Median :  434.46   Median :1.128e+02   Median : 1108.056   Median :6.590e+02  
+ Mean   : 4884.38   Mean   :4.004e+03   Mean   : 8311.134   Mean   :1.148e+06  
+ 3rd Qu.: 1302.78   3rd Qu.:2.507e+03   3rd Qu.: 5312.580   3rd Qu.:2.199e+03  
+ Max.   :53111.97   Max.   :3.841e+04   Max.   :58983.660   Max.   :2.244e+07  
+      V821                V822               V823                V824          
+ Min.   :7.661e-01   Min.   :   31.24   Min.   :7.528e-01   Min.   :6.487e+00  
+ 1st Qu.:1.236e+02   1st Qu.:  187.40   1st Qu.:7.816e+01   1st Qu.:8.655e+01  
+ Median :7.339e+02   Median :  472.21   Median :8.936e+02   Median :6.904e+02  
+ Mean   :6.716e+03   Mean   : 7856.97   Mean   :2.640e+06   Mean   :3.748e+04  
+ 3rd Qu.:3.029e+03   3rd Qu.: 3149.45   3rd Qu.:2.371e+03   3rd Qu.:3.130e+03  
+ Max.   :9.734e+04   Max.   :62389.48   Max.   :5.278e+07   Max.   :3.872e+05  
+      V825                V826                V827          
+ Min.   :2.348e-01   Min.   :5.794e-02   Min.   :4.391e+00  
+ 1st Qu.:2.916e+01   1st Qu.:7.033e+01   1st Qu.:8.028e+01  
+ Median :1.502e+02   Median :2.918e+02   Median :4.137e+02  
+ Mean   :7.415e+04   Mean   :1.924e+03   Mean   :3.502e+04  
+ 3rd Qu.:2.410e+03   3rd Qu.:5.486e+02   3rd Qu.:1.013e+03  
+ Max.   :1.444e+06   Max.   :1.599e+04   Max.   :6.706e+05  
+      V828                V829                V830          
+ Min.   :    1.944   Min.   :    1.100   Min.   :    0.625  
+ 1st Qu.:   90.167   1st Qu.:   47.681   1st Qu.:   77.033  
+ Median :  594.826   Median :  550.191   Median :  269.531  
+ Mean   : 7638.280   Mean   : 5519.485   Mean   : 3563.495  
+ 3rd Qu.: 2424.401   3rd Qu.: 1211.189   3rd Qu.: 5281.574  
+ Max.   :56125.805   Max.   :49131.052   Max.   :20928.118  
+      V831                V832                V833          
+ Min.   :1.039e+00   Min.   :4.830e+00   Min.   :1.305e-02  
+ 1st Qu.:9.041e+01   1st Qu.:9.433e+01   1st Qu.:8.207e+01  
+ Median :2.849e+02   Median :2.303e+02   Median :1.840e+02  
+ Mean   :5.535e+03   Mean   :3.855e+05   Mean   :2.456e+04  
+ 3rd Qu.:1.064e+03   3rd Qu.:1.274e+03   3rd Qu.:2.436e+03  
+ Max.   :1.003e+05   Max.   :7.677e+06   Max.   :3.395e+05  
+      V834                V835                V836              V837          
+ Min.   :    0.885   Min.   :5.492e+00   Min.   :  10.12   Min.   :   0.3812  
+ 1st Qu.:  447.942   1st Qu.:7.051e+01   1st Qu.: 105.64   1st Qu.:  17.3197  
+ Median : 1913.861   Median :2.286e+02   Median : 377.52   Median : 119.8960  
+ Mean   :10408.548   Mean   :2.944e+04   Mean   :1169.98   Mean   : 778.6303  
+ 3rd Qu.: 3906.413   3rd Qu.:4.496e+03   3rd Qu.: 953.29   3rd Qu.: 453.7995  
+ Max.   :99823.721   Max.   :2.950e+05   Max.   :8717.20   Max.   :9138.7477  
+      V838                V839                V840              V841         
+ Min.   :7.836e-04   Min.   :2.335e+00   Min.   :    1.2   Min.   :   12.47  
+ 1st Qu.:6.120e+01   1st Qu.:3.518e+01   1st Qu.:  134.0   1st Qu.:   89.66  
+ Median :3.015e+02   Median :3.141e+02   Median :  446.9   Median :  323.40  
+ Mean   :1.530e+07   Mean   :2.903e+04   Mean   : 4231.4   Mean   : 1789.53  
+ 3rd Qu.:8.336e+02   3rd Qu.:1.740e+03   3rd Qu.:  675.9   3rd Qu.: 2073.93  
+ Max.   :3.060e+08   Max.   :4.944e+05   Max.   :43966.8   Max.   :15223.71  
+      V842                V843                V844          
+ Min.   :2.134e-01   Min.   :4.146e-03   Min.   :1.881e+00  
+ 1st Qu.:5.166e+01   1st Qu.:1.258e+01   1st Qu.:2.035e+02  
+ Median :4.300e+02   Median :5.260e+01   Median :8.764e+02  
+ Mean   :3.805e+04   Mean   :4.954e+02   Mean   :8.137e+03  
+ 3rd Qu.:1.746e+03   3rd Qu.:2.901e+02   3rd Qu.:2.550e+03  
+ Max.   :6.581e+05   Max.   :4.221e+03   Max.   :1.243e+05  
+      V845                V846                V847          
+ Min.   :1.421e-01   Min.   :2.399e+00   Min.   :    2.195  
+ 1st Qu.:5.578e+01   1st Qu.:5.482e+01   1st Qu.:  124.804  
+ Median :4.938e+02   Median :2.048e+02   Median :  421.428  
+ Mean   :3.986e+04   Mean   :2.775e+04   Mean   : 4365.680  
+ 3rd Qu.:4.317e+03   3rd Qu.:1.762e+03   3rd Qu.: 2126.665  
+ Max.   :7.495e+05   Max.   :5.159e+05   Max.   :56899.322  
+      V848                V849                V850          
+ Min.   :1.798e+00   Min.   :1.768e-01   Min.   :   0.6465  
+ 1st Qu.:1.264e+02   1st Qu.:1.452e+02   1st Qu.: 169.6717  
+ Median :5.504e+02   Median :5.692e+02   Median : 563.2903  
+ Mean   :8.481e+03   Mean   :3.878e+03   Mean   :1746.9616  
+ 3rd Qu.:1.786e+03   3rd Qu.:1.246e+03   3rd Qu.:1801.5608  
+ Max.   :1.015e+05   Max.   :4.123e+04   Max.   :9226.5775  
+      V851                V852               V853                V854          
+ Min.   :2.818e-01   Min.   :   10.84   Min.   :    1.821   Min.   :    5.824  
+ 1st Qu.:9.769e+01   1st Qu.:  158.40   1st Qu.:   83.655   1st Qu.:   69.188  
+ Median :3.647e+02   Median :  817.39   Median :  431.991   Median :  414.238  
+ Mean   :1.187e+03   Mean   : 5539.35   Mean   : 3842.277   Mean   : 3247.730  
+ 3rd Qu.:1.061e+03   3rd Qu.: 2929.88   3rd Qu.: 1480.133   3rd Qu.: 1167.991  
+ Max.   :1.083e+04   Max.   :61155.54   Max.   :41139.546   Max.   :40677.896  
+      V855                V856                V857          
+ Min.   :9.150e-03   Min.   :2.796e+00   Min.   :    1.705  
+ 1st Qu.:4.373e+01   1st Qu.:2.110e+02   1st Qu.:   83.069  
+ Median :1.481e+02   Median :4.173e+02   Median :  288.185  
+ Mean   :2.530e+04   Mean   :6.866e+04   Mean   : 5247.379  
+ 3rd Qu.:1.376e+03   3rd Qu.:7.121e+03   3rd Qu.: 2429.540  
+ Max.   :4.712e+05   Max.   :1.155e+06   Max.   :71744.090  
+      V858                V859                V860          
+ Min.   :2.017e-01   Min.   :    1.744   Min.   :8.710e-02  
+ 1st Qu.:9.301e+01   1st Qu.:   64.851   1st Qu.:4.176e+01  
+ Median :4.350e+02   Median :  393.661   Median :2.200e+02  
+ Mean   :4.020e+03   Mean   : 2078.450   Mean   :1.648e+03  
+ 3rd Qu.:9.810e+02   3rd Qu.: 1405.841   3rd Qu.:4.579e+02  
+ Max.   :4.786e+04   Max.   :26500.067   Max.   :2.663e+04  
+      V861                V862                V863          
+ Min.   :2.880e+00   Min.   :2.045e+00   Min.   :     5.79  
+ 1st Qu.:3.195e+01   1st Qu.:1.525e+02   1st Qu.:   185.29  
+ Median :6.333e+02   Median :7.376e+02   Median :   679.32  
+ Mean   :7.752e+05   Mean   :1.678e+04   Mean   : 46665.13  
+ 3rd Qu.:6.605e+03   3rd Qu.:3.896e+03   3rd Qu.:  1929.21  
+ Max.   :1.536e+07   Max.   :1.676e+05   Max.   :565227.53  
+      V864                V865                V866          
+ Min.   :   0.4982   Min.   :    1.103   Min.   :1.952e+00  
+ 1st Qu.:  71.3265   1st Qu.:   67.580   1st Qu.:1.322e+02  
+ Median : 425.1813   Median :  264.772   Median :2.114e+02  
+ Mean   :1265.6938   Mean   : 7487.699   Mean   :1.224e+04  
+ 3rd Qu.:1878.8650   3rd Qu.: 6253.446   3rd Qu.:3.051e+03  
+ Max.   :7295.9437   Max.   :85898.101   Max.   :1.894e+05  
+      V867                V868                V869                V870         
+ Min.   :3.012e-01   Min.   :1.817e+00   Min.   :9.236e-01   Min.   :   3.766  
+ 1st Qu.:1.409e+02   1st Qu.:5.293e+01   1st Qu.:5.041e+01   1st Qu.:  47.797  
+ Median :1.479e+03   Median :6.321e+02   Median :3.664e+02   Median : 304.151  
+ Mean   :5.242e+04   Mean   :8.776e+03   Mean   :1.621e+03   Mean   :1340.014  
+ 3rd Qu.:3.800e+03   3rd Qu.:2.804e+03   3rd Qu.:1.287e+03   3rd Qu.:2391.130  
+ Max.   :9.429e+05   Max.   :1.072e+05   Max.   :1.139e+04   Max.   :9043.039  
+      V871                V872                V873               V874          
+ Min.   :5.765e-02   Min.   :    1.185   Min.   :   21.34   Min.   :1.704e+00  
+ 1st Qu.:4.572e+01   1st Qu.:   53.062   1st Qu.:  105.98   1st Qu.:3.112e+02  
+ Median :2.133e+02   Median :  195.399   Median :  668.49   Median :9.097e+02  
+ Mean   :1.144e+08   Mean   : 5340.911   Mean   : 2230.48   Mean   :4.194e+04  
+ 3rd Qu.:6.062e+02   3rd Qu.: 2699.929   3rd Qu.: 2254.04   3rd Qu.:5.626e+03  
+ Max.   :2.288e+09   Max.   :37071.757   Max.   :18804.05   Max.   :4.127e+05  
+      V875                V876                V877                V878         
+ Min.   :7.269e+00   Min.   :9.819e-02   Min.   :3.443e-01   Min.   :   1.582  
+ 1st Qu.:8.337e+01   1st Qu.:9.036e+01   1st Qu.:1.091e+02   1st Qu.:  80.544  
+ Median :4.986e+02   Median :9.360e+02   Median :3.054e+02   Median : 369.918  
+ Mean   :9.500e+03   Mean   :2.609e+04   Mean   :5.575e+03   Mean   :1041.115  
+ 3rd Qu.:1.448e+03   3rd Qu.:3.433e+03   3rd Qu.:1.559e+03   3rd Qu.:1669.924  
+ Max.   :1.629e+05   Max.   :4.724e+05   Max.   :5.402e+04   Max.   :4285.615  
+      V879                V880               V881               V882          
+ Min.   :1.767e+00   Min.   :   4.324   Min.   :   3.763   Min.   :3.770e-01  
+ 1st Qu.:4.778e+01   1st Qu.: 155.505   1st Qu.: 113.778   1st Qu.:9.417e+01  
+ Median :2.174e+02   Median : 478.101   Median : 258.077   Median :2.926e+02  
+ Mean   :2.092e+04   Mean   :1525.260   Mean   : 655.659   Mean   :9.198e+03  
+ 3rd Qu.:3.721e+03   3rd Qu.:1723.447   3rd Qu.: 941.811   3rd Qu.:1.663e+03  
+ Max.   :2.115e+05   Max.   :6614.841   Max.   :2689.692   Max.   :1.540e+05  
+      V883                V884                V885               V886          
+ Min.   :6.267e+00   Min.   :4.003e-02   Min.   :   1.827   Min.   :    9.393  
+ 1st Qu.:1.112e+02   1st Qu.:3.661e+01   1st Qu.: 164.369   1st Qu.:   65.975  
+ Median :4.304e+02   Median :4.253e+02   Median : 360.938   Median :  571.664  
+ Mean   :1.334e+05   Mean   :5.887e+03   Mean   :1105.477   Mean   : 4005.992  
+ 3rd Qu.:1.090e+04   3rd Qu.:1.884e+03   3rd Qu.:1162.829   3rd Qu.: 1203.293  
+ Max.   :1.691e+06   Max.   :4.980e+04   Max.   :6973.753   Max.   :36416.317  
+      V887                V888                V889          
+ Min.   :    1.077   Min.   :4.382e-01   Min.   :5.131e-01  
+ 1st Qu.:  266.987   1st Qu.:7.581e+01   1st Qu.:2.647e+02  
+ Median :  677.464   Median :3.245e+02   Median :9.707e+02  
+ Mean   : 2083.082   Mean   :8.119e+03   Mean   :4.401e+03  
+ 3rd Qu.: 2820.659   3rd Qu.:4.387e+03   3rd Qu.:2.131e+03  
+ Max.   :13124.618   Max.   :1.256e+05   Max.   :3.784e+04  
+      V890                V891                V892               V893         
+ Min.   :3.747e-01   Min.   :2.038e+00   Min.   :   12.36   Min.   :   25.39  
+ 1st Qu.:1.719e+01   1st Qu.:1.234e+02   1st Qu.:  102.18   1st Qu.:  101.84  
+ Median :3.163e+02   Median :6.003e+02   Median :  437.72   Median :  293.09  
+ Mean   :3.035e+03   Mean   :1.253e+04   Mean   : 7032.38   Mean   : 1793.67  
+ 3rd Qu.:1.271e+03   3rd Qu.:1.572e+03   3rd Qu.: 1269.61   3rd Qu.: 1215.49  
+ Max.   :3.804e+04   Max.   :2.029e+05   Max.   :85148.76   Max.   :19083.00  
+      V894                V895                V896          
+ Min.   :    5.183   Min.   :2.374e+00   Min.   :1.264e-01  
+ 1st Qu.:  147.132   1st Qu.:3.178e+01   1st Qu.:8.664e+01  
+ Median :  420.645   Median :1.278e+02   Median :3.674e+02  
+ Mean   : 4307.086   Mean   :4.071e+05   Mean   :3.936e+04  
+ 3rd Qu.: 1361.063   3rd Qu.:3.794e+02   3rd Qu.:2.450e+03  
+ Max.   :52062.191   Max.   :8.133e+06   Max.   :7.605e+05  
+      V897                V898                V899          
+ Min.   :    1.304   Min.   :1.046e+00   Min.   :4.570e-01  
+ 1st Qu.:   71.799   1st Qu.:1.324e+02   1st Qu.:3.014e+02  
+ Median :  237.008   Median :6.219e+02   Median :7.142e+02  
+ Mean   : 3398.895   Mean   :1.251e+04   Mean   :2.798e+05  
+ 3rd Qu.: 1805.865   3rd Qu.:2.548e+03   3rd Qu.:2.142e+03  
+ Max.   :40554.766   Max.   :1.337e+05   Max.   :5.450e+06  
+      V900                V901                V902          
+ Min.   :2.250e-02   Min.   :5.660e+00   Min.   :    1.271  
+ 1st Qu.:1.401e+01   1st Qu.:1.074e+02   1st Qu.:   87.373  
+ Median :3.336e+02   Median :4.431e+02   Median :  300.630  
+ Mean   :1.919e+03   Mean   :2.481e+06   Mean   : 1322.630  
+ 3rd Qu.:6.711e+02   3rd Qu.:3.589e+03   3rd Qu.:  917.590  
+ Max.   :2.566e+04   Max.   :4.947e+07   Max.   :12230.269  
+      V903                V904                V905               V906          
+ Min.   :1.055e+00   Min.   :1.721e+00   Min.   :   1.015   Min.   :7.844e-01  
+ 1st Qu.:1.934e+02   1st Qu.:4.002e+01   1st Qu.:  40.615   1st Qu.:4.033e+01  
+ Median :8.503e+02   Median :1.785e+02   Median : 338.268   Median :4.362e+02  
+ Mean   :8.768e+03   Mean   :5.555e+05   Mean   :2334.002   Mean   :1.408e+04  
+ 3rd Qu.:2.742e+03   3rd Qu.:1.242e+03   3rd Qu.:4577.467   3rd Qu.:1.802e+03  
+ Max.   :1.168e+05   Max.   :1.109e+07   Max.   :9084.943   Max.   :1.467e+05  
+      V907                V908                V909                V910         
+ Min.   :4.191e+00   Min.   :6.713e-03   Min.   :7.494e-01   Min.   :   1.640  
+ 1st Qu.:7.515e+01   1st Qu.:1.344e+02   1st Qu.:3.057e+01   1st Qu.:  32.858  
+ Median :3.492e+02   Median :6.554e+02   Median :2.711e+02   Median : 189.613  
+ Mean   :9.391e+03   Mean   :5.786e+04   Mean   :2.437e+03   Mean   : 979.178  
+ 3rd Qu.:2.713e+03   3rd Qu.:3.272e+03   3rd Qu.:3.313e+03   3rd Qu.: 973.606  
+ Max.   :1.559e+05   Max.   :1.055e+06   Max.   :1.426e+04   Max.   :9710.954  
+      V911               V912                V913                V914         
+ Min.   :   28.42   Min.   :2.212e-01   Min.   :1.627e+00   Min.   :   10.71  
+ 1st Qu.:  110.38   1st Qu.:3.586e+01   1st Qu.:5.513e+01   1st Qu.:  269.45  
+ Median :  403.31   Median :2.923e+02   Median :2.723e+02   Median :  481.17  
+ Mean   : 2840.02   Mean   :6.043e+04   Mean   :7.192e+03   Mean   : 3699.10  
+ 3rd Qu.:  940.46   3rd Qu.:2.386e+03   3rd Qu.:7.466e+02   3rd Qu.: 2265.05  
+ Max.   :39009.04   Max.   :1.158e+06   Max.   :1.292e+05   Max.   :35016.07  
+      V915                V916                V917          
+ Min.   :5.849e+00   Min.   :8.821e-02   Min.   :1.499e-01  
+ 1st Qu.:6.522e+01   1st Qu.:2.045e+02   1st Qu.:2.104e+02  
+ Median :2.913e+02   Median :1.172e+03   Median :5.979e+02  
+ Mean   :6.930e+04   Mean   :3.572e+03   Mean   :7.089e+03  
+ 3rd Qu.:5.219e+03   3rd Qu.:2.448e+03   3rd Qu.:3.370e+03  
+ Max.   :1.246e+06   Max.   :3.267e+04   Max.   :1.039e+05  
+      V918                V919                V920          
+ Min.   :    8.198   Min.   :    1.549   Min.   :1.763e-02  
+ 1st Qu.:   84.572   1st Qu.:   66.915   1st Qu.:1.339e+02  
+ Median :  526.613   Median :  422.286   Median :5.278e+02  
+ Mean   : 4280.114   Mean   : 7290.124   Mean   :2.659e+05  
+ 3rd Qu.: 6439.916   3rd Qu.: 3572.782   3rd Qu.:2.432e+03  
+ Max.   :25765.879   Max.   :86536.976   Max.   :4.932e+06  
+      V921                V922                V923          
+ Min.   :7.981e-01   Min.   :    2.036   Min.   :6.476e-01  
+ 1st Qu.:1.415e+02   1st Qu.:   61.437   1st Qu.:1.507e+02  
+ Median :1.006e+03   Median :  577.814   Median :7.463e+02  
+ Mean   :1.135e+04   Mean   : 4748.894   Mean   :2.339e+03  
+ 3rd Qu.:2.419e+03   3rd Qu.: 9273.313   3rd Qu.:2.283e+03  
+ Max.   :1.802e+05   Max.   :24884.745   Max.   :1.449e+04  
+      V924                V925                V926          
+ Min.   :2.130e+01   Min.   :9.546e+00   Min.   :2.427e-01  
+ 1st Qu.:1.207e+02   1st Qu.:5.474e+01   1st Qu.:2.726e+01  
+ Median :7.010e+02   Median :2.889e+02   Median :1.835e+02  
+ Mean   :8.359e+05   Mean   :6.297e+03   Mean   :9.693e+04  
+ 3rd Qu.:2.879e+03   3rd Qu.:1.134e+03   3rd Qu.:9.069e+02  
+ Max.   :1.135e+07   Max.   :1.024e+05   Max.   :1.911e+06  
+      V927                V928                V929               V930          
+ Min.   :1.473e-01   Min.   :3.290e+00   Min.   :    3.39   Min.   :4.604e-01  
+ 1st Qu.:6.783e+00   1st Qu.:3.940e+01   1st Qu.:   28.41   1st Qu.:8.666e+01  
+ Median :2.762e+02   Median :2.537e+02   Median :  337.69   Median :5.288e+02  
+ Mean   :4.220e+03   Mean   :1.153e+04   Mean   : 3043.50   Mean   :1.610e+04  
+ 3rd Qu.:6.671e+02   3rd Qu.:1.099e+03   3rd Qu.:  953.37   3rd Qu.:3.206e+03  
+ Max.   :5.568e+04   Max.   :1.837e+05   Max.   :40455.95   Max.   :2.797e+05  
+      V931                V932                V933          
+ Min.   :1.178e-01   Min.   :    3.394   Min.   :    1.309  
+ 1st Qu.:9.427e+01   1st Qu.:  106.220   1st Qu.:   28.699  
+ Median :3.943e+02   Median :  762.558   Median :  212.268  
+ Mean   :2.897e+03   Mean   : 6899.968   Mean   : 2762.786  
+ 3rd Qu.:1.287e+03   3rd Qu.: 1299.980   3rd Qu.:  773.100  
+ Max.   :3.551e+04   Max.   :88261.677   Max.   :27957.658  
+      V934                V935                V936          
+ Min.   :    7.248   Min.   :    31.28   Min.   :3.055e-01  
+ 1st Qu.:   90.032   1st Qu.:   226.76   1st Qu.:1.883e+01  
+ Median :  231.216   Median :   919.94   Median :2.370e+02  
+ Mean   : 1438.102   Mean   : 11154.24   Mean   :1.575e+05  
+ 3rd Qu.: 1005.708   3rd Qu.:  3472.22   3rd Qu.:3.344e+03  
+ Max.   :11542.238   Max.   :118942.75   Max.   :3.081e+06  
+      V937                V938                V939          
+ Min.   :1.972e-02   Min.   :2.721e-02   Min.   :    1.745  
+ 1st Qu.:9.397e+01   1st Qu.:1.880e+01   1st Qu.:   10.102  
+ Median :8.542e+02   Median :3.757e+02   Median :  199.927  
+ Mean   :5.119e+03   Mean   :8.054e+03   Mean   : 1807.217  
+ 3rd Qu.:6.637e+03   3rd Qu.:2.570e+03   3rd Qu.: 1169.957  
+ Max.   :4.509e+04   Max.   :1.250e+05   Max.   :18651.533  
+      V940                V941                V942          
+ Min.   :4.391e+00   Min.   :1.154e+00   Min.   :5.908e+00  
+ 1st Qu.:4.944e+01   1st Qu.:1.522e+02   1st Qu.:4.252e+01  
+ Median :2.983e+02   Median :6.797e+02   Median :2.573e+02  
+ Mean   :2.972e+05   Mean   :5.211e+04   Mean   :1.745e+04  
+ 3rd Qu.:2.707e+03   3rd Qu.:6.434e+03   3rd Qu.:3.330e+03  
+ Max.   :5.619e+06   Max.   :6.628e+05   Max.   :3.003e+05  
+      V943                V944                V945          
+ Min.   :    2.975   Min.   :5.358e-01   Min.   :3.047e+00  
+ 1st Qu.:   34.364   1st Qu.:1.368e+02   1st Qu.:5.849e+01  
+ Median :  194.567   Median :3.588e+02   Median :7.279e+02  
+ Mean   : 4902.174   Mean   :1.112e+04   Mean   :1.231e+04  
+ 3rd Qu.: 2054.339   3rd Qu.:1.424e+03   3rd Qu.:2.390e+03  
+ Max.   :78894.898   Max.   :1.199e+05   Max.   :1.156e+05  
+      V946                V947                V948          
+ Min.   :4.160e-02   Min.   :2.385e+00   Min.   :   0.1666  
+ 1st Qu.:1.556e+02   1st Qu.:2.925e+01   1st Qu.:  51.2962  
+ Median :8.779e+02   Median :2.033e+02   Median : 175.1107  
+ Mean   :8.277e+03   Mean   :1.079e+04   Mean   : 744.3762  
+ 3rd Qu.:2.450e+03   3rd Qu.:7.464e+02   3rd Qu.: 380.8721  
+ Max.   :1.268e+05   Max.   :2.038e+05   Max.   :9460.0914  
+      V949                V950                V951          
+ Min.   :5.852e-01   Min.   :    36.11   Min.   :4.017e+00  
+ 1st Qu.:2.809e+01   1st Qu.:   233.46   1st Qu.:2.037e+02  
+ Median :2.290e+02   Median :   663.73   Median :4.710e+02  
+ Mean   :2.411e+06   Mean   : 27408.65   Mean   :1.366e+04  
+ 3rd Qu.:2.248e+03   3rd Qu.:  1581.25   3rd Qu.:1.355e+03  
+ Max.   :4.818e+07   Max.   :528889.96   Max.   :2.531e+05  
+      V952                V953                V954          
+ Min.   :7.949e+00   Min.   :7.280e-01   Min.   :3.068e-01  
+ 1st Qu.:9.445e+01   1st Qu.:5.864e+01   1st Qu.:4.485e+01  
+ Median :2.228e+02   Median :7.257e+02   Median :8.385e+02  
+ Mean   :1.846e+04   Mean   :6.186e+04   Mean   :1.092e+07  
+ 3rd Qu.:1.975e+03   3rd Qu.:4.102e+03   3rd Qu.:4.748e+03  
+ Max.   :2.697e+05   Max.   :1.206e+06   Max.   :2.184e+08  
+      V955                V956                V957               V958          
+ Min.   :    1.139   Min.   :7.543e+00   Min.   :   3.225   Min.   :    0.448  
+ 1st Qu.:   89.102   1st Qu.:3.886e+01   1st Qu.:  52.951   1st Qu.:  136.637  
+ Median :  472.183   Median :2.630e+02   Median : 209.628   Median :  752.680  
+ Mean   : 2053.704   Mean   :9.094e+03   Mean   : 875.476   Mean   : 4730.170  
+ 3rd Qu.: 2079.447   3rd Qu.:2.121e+03   3rd Qu.: 708.148   3rd Qu.: 1688.258  
+ Max.   :22277.287   Max.   :1.545e+05   Max.   :6628.317   Max.   :73575.049  
+      V959                V960                V961          
+ Min.   :6.435e-01   Min.   :3.417e-02   Min.   :4.273e-02  
+ 1st Qu.:5.209e+01   1st Qu.:5.640e+01   1st Qu.:1.132e+02  
+ Median :2.476e+02   Median :6.726e+02   Median :3.293e+02  
+ Mean   :7.183e+03   Mean   :5.198e+03   Mean   :1.933e+05  
+ 3rd Qu.:1.092e+03   3rd Qu.:2.773e+03   3rd Qu.:2.043e+03  
+ Max.   :9.079e+04   Max.   :5.420e+04   Max.   :3.821e+06  
+      V962                V963              V964                V965          
+ Min.   :9.508e+00   Min.   :   1.71   Min.   :2.462e-01   Min.   :2.327e-01  
+ 1st Qu.:4.813e+01   1st Qu.:  34.97   1st Qu.:1.058e+02   1st Qu.:1.222e+02  
+ Median :3.554e+02   Median : 282.78   Median :2.702e+02   Median :3.712e+02  
+ Mean   :1.544e+04   Mean   :1566.96   Mean   :5.079e+04   Mean   :3.921e+03  
+ 3rd Qu.:7.789e+02   3rd Qu.:1671.20   3rd Qu.:1.091e+03   3rd Qu.:1.700e+03  
+ Max.   :2.876e+05   Max.   :8981.57   Max.   :9.894e+05   Max.   :2.481e+04  
+      V966                V967                V968          
+ Min.   :    1.316   Min.   :3.430e-01   Min.   :6.955e+00  
+ 1st Qu.:   85.292   1st Qu.:8.952e+01   1st Qu.:1.801e+02  
+ Median :  576.463   Median :4.715e+02   Median :4.931e+02  
+ Mean   : 3394.340   Mean   :2.154e+03   Mean   :3.354e+05  
+ 3rd Qu.: 2659.176   3rd Qu.:1.891e+03   3rd Qu.:3.394e+03  
+ Max.   :17119.549   Max.   :2.115e+04   Max.   :4.204e+06  
+      V969                V970                V971                V972         
+ Min.   :1.446e-01   Min.   :2.450e+00   Min.   :1.188e-01   Min.   :   13.59  
+ 1st Qu.:1.019e+02   1st Qu.:4.353e+02   1st Qu.:4.511e+01   1st Qu.:  212.38  
+ Median :8.307e+02   Median :1.930e+03   Median :2.479e+02   Median :  633.65  
+ Mean   :4.836e+03   Mean   :1.464e+05   Mean   :2.188e+03   Mean   : 2276.16  
+ 3rd Qu.:3.672e+03   3rd Qu.:6.003e+03   3rd Qu.:9.050e+02   3rd Qu.: 1786.20  
+ Max.   :5.039e+04   Max.   :2.532e+06   Max.   :2.746e+04   Max.   :17378.10  
+      V973              V974                V975                V976          
+ Min.   :  20.75   Min.   :    0.729   Min.   :   0.6114   Min.   :1.768e-01  
+ 1st Qu.: 123.22   1st Qu.:   65.582   1st Qu.:  99.4542   1st Qu.:7.871e+01  
+ Median : 367.51   Median :  581.238   Median : 485.4816   Median :1.415e+02  
+ Mean   : 990.60   Mean   :10048.425   Mean   : 864.2829   Mean   :1.467e+03  
+ 3rd Qu.:1117.76   3rd Qu.: 3566.395   3rd Qu.:1553.5492   3rd Qu.:8.212e+02  
+ Max.   :5777.63   Max.   :91518.737   Max.   :3594.1484   Max.   :1.044e+04  
+      V977               V978                V979                V980         
+ Min.   :   5.831   Min.   :3.286e-01   Min.   :9.732e-02   Min.   :   39.14  
+ 1st Qu.:  35.860   1st Qu.:8.358e+01   1st Qu.:5.283e+01   1st Qu.:   94.51  
+ Median : 204.570   Median :1.264e+03   Median :2.146e+02   Median :  280.46  
+ Mean   :1235.369   Mean   :3.419e+03   Mean   :8.243e+03   Mean   : 4593.15  
+ 3rd Qu.: 745.960   3rd Qu.:4.840e+03   3rd Qu.:5.633e+02   3rd Qu.: 1188.02  
+ Max.   :9366.337   Max.   :2.173e+04   Max.   :1.196e+05   Max.   :75796.69  
+      V981                V982                V983               V984          
+ Min.   :2.388e-01   Min.   :1.916e-03   Min.   :   2.367   Min.   :6.566e-02  
+ 1st Qu.:7.750e+01   1st Qu.:5.118e+01   1st Qu.: 124.947   1st Qu.:5.249e+00  
+ Median :3.974e+02   Median :6.879e+02   Median : 702.951   Median :2.022e+02  
+ Mean   :1.333e+03   Mean   :2.141e+03   Mean   :1992.044   Mean   :1.356e+04  
+ 3rd Qu.:1.010e+03   3rd Qu.:1.918e+03   3rd Qu.:2077.772   3rd Qu.:4.245e+02  
+ Max.   :1.153e+04   Max.   :1.655e+04   Max.   :8632.753   Max.   :2.498e+05  
+      V985                V986                V987          
+ Min.   :8.377e-02   Min.   :3.066e-01   Min.   :    10.15  
+ 1st Qu.:1.751e+02   1st Qu.:1.608e+02   1st Qu.:   132.00  
+ Median :4.379e+02   Median :7.331e+02   Median :   833.05  
+ Mean   :4.536e+04   Mean   :8.642e+03   Mean   :  8686.86  
+ 3rd Qu.:1.962e+03   3rd Qu.:2.977e+03   3rd Qu.:  1674.08  
+ Max.   :5.903e+05   Max.   :1.325e+05   Max.   :149867.22  
+      V988                V989               V990                V991          
+ Min.   :    8.085   Min.   :   14.51   Min.   :1.011e+00   Min.   :7.835e-02  
+ 1st Qu.:  145.813   1st Qu.:   73.79   1st Qu.:2.184e+01   1st Qu.:1.377e+02  
+ Median :  235.103   Median :  195.49   Median :2.100e+02   Median :3.840e+02  
+ Mean   : 2541.460   Mean   : 1310.44   Mean   :4.576e+04   Mean   :5.992e+03  
+ 3rd Qu.: 3974.753   3rd Qu.: 1118.23   3rd Qu.:1.212e+03   3rd Qu.:6.064e+03  
+ Max.   :12092.749   Max.   :12325.18   Max.   :8.429e+05   Max.   :5.830e+04  
+      V992                V993                V994          
+ Min.   :1.817e-02   Min.   :1.316e+00   Min.   :3.238e-01  
+ 1st Qu.:3.379e+01   1st Qu.:4.051e+01   1st Qu.:2.317e+02  
+ Median :2.896e+02   Median :2.855e+02   Median :5.506e+02  
+ Mean   :9.579e+03   Mean   :2.023e+04   Mean   :3.238e+03  
+ 3rd Qu.:1.125e+03   3rd Qu.:1.149e+03   3rd Qu.:1.980e+03  
+ Max.   :9.492e+04   Max.   :3.167e+05   Max.   :3.359e+04  
+      V995                V996                V997          
+ Min.   :    84.89   Min.   :    8.768   Min.   :8.517e-01  
+ 1st Qu.:   373.58   1st Qu.:  121.044   1st Qu.:7.487e+01  
+ Median :  2946.37   Median :  315.771   Median :6.839e+02  
+ Mean   : 52725.69   Mean   : 2434.584   Mean   :7.237e+04  
+ 3rd Qu.:  6387.59   3rd Qu.: 1898.997   3rd Qu.:1.982e+03  
+ Max.   :930832.04   Max.   :23933.257   Max.   :1.397e+06  
+      V998                V999               V1000          
+ Min.   :7.017e+00   Min.   :1.388e+00   Min.   :    1.652  
+ 1st Qu.:6.038e+01   1st Qu.:7.609e+01   1st Qu.:   53.041  
+ Median :3.405e+02   Median :4.974e+02   Median :  262.564  
+ Mean   :4.513e+05   Mean   :8.422e+03   Mean   : 1559.404  
+ 3rd Qu.:4.049e+03   3rd Qu.:1.858e+03   3rd Qu.: 1254.054  
+ Max.   :8.728e+06   Max.   :1.418e+05   Max.   :12414.418  
+> print(paste("'ln' should be valid:", validObject(ln)))
+[1] "'ln' should be valid: TRUE"
+> # break the validity of the object
+> ln@logsigma <- 1:3
+> try(
++     print(paste("'ln' should not be valid:", validObject(ln, test=TRUE)))
++     )
+[1] "'ln' should not be valid: FALSE"
+> # see how the actual SD compares to the estimated one
+> tmp.sd <- sqrt(apply(log(x), 1, var))
+> plot(tmp.sd,logsigma)
+> # same for the means
+> tmp.mu<-apply(log(x), 1, mean)
+> plot(tmp.mu,logmu)
+> #cleanup
+> rm(nGenes, logmu, logsigma, ln, x, tmp.mu, tmp.sd)
+> 
+> 
+> 
+> 

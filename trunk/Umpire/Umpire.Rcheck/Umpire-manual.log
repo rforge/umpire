@@ -1,0 +1,709 @@
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2007.1.8)  6 JAN 2011 16:40
+entering extended mode
+**Rd2
+(./Rd2.tex
+LaTeX2e <2003/12/01>
+Babel <v3.8d> and hyphenation patterns for american, french, german, ngerman, b
+ahasa, basque, bulgarian, catalan, croatian, czech, danish, dutch, esperanto, e
+stonian, finnish, greek, icelandic, irish, italian, latin, magyar, norsk, polis
+h, portuges, romanian, russian, serbian, slovak, slovene, spanish, swedish, tur
+kish, ukrainian, nohyphenation, loaded.
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/book.cls
+Document Class: book 2004/02/16 v1.4f Standard LaTeX document class
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/bk10.clo
+File: bk10.clo 2004/02/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/apps/R-2.10.1/lib/R/share/texmf/Rd.sty
+Package: Rd 
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip43
+\LTright=\skip44
+\LTpre=\skip45
+\LTpost=\skip46
+\LTchunksize=\count88
+\LTcapwidth=\dimen103
+\LT@head=\box26
+\LT@firsthead=\box27
+\LT@foot=\box28
+\LT@lastfoot=\box29
+\LT@cols=\count89
+\LT@rows=\count90
+\c@LT@tables=\count91
+\c@LT@chunks=\count92
+\LT@p@ftn=\toks14
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2004/02/26 v1.1c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup4
+\symboldletters=\mathgroup5
+\symboldsymbols=\mathgroup6
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 137.
+LaTeX Info: Redefining \bm on input line 203.
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/alltt.sty
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks15
+\verbatim@line=\toks16
+\verbatim@in@stream=\read1
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2004/03/15  ver 3.1  Verb mode for urls, etc.
+)
+(/apps/R-2.10.1/lib/R/share/texmf/upquote.sty
+Package: upquote 2003/08/11 v1.1 Covington's upright-quote modification to verb
+atim and verb
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2004/02/22 v1.99f Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+)
+LaTeX Info: Redefining \oldstylenums on input line 266.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 281.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 282.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 283.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 284.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 285.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 286.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 287.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 288.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 289.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 290.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 291.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 292.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 293.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 294.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 295.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 296.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 297.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 298.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 299.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 300.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 301.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 302.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 303.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 304.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 305.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 306.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 307.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 308.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 309.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 310.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 311.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 312.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 313.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 314.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 315.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 316.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 317.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 318.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 319.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 320.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 321.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 322.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 323.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 324.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 325.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 326.
+))
+\ldescriptionwidth=\skip47
+ NOT loading ae
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2004/02/22 v1.99f Standard LaTeX package
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2004/02/22 v1.99f Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2004/09/15 PSNFSS-v9.2 (SPQR) 
+)
+NOT loading lmodern
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/graphics/color.sty
+Package: color 1999/02/16 v1.0i Standard LaTeX Color (DPC)
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/graphics/color.cfg
+File: color.cfg 2005/02/03 v1.3 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 125.
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/graphics/pdftex.def
+File: pdftex.def 2002/06/19 v0.03k graphics/color for pdftex
+\Gread@gobject=\count93
+))
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2003/11/30 v6.74m Hypertext links for LaTeX
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+\@linkdim=\dimen104
+\Hy@linkcounter=\count94
+\Hy@pagecounter=\count95
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2003/11/30 v6.74m Hyperref: PDFDocEncoding definition (HO)
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/hyperref/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive and teTeX
+)
+Package hyperref Info: Hyper figures OFF on input line 1880.
+Package hyperref Info: Link nesting OFF on input line 1885.
+Package hyperref Info: Hyper index ON on input line 1888.
+Package hyperref Info: Plain pages ON on input line 1893.
+Package hyperref Info: Backreferencing OFF on input line 1900.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 2004.
+LaTeX Info: Redefining \href on input line 2130.
+LaTeX Info: Redefining \url on input line 2143.
+\Fld@menulength=\count96
+\Field@Width=\dimen105
+\Fld@charsize=\dimen106
+\Choice@toks=\toks18
+\Field@toks=\toks19
+Package hyperref Info: Hyper figures OFF on input line 2618.
+Package hyperref Info: Link nesting OFF on input line 2623.
+Package hyperref Info: Hyper index ON on input line 2626.
+Package hyperref Info: backreferencing OFF on input line 2633.
+Package hyperref Info: Link coloring OFF on input line 2638.
+\c@Item=\count97
+\c@Hfootnote=\count98
+)
+*hyperref using default driver hpdftex*
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2003/11/30 v6.74m Hyperref driver for pdfTeX
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/pifont.sty
+Package: pifont 2004/09/15 PSNFSS-v9.2 Pi font support (SPQR) 
+LaTeX Font Info:    Try loading font information for U+pzd on input line 63.
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/upzd.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Try loading font information for U+psy on input line 64.
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/upsy.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
+\Fld@listcount=\count99
+\@outlinefile=\write3
+)
+
+Package hyperref Warning: Option `hyperindex' has already been used,
+(hyperref)                setting the option has no effect on input line 321.
+
+Package hyperref Info: Option `colorlinks' set `true' on input line 321.
+
+Package hyperref Warning: Option `pagebackref' has already been used,
+(hyperref)                setting the option has no effect on input line 321.
+
+Package hyperref Info: Option `linktocpage' set `true' on input line 321.
+Package hyperref Info: Option `plainpages' set `false' on input line 321.
+) (/apps/teTeX3.0/share/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2004/02/05 v1.0d Input encoding file
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+))
+\@indexfile=\write4
+\openout4 = `Rd2.idx'.
+
+
+Writing index file Rd2.idx
+(./Rd2.aux)
+\openout1 = `Rd2.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 7.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 7.
+ (/apps/teTeX3.0/share/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 7.
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+(/apps/teTeX3.0/share/texmf-dist/tex/context/base/supp-pdf.tex
+(/apps/teTeX3.0/share/texmf-dist/tex/context/base/supp-mis.tex
+loading : Context Support Macros / Miscellaneous (2004.10.26)
+\protectiondepth=\count100
+\scratchcounter=\count101
+\scratchtoks=\toks20
+\scratchdimen=\dimen107
+\scratchskip=\skip48
+\scratchmuskip=\muskip11
+\scratchbox=\box30
+\scratchread=\read2
+\scratchwrite=\write5
+\zeropoint=\dimen108
+\onepoint=\dimen109
+\onebasepoint=\dimen110
+\minusone=\count102
+\thousandpoint=\dimen111
+\onerealpoint=\dimen112
+\emptytoks=\toks21
+\nextbox=\box31
+\nextdepth=\dimen113
+\everyline=\toks22
+\!!counta=\count103
+\!!countb=\count104
+\recursecounter=\count105
+)
+loading : Context Support Macros / PDF (2004.03.26)
+\nofMPsegments=\count106
+\nofMParguments=\count107
+\MPscratchCnt=\count108
+\MPscratchDim=\dimen114
+\MPnumerator=\count109
+\everyMPtoPDFconversion=\toks23
+)
+Package hyperref Info: Link coloring ON on input line 7.
+ (/apps/teTeX3.0/share/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2003/12/03 v2.21 Cross-referencing by name of section
+\c@section@level=\count110
+)
+LaTeX Info: Redefining \ref on input line 7.
+LaTeX Info: Redefining \pageref on input line 7.
+ (./Rd2.out)
+(./Rd2.out)
+\openout3 = `Rd2.out'.
+
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 8.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 10.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20.74> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 10.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 19.
+ (/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 27.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 27.
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
+) (./Rd2.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 1.
+)
+\tf@toc=\write6
+\openout6 = `Rd2.toc'.
+
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [1
+
+
+{/apps/teTeX3.0/share/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 55--57
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [2]
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 120--122
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+
+Overfull \hbox (79.98035pt too wide) in paragraph at lines 134--134
+ []  \T1/pcr/m/n/9 comp[[i]] <- IndependentNormal(rnorm(nGenes/nComp,6,1.5),1/r
+gamma(nGenes/nComp,44,28))[] 
+ []
+
+
+Overfull \hbox (31.3804pt too wide) in paragraph at lines 151--151
+ []\T1/pcr/m/n/9 myEngine.alterSD <- alterSD(myEngine,function(x)invGammaMultip
+le(x,SHAPE,RATE))[] 
+ []
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [3]
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [4]
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [5]
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [6]
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 366.
+
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+) [7]
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+)
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 489--491
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+[8] (/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [9]
+Overfull \hbox (8.3177pt too wide) in paragraph at lines 616--618
+[]\T1/ptm/m/n/10 simply prints out the num-ber of com-po-nents in-cluded in the
+ ob-ject of \T1/pcr/m/n/10 Engine 
+ []
+
+
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 624--626
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+
+Overfull \hbox (79.98035pt too wide) in paragraph at lines 642--642
+ []  \T1/pcr/m/n/9 comp[[i]] <- IndependentNormal(rnorm(nGenes/nComp,6,1.5),1/r
+gamma(nGenes/nComp,44,28))[] 
+ []
+
+[10] (/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [11] [12]
+Overfull \hbox (4.33853pt too wide) in paragraph at lines 808--810
+[]\T1/ptm/m/n/10 counts the to-tal num-ber of genes (i.e, the length of the vec
+-tor the \T1/pcr/m/n/10 EngineWithActivity
+ []
+
+
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 816--818
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+
+Overfull \hbox (144.78027pt too wide) in paragraph at lines 835--835
+ []  \T1/pcr/m/n/9 comp[[i]] <- IndependentNormal(rnorm(nGenes/nComponents,6,1.
+5),1/rgamma(nGenes/nComponents,44,28))[] 
+ []
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [13]
+Overfull \hbox (50.45784pt too wide) in paragraph at lines 906--909
+\T1/ptm/m/n/10 sions of n sam-ples fol-low-ing log nor-mal dis-tri-bu-tion cap-
+tured in the ob-ject of \T1/pcr/m/n/10 IndependentLogNormal 
+ []
+
+
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 917--919
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+[14] (/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [15]
+Overfull \hbox (4.15852pt too wide) in paragraph at lines 1037--1041
+[]\T1/ptm/m/n/10 takes an ob-ject of class \T1/pcr/m/n/10 IndependentNormal\T1/
+ptm/m/n/10 ,loop over
+ []
+
+
+Overfull \hbox (9.43808pt too wide) in paragraph at lines 1047--1050
+\T1/ptm/m/n/10 of n sam-ples fol-low-ing the nor-mal dis-tri-bu-tion cap-tured 
+in the ob-ject of \T1/pcr/m/n/10 IndependentNormal 
+ []
+
+
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 1058--1060
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+[16] (/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [17] [18]
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 1239--1241
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+[19] (/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+)
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 1333--1335
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+[20]
+Overfull \hbox (96.18033pt too wide) in paragraph at lines 1348--1348
+ []  \T1/pcr/m/n/9 comp[[i]] <- IndependentLogNormal(rnorm(nGenes/nComp,6,1.5),
+1/rgamma(nGenes/nComp,44,28))[] 
+ []
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+)
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 1389--1391
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+) [21]
+Overfull \hbox (56.98004pt too wide) in paragraph at lines 1420--1422
+[]\T1/ptm/m/n/10 Kevin R. Coombes \T1/pcr/m/n/10 <kcoombes@mdanderson.org>\T1/p
+tm/m/n/10 , Jiexin Zhang \T1/pcr/m/n/10 <jiexinzhang@mdanderson.org> 
+ []
+
+(/apps/teTeX3.0/share/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2004/02/05 v1.0d Input encoding file
+)
+Overfull \hbox (150.78088pt too wide) in paragraph at lines 1439--1439
+ []\T1/pcr/m/n/10 SurvivalModel(baseHazard = 1/5, accrual = 5, followUp = 1, un
+its = 12, unitName = "months")[] 
+ []
+
+[22] (./Rd2.ind [23]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 3.
+
+Overfull \hbox (1.3567pt too wide) in paragraph at lines 15--16
+[]| \T1/pcr/m/n/10 alterObjectComponents-method\T1/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (1.3567pt too wide) in paragraph at lines 28--29
+[]| \T1/pcr/m/n/10 alterObjectComponents-method\T1/ptm/m/n/10 , 
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 39.
+
+Overfull \hbox (28.01662pt too wide) in paragraph at lines 39--41
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 alterObjectComponents-method\T1/ptm/m/it/10 )\
+T1/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (20.8567pt too wide) in paragraph at lines 43--45
+[]\T1/pcr/m/n/10 alterMean,EngineWithActivity-method 
+ []
+
+
+Overfull \hbox (4.01662pt too wide) in paragraph at lines 43--45
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 EngineWithActivity-class\T1/ptm/m/it/10 )\T1/p
+tm/m/n/10 , 
+ []
+
+
+Overfull \hbox (14.8567pt too wide) in paragraph at lines 45--47
+[]\T1/pcr/m/n/10 alterMean,IndependentNormal-method 
+ []
+
+
+Overfull \hbox (28.01662pt too wide) in paragraph at lines 50--52
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 alterObjectComponents-method\T1/ptm/m/it/10 )\
+T1/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (8.8567pt too wide) in paragraph at lines 54--56
+[]\T1/pcr/m/n/10 alterSD,EngineWithActivity-method 
+ []
+
+
+Overfull \hbox (4.01662pt too wide) in paragraph at lines 54--56
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 EngineWithActivity-class\T1/ptm/m/it/10 )\T1/p
+tm/m/n/10 , 
+ []
+
+
+Overfull \hbox (2.8567pt too wide) in paragraph at lines 56--58
+[]\T1/pcr/m/n/10 alterSD,IndependentNormal-method 
+ []
+
+
+Overfull \hbox (32.8567pt too wide) in paragraph at lines 60--62
+[]\T1/pcr/m/n/10 as.data.frame,CancerPatientSet-method 
+ []
+
+[24
+
+]
+Overfull \hbox (4.01662pt too wide) in paragraph at lines 104--106
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 EngineWithActivity-class\T1/ptm/m/it/10 )\T1/p
+tm/m/n/10 , 
+ []
+
+
+Overfull \hbox (16.01662pt too wide) in paragraph at lines 114--116
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 IndependentLogNormal-class\T1/ptm/m/it/10 )\T1
+/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (28.01662pt too wide) in paragraph at lines 120--122
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 alterObjectComponents-method\T1/ptm/m/it/10 )\
+T1/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (28.01662pt too wide) in paragraph at lines 140--142
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 alterObjectComponents-method\T1/ptm/m/it/10 )\
+T1/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (4.01662pt too wide) in paragraph at lines 150--152
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 EngineWithActivity-class\T1/ptm/m/it/10 )\T1/p
+tm/m/n/10 , 
+ []
+
+
+Overfull \hbox (2.8567pt too wide) in paragraph at lines 152--154
+[]\T1/pcr/m/n/10 nrow,IndependentLogNormal-method 
+ []
+
+
+Overfull \hbox (16.01662pt too wide) in paragraph at lines 152--154
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 IndependentLogNormal-class\T1/ptm/m/it/10 )\T1
+/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (4.01662pt too wide) in paragraph at lines 176--178
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 EngineWithActivity-class\T1/ptm/m/it/10 )\T1/p
+tm/m/n/10 , 
+ []
+
+
+Overfull \hbox (2.8567pt too wide) in paragraph at lines 178--180
+[]\T1/pcr/m/n/10 rand,IndependentLogNormal-method 
+ []
+
+
+Overfull \hbox (16.01662pt too wide) in paragraph at lines 178--180
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 IndependentLogNormal-class\T1/ptm/m/it/10 )\T1
+/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (8.8567pt too wide) in paragraph at lines 198--200
+[]\T1/pcr/m/n/10 summary,EngineWithActivity-method 
+ []
+
+
+Overfull \hbox (4.01662pt too wide) in paragraph at lines 198--200
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 EngineWithActivity-class\T1/ptm/m/it/10 )\T1/p
+tm/m/n/10 , 
+ []
+
+
+Overfull \hbox (20.8567pt too wide) in paragraph at lines 200--202
+[]\T1/pcr/m/n/10 summary,IndependentLogNormal-method 
+ []
+
+
+Overfull \hbox (16.01662pt too wide) in paragraph at lines 200--202
+\T1/ptm/m/it/10 (\T1/pcr/m/sl/10 IndependentLogNormal-class\T1/ptm/m/it/10 )\T1
+/ptm/m/n/10 , 
+ []
+
+
+Overfull \hbox (2.8567pt too wide) in paragraph at lines 202--204
+[]\T1/pcr/m/n/10 summary,IndependentNormal-method 
+ []
+
+[25] [26
+
+]) (./Rd2.aux) ) 
+Here is how much of TeX's memory you used:
+ 3984 strings out of 94500
+ 55870 string characters out of 1174322
+ 96728 words of memory out of 1000000
+ 6784 multiletter control sequences out of 10000+50000
+ 43331 words of font info for 57 fonts, out of 500000 for 2000
+ 580 hyphenation exceptions out of 1000
+ 36i,6n,34p,215b,421s stack positions out of 1500i,500n,5000p,200000b,5000s
+PDF statistics:
+ 561 PDF objects out of 300000
+ 268 named destinations out of 131072
+ 153 words of extra memory for PDF output out of 65536
+
+! pdfTeX warning (dest): name{Rfn.help} has been referenced but does not exist,
+ replaced by a fixed one
+
+{/apps/teTeX3.0/share/texmf-dist/fonts/enc/dvips/psnfss/8r.enc}</apps/teTeX3.0/
+share/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></apps/teTeX3.0/share/texm
+f-dist/fonts/type1/bluesky/cm/cmsy10.pfb></apps/teTeX3.0/share/texmf-dist/fonts
+/type1/urw/times/utmri8a.pfb></apps/teTeX3.0/share/texmf-dist/fonts/type1/urw/t
+imes/utmr8a.pfb></apps/teTeX3.0/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8
+a.pfb></apps/teTeX3.0/share/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></app
+s/teTeX3.0/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></apps/teTeX3.0/sh
+are/texmf-dist/fonts/type1/urw/times/utmb8a.pfb>
+Output written on Rd2.pdf (26 pages, 215808 bytes).

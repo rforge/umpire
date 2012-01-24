@@ -1,0 +1,61 @@
+###
+### NAMESPACE
+###
+
+
+## Imported methods
+import(methods)
+##importFrom(base, summary)
+##importFrom(base, nrow)
+##importFrom(base, ncol)
+##importFrom(base, as.data.frame)
+
+## Public classes
+exportClasses(Engine)
+exportClasses(EngineWithActivity)
+exportClasses(IndependentNormal)
+exportClasses(IndependentLogNormal)
+exportClasses(MVN)
+exportClasses(NoiseModel)
+exportClasses(CancerModel)
+exportClasses(SurvivalModel)
+exportClasses(CancerPatientSet)
+exportClasses(CancerEngine)
+
+## S4 methods made from existing functions or S3 methods
+exportMethods(summary)
+exportMethods(nrow)
+exportMethods(ncol)
+exportMethods(as.data.frame)
+
+## S4 methods from new generics we define
+exportMethods(rand)
+exportMethods(alterMean)
+exportMethods(alterSD)
+exportMethods(blur)
+
+## Public functions
+export(nComponents)  # of an Engine
+export(covar)        # gets the covariance matrix of an MVN object
+export(correl)       # gets the correlation matrix of an MVN object
+export(normalOffset)     # example of an "alterMean transformation"
+export(invGammaMultiple) # example of an "alterSD tansformation"
+export(nPatterns)            # part of cancer model
+export(nPossibleHits)        # part of cancer model
+export(nHitsPerPattern)      # part of cancer model
+export(survivalCoefficients) # part of cancer model
+export(outcomeCoefficients)  # part of cancer model
+export(realizeOutcome)  # part of cancer patient set
+export(realizeSurvival) # part of cancer patient set
+
+## Public functions that construct classes
+export(Engine)
+export(EngineWithActivity)
+export(IndependentNormal)
+export(IndependentLogNormal)
+export(MVN)
+export(NoiseModel)
+export(CancerModel)
+export(SurvivalModel)
+export(CancerPatientSet)
+#export(CancerEngine)

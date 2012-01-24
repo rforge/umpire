@@ -1,0 +1,88 @@
+
+R version 2.10.1 (2009-12-14)
+Copyright (C) 2009 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(Umpire)
+> # set seed to ensure reproducibility
+> set.seed(539586)
+> # create a cancer model
+> x <- CancerModel('test', 30, 10,
++                  HIT  = function(n) 3+rbinom(1, 4, 0.7),
++                  SURV = function(n) rnorm(n, 0, 2),
++                  OUT  = function(n) rnorm(n, 0, 2))
+> # describe the model
+> print(paste('Number of patterns:', nPatterns(x), '(should equal 10)'))
+[1] "Number of patterns: 10 (should equal 10)"
+> print(paste('Number of hits:', nPossibleHits(x), '(should equal 30)'))
+[1] "Number of hits: 30 (should equal 30)"
+> print(nHitsPerPattern(x))
+ [1] 6 5 7 6 4 3 7 6 6 7
+> summary(x)
+test , a CancerModel object constructed via the function call:
+ CancerModel(name = "test", nPossible = 30, nPattern = 10, HIT = function(n) 3 + rbinom(1, 4, 0.7), SURV = function(n) rnorm(n, 0, 2), OUT = function(n) rnorm(n, 0, 2)) 
+
+Pattern prevalences:
+ [1] 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1
+
+Survival effects:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-3.8880 -1.0780 -0.2658 -0.3926  0.9417  2.9430 
+
+Outcome effects:
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-3.42000 -1.58200 -0.22380  0.04591  1.31600  4.61700 
+> # check correlation
+> cor(survivalCoefficients(x), outcomeCoefficients(x))
+[1] -0.0520336
+> plot(survivalCoefficients(x), outcomeCoefficients(x))
+> # generate outcome data from the model
+> y <- rand(x, 300, SurvivalModel(1/2, 5, 5, 52, "weeks"))
+> print(table(y$Outcome, y$CancerSubType))
+      
+        1  2  3  4  5  6  7  8  9 10
+  Bad  27 36 27  9  4 28 31 22 19 23
+  Good  1  0  2 15 30  2  0 17  7  0
+> if (require(survival)) {
++   plot(survfit(Surv(LFU, Event) ~ Outcome, y))
++   z <- coxph(Surv(LFU, Event) ~ Outcome, y)
++   summary(z)
++ }
+Loading required package: survival
+Loading required package: splines
+Call:
+coxph(formula = Surv(LFU, Event) ~ Outcome, data = y)
+
+  n= 300 
+
+              coef exp(coef) se(coef)    z Pr(>|z|)   
+OutcomeGood 0.6588    1.9324   0.2233 2.95  0.00318 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+            exp(coef) exp(-coef) lower .95 upper .95
+OutcomeGood     1.932     0.5175     1.247     2.994
+
+Rsquare= 0.026   (max possible= 0.961 )
+Likelihood ratio test= 8.05  on 1 df,   p=0.004562
+Wald test            = 8.7  on 1 df,   p=0.003179
+Score (logrank) test = 9.02  on 1 df,   p=0.00267
+
+> # cleanup
+> rm(x, y, z)
+> 
+> 
+> 
+> 

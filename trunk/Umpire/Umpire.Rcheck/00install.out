@@ -1,0 +1,12 @@
+* install options are ' --no-html'
+
+* installing *source* package 'Umpire' ...
+** R
+** inst
+** preparing package for lazy loading
+Creating a new generic function for "summary" in "Umpire"
+Creating a new generic function for "as.data.frame" in "Umpire"
+** help
+*** installing help indices
+** building package indices ...
+* DONE (Umpire)
