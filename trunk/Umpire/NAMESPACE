@@ -11,27 +11,27 @@ import(methods)
 ##importFrom(base, as.data.frame)
 
 ## Public classes
+exportClasses(BlockHyperParameters)
+exportClasses(CancerEngine)
+exportClasses(CancerModel)
 exportClasses(Engine)
 exportClasses(EngineWithActivity)
-exportClasses(IndependentNormal)
 exportClasses(IndependentLogNormal)
+exportClasses(IndependentNormal)
 exportClasses(MVN)
 exportClasses(NoiseModel)
-exportClasses(CancerModel)
 exportClasses(SurvivalModel)
-exportClasses(CancerEngine)
-exportClasses(BlockHyperParameters)
 
 ## S4 methods made from existing functions or S3 methods
-exportMethods(summary)
-exportMethods(nrow)
 exportMethods(ncol)
+exportMethods(nrow)
+exportMethods(summary)
 
-## S4 methods from new generics we define
-exportMethods(rand)
+## S4 methods for new generic functions
 exportMethods(alterMean)
 exportMethods(alterSD)
 exportMethods(blur)
+exportMethods(rand)
 
 ## Public functions
 export(nComponents)  # of an Engine
@@ -45,17 +45,20 @@ export(nHitsPerPattern)      # part of cancer model
 export(survivalCoefficients) # part of cancer model
 export(outcomeCoefficients)  # part of cancer model
 
-## Public functions that construct classes
+## Public generator functions
+export(BlockHyperParameters)
+export(CancerEngine)
+export(CancerModel)
 export(Engine)
 export(EngineWithActivity)
-export(IndependentNormal)
 export(IndependentLogNormal)
+export(IndependentNormal)
 export(MVN)
 export(NoiseModel)
-export(CancerModel)
 export(SurvivalModel)
-export(CancerEngine)
-export(BlockHyperParameters)
+
+## Public functions that construct classes
 export(makeBlockStructure)
 export(NormalVsCancerModel)
 export(NormalVsCancerEngine)
+
