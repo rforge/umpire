@@ -27,7 +27,8 @@ NormalVsCancerEngine(nBlocks, hyperp)
 \author{
   Kevin R. Coombes \email{kcoombes@mdanderson.org},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{plroebuck@mdanderson.org}}
+  P. Roebuck \email{plroebuck@mdanderson.org}
+}
 \seealso{
   \code{\linkS4class{BlockHyperParameters}},
   \code{\linkS4class{CancerEngine}},

@@ -46,8 +46,8 @@ SurvivalModel(baseHazard=1/5,
 }
 \section{Methods}{
   \describe{
-    \item{rand(object, n, beta, \dots)}{simulate survival data for \code{n}
-      patients given \code{beta}}
+    \item{rand(object, n, beta, \dots)}{Simulate survival data for \code{n}
+      patients given \code{beta}.}
   }
 }
 \value{
