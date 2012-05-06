@@ -71,7 +71,7 @@ IndependentNormal(mu,sigma)
 \author{
   Kevin R. Coombes \email{kcoombes@mdanderson.org},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{jiexinzhang@mdanderson.org}
+  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \seealso{
   \code{\linkS4class{Engine}},

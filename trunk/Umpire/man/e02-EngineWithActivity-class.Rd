@@ -94,7 +94,7 @@ EngineWithActivity(active, components, base=2)
 \author{
   Kevin R. Coombes \email{kcoombes@mdanderson.org},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{plroebuck@mdanderson.org}
+  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \examples{
 showClass("EngineWithActivity")
