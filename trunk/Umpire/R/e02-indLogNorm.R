@@ -29,7 +29,7 @@ setValidity("IndependentLogNormal", function(object) {
     msg <- TRUE
   }
   msg
-}
+})
 
 setMethod("summary", "IndependentLogNormal", function(object, ...) {
   cat("An IndependentLogNormal object, representing a vector\n")
