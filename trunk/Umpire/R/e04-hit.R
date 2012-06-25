@@ -24,66 +24,56 @@
 # and return a transformed vector that can be used to alter the
 # object.
 
+# alterMean and alterSD for an Engine just loop over the
+# components
 
-##-----------------------------------------------------------------------------
-## Loop over the components
-setMethod("alterMean", signature(object="Engine"),
-          function(object, TRANSFORM, ...) {
+setMethod("alterMean", "Engine", function(object, TRANSFORM, ...) {
   new("Engine",
-      components=lapply(object@components, alterMean, TRANSFORM, ...))
+      components=lapply(object@components,
+        alterMean, TRANSFORM, ...))
 })
 
-
-##-----------------------------------------------------------------------------
 ## Loop over the components
-setMethod("alterSD", signature(object="Engine"),
-          function(object, TRANSFORM, ...) {
+setMethod("alterSD", "Engine", function(object, TRANSFORM, ...) {
   new("Engine",
-      components=lapply(object@components, alterSD, TRANSFORM, ...))
+      components=lapply(object@components,
+        alterSD, TRANSFORM, ...))
 })
 
-
-##-----------------------------------------------------------------------------
-## Replace the appropriate slot by the transformed vector
-setMethod("alterMean", signature(object="IndependentNormal"),
-          function(object, TRANSFORM, ...) {
+####################
+# alterMean and alterSD for an 'IndependentNormal' simply replace
+# the appropriate slot by the transformed vector
+setMethod("alterMean", "IndependentNormal", function(object, TRANSFORM, ...) {
   new("IndependentNormal",
       mu=TRANSFORM(object@mu, ...),
       sigma=object@sigma)
 })
 
-
-##-----------------------------------------------------------------------------
 ## Replace the appropriate slot by the transformed vector
-setMethod("alterSD", signature(object="IndependentNormal"),
-          function(object, TRANSFORM, ...) {
+setMethod("alterSD", "IndependentNormal", function(object, TRANSFORM, ...) {
   new("IndependentNormal",
       mu=object@mu,
       sigma=TRANSFORM(object@sigma, ...))
 })
 
-
-##-----------------------------------------------------------------------------
-## Replace the appropriate slot by the transformed vector
-setMethod("alterMean", signature(object="MVN"),
-          function(object, TRANSFORM, ...) {
+####################
+# alterMean for an 'MVN' simply replaces the appropriate slot by
+# the transformed vector
+setMethod("alterMean", "MVN", function(object, TRANSFORM, ...) {
   new("MVN",
       mu=TRANSFORM(object@mu, ...),
       lambda=object@lambda,
       half=object@half)
 })
 
-
-##-----------------------------------------------------------------------------
-## alterSD for an MVN is trickier, because of the way the data is stored.
-## In order to have some hope of getting this correct, we work in the space of
-## the covariance matrix, Sigma. If we let R denote the correlation matrix and
-## let Delta be the diagonal matrix whose entries are the individual standard
-## deviations, then  Sigma = Delta %*% R %*% Delta. So, we can change the
-## standard deviations by replacing Delta in this product.  We then construct
-## a new 'MVN' object with the old mean vector and the new covariance matrix.
-setMethod("alterSD", signature(object="MVN"),
-         function(object, TRANSFORM, ...) {
+# alterSD for an MVN is trickier, because of the way the data is stored.
+# In order to have some hope of getting this correct, we work in the space of
+# the covariance matrix, Sigma. If we let R denote the correlation matrix and
+# let Delta be the diagonal matrix whose entries are the individual standard
+# deviations, then  Sigma = Delta %*% R %*% Delta. So, we can change the
+# standard deviations by replacing Delta in this product.  We then construct
+# a new 'MVN' object with the old mean vector and the new covariance matrix.
+setMethod("alterSD", "MVN", function(object, TRANSFORM, ...) {
   Y <- covar(object)
   sigma <- sqrt(diag(Y)) # old standard deviations
   newsig <- TRANSFORM(sigma, ...) # new standard deviations
@@ -92,23 +82,19 @@ setMethod("alterSD", signature(object="MVN"),
   MVN(object@mu, Sigma)
 })
 
-
-##-----------------------------------------------------------------------------
-## Here is a possible 'TRANSFORM' to be used in an 'alterMean' operation.
-## Each value in the mean is changed by adding an offset, where the offset is
-## chosen from a normal distribution. Similar transforms can be defined using
-## other distributions. Constant (non-random) offsets can be obtained using
-## the transform "function(x){x+OFFSET}".
+# Here is a possible 'TRANSFORM' to be used in an 'alterMean' operation.
+# Each value in the mean is changed by adding an offset, where the offset is
+# chosen from a normal distribution. Similar transforms can be defined using
+# other distributions. Constant (non-random) offsets can be obtained using
+# the transform "function(x){x+OFFSET}".
 normalOffset <- function(x, delta=0, sigma=1) {
   x + rnorm(length(x), delta, sigma)
 }
 
-
-##-----------------------------------------------------------------------------
-## Here is a possible 'TRANSFORM' for an 'alterSD' operation, which multiplies
-## each standard deviation by a positive value chosen from an inverse gamma
-## distribution. Constant multiples can be obtained using the transform
-## "function(x){x*SCALE}".
+# Here is a possible 'TRANSFORM' for an 'alterSD' operation, which multiplies
+# each standard deviation by a positive value chosen from an inverse gamma
+# distribution. Constant multiples can be obtained using the transform
+# "function(x){x*SCALE}".
 invGammaMultiple <- function(x, shape, rate) {
   x / rgamma(length(x), shape=shape, rate=rate)
 }

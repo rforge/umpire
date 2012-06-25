@@ -11,58 +11,42 @@
 #    E_gi ~ N(nu, tau) defines the additive noise
 # Note that we allow a systematic offset/bias in the additive noise model.
 
-##=============================================================================
 setClass("NoiseModel",
-         representation(additiveOffset="numeric",
-                        additiveScale="numeric",
-                        multiplicativeScale="numeric"))
+         representation = list(
+           additiveOffset="numeric",
+           additiveScale="numeric",
+           multiplicativeScale="numeric"))
 
-
-##-----------------------------------------------------------------------------
-## Invoked by validObject() method.
-validNoiseModel <- function(object) {
-  #cat("validating", class(object), "object", "\n")
+setValidity("NoiseModel", function(object) {
   msg <- NULL
-
-  ## Ensure positive
-  if (!(object@additiveScale >= 0)) {
+  if (any(object@additiveScale < 0)) {
     msg <- c(msg, "additiveScale must be non-negative")
   }
-  if (!(object@multiplicativeScale >= 0)) {
+  if (any(object@multiplicativeScale < 0)) {
     msg <- c(msg, "multiplicativeScale must be non-negative")
   }
-
-  ## Pass or fail?
-  if (is.null(msg)) {
-    TRUE
-  } else {
-    msg
+  if (is.null(msg)) { # pass
+    msg <- TRUE
   }
-}
+  msg
+})
 
-setValidity("NoiseModel", validNoiseModel)
-
-
-##-----------------------------------------------------------------------------
-## Generates a NoiseModel object.
 NoiseModel <- function(nu, tau, phi) {
   ## :TODO: sadly, no parameter checking was done...
+  # KRC: Tough. Leave it alone.
   new("NoiseModel",
       additiveOffset=nu,
       additiveScale=tau,
       multiplicativeScale=phi)
 }
 
-
-##-----------------------------------------------------------------------------
-## The main operation is given by blur(noiseModel, dataMatrix), which adds
-## and multiplies random noise to the dataMatrix containing the true signal.
-setMethod("blur", signature(object="NoiseModel"),
-          function(object, x, ...) {
+# The main operation is given by blur(noiseModel, dataMatrix), which adds
+# and multiplies random noise to the dataMatrix containing the true signal.
+setMethod("blur", "NoiseModel", function(object, x, ...) {
   ## :PLR: This seems to be defined backwards as 'x' is the thing being
   ##       operated on --> giving 'blur(what, noise)' instead...
-
   ## :NOTE: This should have been two methods, using 'x' in signature
+  # KRC: Leave it alone.
   if (inherits(x, "matrix")) {
     h <- matrix(rnorm(nrow(x)*ncol(x), 0, object@multiplicativeScale),
                 nrow=nrow(x))

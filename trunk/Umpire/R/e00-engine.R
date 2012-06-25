@@ -5,6 +5,8 @@
 # that specifies the number of sample vectors to be generated.
 # The default is to generate one sample at a time.
 #
+## KRC: The following description no longer applies to the
+##      actual class structure.
 # In most cases, an engine is an instantiation of a more general
 # family or class that we call an ABSTRACT ENGINE. An abstract
 # engine can also be thought of as an engine with parameters.
@@ -17,42 +19,25 @@
 # for a homogenous population; effects of cancer on gene
 # expression are modeled at a higher level.
 
+setClass("Engine", representation=list(components="list"))
 
-##=============================================================================
-setClass("Engine",
-         representation(components="list"))
-
-
-##-----------------------------------------------------------------------------
-## Generates an Engine object.
 Engine <- function(components) {
-  new("Engine",
-      components=components)
+  new("Engine", components=components)
 }
 
-
-##-----------------------------------------------------------------------------
-setMethod("summary", signature(object="Engine"),
-          function(object, ...) {
+setMethod("summary", "Engine", function(object, ...) {
   cat(paste("An Engine with", length(object@components), "components.\n"))
 })
 
-
-##-----------------------------------------------------------------------------
-setMethod("rand", signature(object="Engine"),
-          function(object, n, ...) {
+setMethod("rand", "Engine", function(object, n, ...) {
   do.call(rbind, lapply(object@components, rand, n=n))
-})           
+})
 
-
-##-----------------------------------------------------------------------------
-## Every engine must know the number of genes (i.e, the length of the vector)
-## it generates.
-setMethod("nrow", signature(x="Engine"),
-          function(x) {
+# Every engine must know the number of genes (i.e, the length of the vector)
+# it generates.
+setMethod("nrow", "Engine", function(x) {
   do.call(sum, lapply(x@components, nrow))
-})           
-
+})
 
 # Every abstract engine is an ordered list of components. For
 # all practical purposes, a COMPONENT should be viewed as an
@@ -64,7 +49,6 @@ setMethod("nrow", signature(x="Engine"),
 # may be implicitly taken to be the position of the component
 # in the ordered list.
 
-##-----------------------------------------------------------------------------
 nComponents <- function(object) {
   length(object@components)
 }

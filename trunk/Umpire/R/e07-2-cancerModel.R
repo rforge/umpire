@@ -23,35 +23,30 @@
 # Finally, each cancer subtype is assumed to occur with
 # some prevalence.
 
-
-##=============================================================================
 setClass("CancerModel",
-         representation(name="character",
-                        hitPattern="matrix",
-                        survivalBeta="numeric",
-                        outcomeBeta="numeric",
-                        prevalence="numeric",
-                        survivalModel="SurvivalModel",
-                        call="call"))
+         representation = list(
+           name="character",
+           hitPattern="matrix",
+           survivalBeta="numeric",
+           outcomeBeta="numeric",
+           prevalence="numeric",
+           survivalModel="SurvivalModel",
+           call="call"))
 
-
-##-----------------------------------------------------------------------------
-## We define a general-purpose generator for cancer models.
-##   nPossible = number of possible hits = number of rows in
-##      the matrix of hit patterns
-##   nPattern = number of cancer subtypes = number of columns
-##      in the matrix of hit patterns
-##   HIT  = generator (r-function) of a discrete distribution
-##      supported on the positive integers
-##   SURV = generator (r-function) of a continuous distribution
-##   OUT  = generator (r-function) of a continuous distribution
-##   survivalModel = object encapsulating the parameters needed
-##      to simulate survival times.
-##   prevalence = optional vector of relative prevalences of
-##      the cancer subtypes.
-CancerModel <- function(name,
-                        nPossible,
-                        nPattern,
+# We define a general-purpose generator for cancer models.
+#   nPossible = number of possible hits = number of rows in
+#      the matrix of hit patterns
+#   nPattern = number of cancer subtypes = number of columns
+#      in the matrix of hit patterns
+#   HIT  = generator (r-function) of a discrete distribution
+#      supported on the positive integers
+#   SURV = generator (r-function) of a continuous distribution
+#   OUT  = generator (r-function) of a continuous distribution
+#   survivalModel = object encapsulating the parameters needed
+#      to simulate survival times.
+#   prevalence = optional vector of relative prevalences of
+#      the cancer subtypes.
+CancerModel <- function(name, nPossible, nPattern,
                         HIT=function(n) 5,
                         SURV=function(n) rnorm(n, 0, 2),
                         OUT=function(n) rnorm(n, 0, 2),
@@ -87,7 +82,6 @@ CancerModel <- function(name,
   o <- OUT(nPossible) # this leaves outcome uncorrelated with survival
 #  o <- sort(o)[rank(s)] # force outcome to correlate with survival
 # KRC: which do we really want to use? Should this be user-selectable?
-# Maybe allow the user to decide.
   new("CancerModel",
       name=name,
       hitPattern=hp,
@@ -98,78 +92,49 @@ CancerModel <- function(name,
       call=call)
 }
 
-
-##-----------------------------------------------------------------------------
-setMethod("ncol", signature(x="CancerModel"),
-          function(x) {
+setMethod("ncol", "CancerModel", function(x) {
   ncol(x@hitPattern)
 })
 
-
-##-----------------------------------------------------------------------------
-setMethod("nrow", signature(x="CancerModel"),
-          function(x) {
+setMethod("nrow", "CancerModel", function(x) {
   nrow(x@hitPattern)
 })
 
-
-##-----------------------------------------------------------------------------
 nPatterns <- function(object) {
-  if (!inherits(object, "CancerModel")) {
-    stop(sprintf("argument %s must be object of class %s",
-                 sQuote("object"), "CancerModel"))
-  }
+  if(!inherits(object, "CancerModel"))
+    stop(paste("Class of 'object' should be CancerModel, not", class(object)))
   ncol(object)
 }
 
-
-##-----------------------------------------------------------------------------
 nPossibleHits <- function(object) {
-  if (!inherits(object, "CancerModel")) {
-    stop(sprintf("argument %s must be object of class %s",
-                 sQuote("object"), "CancerModel"))
-  }
+  if(!inherits(object, "CancerModel"))
+    stop(paste("Class of 'object' should be CancerModel, not", class(object)))
   nrow(object)
 }
 
-
-##-----------------------------------------------------------------------------
-## Since one can construct models where the number of hits differs from one
-## pattern to another, this function returns a vector of length equal to the
-## number of patterns, with values indicating how many hits occur in each
-## of the patterns.
+# Since one can construct models where the number of hits differs from one
+# pattern to another, this function returns a vector of length equal to the
+# number of patterns, with values indicating how many hits occur in each
+# of the patterns.
 nHitsPerPattern <- function(object) {
-  if (!inherits(object, "CancerModel")) {
-    stop(sprintf("argument %s must be object of class %s",
-                 sQuote("object"), "CancerModel"))
-  }
+  if(!inherits(object, "CancerModel"))
+    stop(paste("Class of 'object' should be CancerModel, not", class(object)))
   apply(object@hitPattern, 2, sum)
 }
 
-
-##-----------------------------------------------------------------------------
 survivalCoefficients <- function(object) {
-  if (!inherits(object, "CancerModel")) {
-    stop(sprintf("argument %s must be object of class %s",
-                 sQuote("object"), "CancerModel"))
-  }
+  if(!inherits(object, "CancerModel"))
+    stop(paste("Class of 'object' should be CancerModel, not", class(object)))
   object@survivalBeta
 }
 
-
-##-----------------------------------------------------------------------------
 outcomeCoefficients <- function(object) {
-  if (!inherits(object, "CancerModel")) {
-    stop(sprintf("argument %s must be object of class %s",
-                 sQuote("object"), "CancerModel"))
-  }
+  if(!inherits(object, "CancerModel"))
+    stop(paste("Class of 'object' should be CancerModel, not", class(object)))
   object@outcomeBeta
 }
 
-
-##-----------------------------------------------------------------------------
-setMethod("summary", signature(object="CancerModel"),
-          function(object, ...) {
+setMethod("summary", "CancerModel", function(object, ...) {
   cat(paste(object@name,
             ", a CancerModel object constructed via the function call:\n",
             as.character(list(object@call)), "\n"))
@@ -181,42 +146,28 @@ setMethod("summary", signature(object="CancerModel"),
   print(summary(object@outcomeBeta))
 })
 
-
-##-----------------------------------------------------------------------------
-## JX: what's hc? sample(1:nPossible)?
-## KRC: check its usage below in the 'rand' method for a CancerModel
-## hc represents the cancer subtype or Hit-pattern Class (HC).
+# JX: what's hc? sample(1:nPossible)?
+# KRC: check its usage below in the 'rand' method for a CancerModel
+# hc represents the cancer subtype or Hit-pattern Class (HC).
 .realizeOutcome <- function(object, hc) {
-  if (!inherits(object, "CancerModel")) {
-    stop(sprintf("argument %s must be object of class %s",
-                 sQuote("object"), "CancerModel"))
-  }
+  if(!inherits(object, "CancerModel"))
+    stop("First argument must be a 'CancerModel' object")
   temp <- as.vector(matrix(object@outcomeBeta, nrow=1) %*% object@hitPattern)
   probs <- exp(temp) / (1+exp(temp))
   outclass <- c("Good", "Bad")
   factor(outclass[1+rbinom(length(hc), 1, probs[hc])])
 }
 
-
-##-----------------------------------------------------------------------------
 .realizeSurvival <- function(object, hc) {
-  if (!inherits(object, "CancerModel")) {
-    stop(sprintf("argument %s must be object of class %s",
-                 sQuote("object"), "CancerModel"))
-  }
+  if(!inherits(object, "CancerModel"))
+    stop("First argument must be a 'CancerModel' object")
   sm <- object@survivalModel
   temp <- as.vector(matrix(object@survivalBeta, nrow=1) %*% object@hitPattern)
   rand(sm, length(hc), beta=temp[hc])
 }
 
-
-##-----------------------------------------------------------------------------
 ## Here we generate a phenoData object
-setMethod("rand", signature(object="CancerModel"),
-          function(object,
-                   n,
-                   balance=FALSE,
-                   ...) {
+setMethod("rand", "CancerModel", function(object,  n, balance=FALSE, ...) {
   if (balance) {
     m <- ncol(object@hitPattern)
     # Maybe we should at least give a warning if n is not multiple of m. 
@@ -226,12 +177,10 @@ setMethod("rand", signature(object="CancerModel"),
   } else {
     cp <- cumsum(object@prevalence)
     ru <- runif(n)
-    hc <- unlist(lapply(ru,
-                        function(x, cp) {
-                            1 + length(cp) - sum(cp > x)
-                        },
-                        cp)) # picks out a class by sampling from an explicit
-                             # discrete distribution
+    hc <- unlist(lapply(ru, function(x, cp) {
+      1 + length(cp) - sum(cp > x)
+    }, cp)) # picks out a class by sampling from an explicit
+            # discrete distribution
   }
   outcome <- .realizeOutcome(object, hc)
   survival <- .realizeSurvival(object, hc)
