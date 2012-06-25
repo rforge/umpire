@@ -1,10 +1,5 @@
-###
-### EXTRA.R
-###
-
-##=============================================================================
 setClass("BlockHyperParameters",
-         representation(
+         representation= list(
            nExtraBlocks="numeric",    # block correlation
            meanBlockSize="numeric",   # block correlation
            sigmaBlockSize="numeric",  # block correlation
@@ -16,9 +11,6 @@ setClass("BlockHyperParameters",
            p.cor="numeric",           # beta param for within-block correlation
            wt.cor="numeric"))         # beta param for within-block correlation
 
-
-##-----------------------------------------------------------------------------
-## Generates a BlockHyperParameters object.
 BlockHyperParameters <- function(nExtraBlocks=100,
                                  meanBlockSize=100,
                                  sigmaBlockSize=30,
@@ -42,8 +34,6 @@ BlockHyperParameters <- function(nExtraBlocks=100,
       wt.cor=wt.cor)
 }
 
-
-##-----------------------------------------------------------------------------
 makeBlockStructure <- function(cm, hyperp) {
   if (!inherits(cm, "CancerModel"))
     stop("'cm' must be a CancerModel")
@@ -62,8 +52,7 @@ makeBlockStructure <- function(cm, hyperp) {
   w <- hyperp@wt.cor
   # set up the baseline Engine
   rho <- rbeta(nTotalBlocks, p*w, (1-p)*w)
-  base <- lapply(1:nTotalBlocks,
-                function(i, hyperp, rho) {
+  base <- lapply(1:nTotalBlocks, function(i, hyperp, rho) {
     bs <- blockSize[i]
     co <- matrix(rho[i], nrow=bs, ncol=bs)
     diag(co) <- 1

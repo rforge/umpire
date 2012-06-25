@@ -15,16 +15,13 @@
 # to locate the objects.  So, we replaced that with a local
 # environment that stores the actual ENGINEs.
 
-
-##=============================================================================
 setClass("CancerEngine",
-         representation(cm="CancerModel",
-                        base="character",
-                        altered="character",
-                        localenv="environment"))
+         representation=list(
+           cm="CancerModel",
+           base="character",
+           altered="character",
+           localenv="environment"))
 
-
-##-----------------------------------------------------------------------------
 ## Generates a CancerEngine object.
 CancerEngine <- function(cm, base, altered) {
   localenv <- new.env()
@@ -54,17 +51,10 @@ CancerEngine <- function(cm, base, altered) {
     assign("altered", altered, envir=localenv)
     altered <- "altered"
   }
-  new("CancerEngine",
-      cm=cm,
-      base=base,
-      altered=altered,
-      localenv=localenv)
+  new("CancerEngine", cm=cm, base=base, altered=altered, localenv=localenv)
 }
 
-
-##-----------------------------------------------------------------------------
-setMethod("rand", signature(object="CancerEngine"),
-          function(object, n, ...) {
+setMethod("rand", "CancerEngine", function(object, n, ...) {
   # first generate the clinical data
   clinical <- rand(object@cm, n, ...)
   hitlist <- clinical$CancerSubType       # remember the subtypes
@@ -92,4 +82,3 @@ setMethod("rand", signature(object="CancerEngine"),
   # note that the expression data does not include any noise....
   list(clinical=clinical, data=foo)
 })
-
