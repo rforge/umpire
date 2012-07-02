@@ -20,7 +20,7 @@ BlockHyperParameters(nExtraBlocks=100,
                      shape=44.25,
                      p.cor=0.6,
                      wt.cor=5)
-makeBlockStructure(cm, hyperp, xform=normalOffset)
+makeBlockStructure(cm, hyperp, xform=normalOffset, ...)
 }
 \arguments{
   \item{cm}{object of class \code{CancerModel}}
@@ -45,6 +45,8 @@ makeBlockStructure(cm, hyperp, xform=normalOffset)
     correlation}
   \item{xform}{A function that will be passed to the \code{alterMean}
     method}
+  \item{\dots}{extra arguments that wil be passed back to the
+    \code{xform} function}
 }
 \details{
   Our standard model for gene expression in a homogeneous sample assumes
