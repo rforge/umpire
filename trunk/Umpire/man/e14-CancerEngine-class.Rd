@@ -23,6 +23,8 @@ CancerEngine(cm, base, altered)
   \item{altered}{character string giving the name of an \code{\link{Engine}}
     or \code{\link{EngineWithActivity}}, or an object of class \code{Engine}.
     Represents the expected gene expression in the presence of hits.}
+  \item{object}{object of class \code{CancerEngine}}
+  \item{\dots}{extra arguments for generic routines}
 }
 \section{Objects from the Class}{
   Although objects of the class can be created by a direct call to

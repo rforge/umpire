@@ -9,12 +9,13 @@
   samples.
 }
 \usage{
-NormalVsCancerModel(nBlocks, name="NormalVsCancer")
+NormalVsCancerModel(nBlocks, survivalModel=NULL, name="NormalVsCancer")
 NormalVsCancerEngine(nBlocks, hyperp) 
 }
 \arguments{
   \item{nBlocks}{scalar integer representing number of correlated blocks
     that are differentially expressed between cancer and normal}
+  \item{survivalModel}{a \code{SurvivalModel} object}
   \item{name}{character string specifying name of the object being created}
   \item{hyperp}{object of class \code{BlockHyperParameters} that describes
     the block correlation structure.}

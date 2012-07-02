@@ -20,7 +20,7 @@ BlockHyperParameters(nExtraBlocks=100,
                      shape=44.25,
                      p.cor=0.6,
                      wt.cor=5)
-makeBlockStructure(cm, hyperp)
+makeBlockStructure(cm, hyperp, xform=normalOffset)
 }
 \arguments{
   \item{cm}{object of class \code{CancerModel}}
@@ -43,6 +43,8 @@ makeBlockStructure(cm, hyperp)
     block}
   \item{wt.cor}{numeric scalar specifying weight given to the expected block
     correlation}
+  \item{xform}{A function that will be passed to the \code{alterMean}
+    method}
 }
 \details{
   Our standard model for gene expression in a homogeneous sample assumes
