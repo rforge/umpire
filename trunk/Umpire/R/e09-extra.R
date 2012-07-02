@@ -34,7 +34,7 @@ BlockHyperParameters <- function(nExtraBlocks=100,
       wt.cor=wt.cor)
 }
 
-makeBlockStructure <- function(cm, hyperp) {
+makeBlockStructure <- function(cm, hyperp, xform=normalOffset, ...) {
   if (!inherits(cm, "CancerModel"))
     stop("'cm' must be a CancerModel")
   if (!inherits(hyperp, "BlockHyperParameters"))
@@ -63,7 +63,7 @@ makeBlockStructure <- function(cm, hyperp) {
   }, hyperp=hyperp, rho=rho)
   eng <- Engine(base)
   # alter the means if there is a hit
-  altered <- alterMean(eng, normalOffset, delta=0, sigma=1)
+  altered <- alterMean(eng, xform, ...)
   # return the CancerEngine object
   CancerEngine(cm=cm, base="eng", altered="altered")
 }

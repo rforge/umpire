@@ -54,6 +54,15 @@ CancerEngine <- function(cm, base, altered) {
   new("CancerEngine", cm=cm, base=base, altered=altered, localenv=localenv)
 }
 
+setMethod("summary", "CancerEngine", function(object, ...) {
+  cat(paste("A 'CancerEngine' using the cancer model:\n--------------\n"))
+  summary(object@cm)
+  cat("--------------\n\nBase expression given by:\n")
+  summary(get(object@base, object@localenv))
+  cat("\nAltered expression given by:\n")
+  summary(get(object@altered, object@localenv))  
+})
+
 setMethod("rand", "CancerEngine", function(object, n, ...) {
   # first generate the clinical data
   clinical <- rand(object@cm, n, ...)

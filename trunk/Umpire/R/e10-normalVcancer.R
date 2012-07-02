@@ -1,17 +1,18 @@
-NormalVsCancerModel <- function(nBlocks, name="NormalVsCancer") {
+NormalVsCancerModel <- function(nBlocks, survivalModel=NULL, name="NormalVsCancer") {
   call <- match.call()
   hp <- matrix(rep(0:1, each=nBlocks), ncol=2)
   s <- rnorm(nBlocks, 0, 2)
   o <- rnorm(nBlocks, 0, 2)
   prevalence=c(0.5, 0.5)
-  sm <- SurvivalModel()
+  if (is.null(survivalModel))
+    survivalModel <- SurvivalModel()
   new("CancerModel",
       name=name,
       hitPattern=hp,
       survivalBeta=s,
       outcomeBeta=o,
       prevalence=prevalence,
-      survivalModel=sm,
+      survivalModel=survivalModel,
       call=call)
 }
 
