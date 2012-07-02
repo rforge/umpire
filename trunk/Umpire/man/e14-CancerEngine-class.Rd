@@ -2,6 +2,7 @@
 \alias{CancerEngine-class}
 \alias{CancerEngine}
 \alias{rand,CancerEngine-method}
+\alias{summary,CancerEngine-method}
 \docType{class}
 \title{The "CancerEngine" Class}
 \description{
@@ -12,6 +13,7 @@
 }
 \usage{
 CancerEngine(cm, base, altered)
+\S4method{summary}{CancerEngine}(object, \dots)
 }
 \arguments{
   \item{cm}{object of class \code{CancerModel}}
@@ -43,7 +45,7 @@ CancerEngine(cm, base, altered)
 \section{Methods}{
   \describe{
     \item{rand}{\code{signature(object = "CancerEngine")}: :TODO: }
-  }
+    \item{summary}{\code{signature(object = "CancerEngine")}: :TODO: }  }
 }
 \references{OOMPA}
 \author{
@@ -99,6 +101,8 @@ altered <- alterMean(eng, normalOffset, delta=0, sigma=1)
 object <- CancerEngine(cm, "eng", "altered")
 ## Or build it using the actual Engine components
 ob <- CancerEngine(cm, eng, altered)
+summary(object)
+summary(ob)
 ## Simulate the data
 dset <- rand(object, 20)
 summary(dset$clinical)
