@@ -24,7 +24,7 @@ MVN <- function(mu, Sigma, tol=1e-06) {
   ## :PLR: manpage recommends EISPACK=FALSE
   ## KRC: And it also warns that the eigenvalues may differ
   ## between platforms if you do that.
-  eS <- eigen(Sigma, sym = TRUE, EISPACK = TRUE)
+  eS <- eigen(Sigma, symmetric = TRUE, EISPACK = TRUE)
   ev <- eS$values
 # JX: why not just all(ev>0)?
 # KRC: because an eigenvalue of 10^-15 is essentially zero. Without
