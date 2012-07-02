@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 NormalVsCancerModel <- function(nBlocks, survivalModel=NULL, name="NormalVsCancer") {
   call <- match.call()
   hp <- matrix(rep(0:1, each=nBlocks), ncol=2)

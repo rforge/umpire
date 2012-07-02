@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # This is tricky.  A CANCER ENGINE is supposed to combine the
 # CANCER MODEL (which defines hit patterns and keeps track of

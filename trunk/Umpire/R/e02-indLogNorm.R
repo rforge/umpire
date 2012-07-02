@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # In addition to the Independent Normal class, we also have a
 # class for independent log normal, because the true expression

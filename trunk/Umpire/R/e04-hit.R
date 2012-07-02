@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # A HIT is a modification to one of the components of an engine
 # or abstract engine. All modifications must be expressible as

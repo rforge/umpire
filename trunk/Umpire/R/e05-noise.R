@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # A NOISE MODEL represents the additional machine noise that is layered
 # on top of any biological variabilty when measuring the gene expression

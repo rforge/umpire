@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # Now we create the general MVN class. The implementation is
 # designed for efficiency when generating new samples, since

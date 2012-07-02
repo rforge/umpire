@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # An ENGINE is a tool (ie. an algorithm) for simulating vectors 
 # of gene expression from some underlying distribution.  As

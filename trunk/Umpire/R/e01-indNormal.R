@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # In practice, we use components that are multivariate normal.
 # The case of independent normals is treated separately, but

@@ -1,3 +1,5 @@
+# Copyright (C) Kevin R. Coombes, 2007-2012
+
 ###############################################################
 # A CANCER MODEL contains a number of pieces of information
 # representing an abstract, heterogeneous collection of cancer
