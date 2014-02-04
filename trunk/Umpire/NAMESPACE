@@ -5,6 +5,7 @@
 
 ## Imported methods
 import(methods)
+import(stats)
 ##importFrom(base, summary)
 ##importFrom(base, nrow)
 ##importFrom(base, ncol)

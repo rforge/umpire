@@ -92,7 +92,7 @@ EngineWithActivity(active, components, base=2)
 }
 \references{OOMPA}
 \author{
-  Kevin R. Coombes \email{kcoombes@mdanderson.org},
+  Kevin R. Coombes \email{krc@silicovore.com},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
   P. Roebuck \email{proebuck@mdanderson.org}
 }

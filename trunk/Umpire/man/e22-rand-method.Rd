@@ -25,7 +25,7 @@
   for details of what is produced by that method.
 }
 \author{
-  Kevin R. Coombes \email{kcoombes@mdanderson.org},
+  Kevin R. Coombes \email{krc@silicovore.com},
   P. Roebuck \email{proebuck@mdanderson.org}
 }
 \keyword{methods}
