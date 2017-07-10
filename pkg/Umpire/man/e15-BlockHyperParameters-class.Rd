@@ -66,7 +66,7 @@ makeBlockStructure(cm, hyperp, xform=normalOffset, ...)
   block sizes, this distribution is truncated below by
   \code{minBlockSize}.
 
-  The expression of each gene is assumed to come from a log-nor,mal
+  The expression of each gene is assumed to come from a log-normal
   distribution with parameters describing the per-gene mean (\eqn{\mu_g})
   and standard deviation (\eqn{\sigma_g}) n the log scale.  These
   parameters, in turn, are assumed to come from hyperdistributions.
@@ -75,7 +75,7 @@ makeBlockStructure(cm, hyperp, xform=normalOffset, ...)
   assume that \eqn{\sigma_g} comes from an inverse gamma distribution with
   parameters \code{rate} and \code{shape}.
 
-  The \code{BlockHyperParameters} class simpy bundles the parameters for
+  The \code{BlockHyperParameters} class simply bundles the parameters for
   this model into a single structure. The default values are consistent
   with data we have seen from several Affymetrix microarray studies.
 
@@ -122,10 +122,8 @@ makeBlockStructure(cm, hyperp, xform=normalOffset, ...)
   The function \code{makeBlockStructure} returns an object of the
   \code{\link{CancerEngine}} class.  
 }
-\references{OOMPA}
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \seealso{
   \code{\linkS4class{CancerModel}},

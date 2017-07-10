@@ -36,11 +36,9 @@ invGammaMultiple(x, shape, rate)
   multiplied by a positive value chosen from an inverse gamma distribution
   with parameters \code{shape} and \code{scale}.
 }
-\references{OOMPA}
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \seealso{
   \code{\link{alterMean}},

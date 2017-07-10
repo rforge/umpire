@@ -24,11 +24,9 @@ NormalVsCancerEngine(nBlocks, hyperp)
   The simplest simulation model assumes that we are comparing two
   homogeneous groups.
 }
-\references{OOMPA}
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \seealso{
   \code{\linkS4class{BlockHyperParameters}},

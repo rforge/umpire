@@ -90,11 +90,9 @@ EngineWithActivity(active, components, base=2)
   The \code{summary} method prints out the total number of components and
   the number of active components in the object of \code{EngineWithActivity}.
 }
-\references{OOMPA}
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \examples{
 showClass("EngineWithActivity")

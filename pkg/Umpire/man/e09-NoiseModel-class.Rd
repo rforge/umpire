@@ -37,11 +37,15 @@ NoiseModel(nu, tau, phi)
       data matrix \code{x} containing the true signal from the gene expression.}
   }
 }
-\references{OOMPA}
+\references{
+  Zhang J, Coombes KR.\cr
+  \emph{Sources of variation in false discovery rate estimation include
+  sample size, correlation, and inherent differences between groups.}\cr
+  BMC Bioinformatics. 2012; 13 Suppl 13:S1. 
+}
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \examples{
 showClass("NoiseModel")

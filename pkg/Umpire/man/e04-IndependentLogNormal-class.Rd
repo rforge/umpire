@@ -51,11 +51,9 @@ IndependentLogNormal(logmu,logsigma)
       normal random variables in the object of \code{IndependentLogNormal}.}
   }
 }
-\references{OOMPA}
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \seealso{
   \code{\linkS4class{Engine}},

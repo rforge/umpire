@@ -67,11 +67,9 @@ IndependentNormal(mu,sigma)
       random variables in the object of \code{IndependentNormal}.}
   }
 }
-\references{OOMPA}
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
   Jiexin Zhang \email{jiexinzhang@mdanderson.org},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \seealso{
   \code{\linkS4class{Engine}},

@@ -31,7 +31,8 @@
   particular methods for details of what is produced by that method. 
 }
 \author{
-  P. Roebuck \email{proebuck@mdanderson.org}
+  Kevin R. Coombes \email{krc@silicovore.com},
+  Jiexin Zhang \email{jiexinzhang@mdanderson.org},
 }
 \keyword{methods}
 

@@ -24,7 +24,6 @@
 }
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
-  P. Roebuck \email{proebuck@mdanderson.org}
 }
 \keyword{methods}
 
