@@ -1,18 +1,21 @@
-* using log directory 'C:/Users/Kevin/Desktop/RForge/umpire/pkg/Umpire.Rcheck'
+* using log directory 'C:/Users/coom05/Desktop/rforge/umpire/pkg/Umpire.Rcheck'
 * using R version 3.4.0 (2017-04-21)
 * using platform: x86_64-w64-mingw32 (64-bit)
 * using session charset: ISO8859-1
 * using option '--as-cran'
 * checking for file 'Umpire/DESCRIPTION' ... OK
-* this is package 'Umpire' version '1.3.0'
-* checking CRAN incoming feasibility ... NOTE
+* this is package 'Umpire' version '1.3.4'
+* checking CRAN incoming feasibility ... WARNING
 Maintainer: 'Kevin R. Coombes <krc@silicovore.com>'
 
-New submission
+Insufficient package version (submitted: 1.3.4, existing: 1.3.4)
 
-The Title field starts with the package name.
-
-The Date field is over a month old.
+Found the following (possibly) invalid DOIs:
+  DOI: 10.1186/1471-2105-13-S13-S1
+    From: DESCRIPTION
+    Status: libcurl error code 7
+    	Failed to connect to bmcbioinformatics.biomedcentral.com port 443: Connection refused
+    Message: Error
 * checking package namespace information ... OK
 * checking package dependencies ... OK
 * checking if this is a source package ... OK
@@ -70,4 +73,4 @@ The Date field is over a month old.
 * checking re-building of vignette outputs ... OK
 * checking PDF version of manual ... OK
 * DONE
-Status: 1 NOTE
+Status: 1 WARNING
