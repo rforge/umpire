@@ -1,6 +1,134 @@
 ## Copyright (C) Kevin R. Coombes and Caitlin E. Coombes, 2020
 
-## Default settings for low levels of noise
+## Objects of this class remember the entire procedure to
+## (a) simulate raw (continuous) data,
+## (b) add a particular kind of noise to it, and
+## (c) discretize some features.
+setClass("MixedTypeEngine",
+         contains = "Engine",
+         slots = c(noise = "NoiseModel",
+                   cutpoints = "list"))
+
+## Given the desired percentages or fractions of each data type
+## and a "training" data set, this function decides which features
+## to make binary or categorical. It also records the cutpoints,
+## associated labels, and type of each feature. The result can be
+## used to create a "MixedTypeEngine" both for the ability to
+## report parameters and to generate later test sets fromthe same
+## multivariate distribution.
+setDataTypes <- function(dataset, pCont, pBin, pCat) {
+  nFeats <- nrow(dataset)
+  probs <- c(pCont, pBin, pCat)
+  if (any(probs < 0)) stop("All type probabilities must be nonnegative.")
+  if (sum(probs) != 1) {
+    warning("Probabilities ar being rescaled so they add to 1.")
+    probs <- probs/sum(probs)
+  }
+  Type <- sample(c("continuous", "binary", "categorical"),
+                 size = nFeats, replace = TRUE, prob = probs)
+  binned <- dataset
+  if (any(isbin <- Type == "binary")) {
+    X <- makeBinary(dataset[isbin, , drop = FALSE])
+    binned[isbin,] <- X
+  }
+  if (any(iscat <- Type == "categorical")) {
+    X <- makeCategorical(dataset[iscat, , drop = FALSE])
+    binned[is,] <- X
+  }
+  list(binned = binned, other=NULL)
+}
+
+## Should be simple if you first create an ordinary (clinical or
+## cancer) engine, generate a random dataset from it, and add noise.
+## You then compute the cutpoints from the sample training data using
+## 'setDataTypes" and build an MTE.
+MixedTypeEngine <- function(engine, noise, cutters) {
+  if (is.null(noise)) noise <- NoiseModel(0, 0, 0) # no noise
+  new("MixedTypeEngine", engine,
+      noise = noise,
+      cutpoints = cutters)
+}
+
+## It's probably worth some time to figure out all the properties
+## that an MTE should really have, and put all those checks here..
+setValidity("MixedTypeEngine", function(object) {
+  msg <- NULL
+  rightsize <- length(cutpoints) == nrow(myEngine)
+  if (!rightSize) {
+    msg <- c(msg, "Sizes of cut points and engine do not match.")
+  }
+  ## make sure cutpoints are sensible
+  listCheck <- all (sapply(object@cutpoints, is.list))
+  if (!listCheck) {
+    msg <- c(msg, "All elements of 'cutpoints' must themselves be lists.")
+  } else {
+    hasBreaks <- all (sapply(object@cutpoints, function(X) {
+      "breaks" %in% names(X)
+    }))
+    hasLabels <- all (sapply(object@cutpoints, function(X) {
+      "labels" %in% names(X)
+    }))
+    hasType <- all (sapply(object@cutpoints, function(X) {
+      "Type" %in% names(X)
+    }))
+    if (!hasBreaks) {
+      msg <- c(msg, "Every element of 'cutpoints' must include 'breaks'.")
+    }
+    if (!hasLabels) {
+      msg <- c(msg, "Every element of 'cutpoints' must include 'labels'.")
+    }
+    if (!hasType) {
+      msg <- c(msg, "Every element of 'cutpoints' must include the 'Type' of the feature.")
+    }
+    if (hasBreaks & hasLabels & hasType) {
+      nullBreaks <- sapply(object@cutpoints, function(OC) is.null(OC$breaks))
+      nullLabels <- sapply(object@cutpoints, function(OC) is.null(OC$labels))
+      isCont <- sapply(object@cutpoints, function(OC) OC$Type == "continuous")
+      if (!all(isCont == nullBreaks)) {
+        msg <- c(msg, "Null break list does not agree with 'continuous' type value.")
+      }
+      if (!all(nullBreaks == nullLabels)) {
+        msg <- c(msg, "Null breaks does not match null labels.")
+      }
+    }
+  }
+  if (is.null(msg)) msg <- TRUE
+  msg
+})
+
+## 'rand' generates random-vectors from a given joint distibution. This includes
+## adding noise and discretizing consistently. Mostly used for test data, since
+## the construction of a realistic MTE requires generating a training data set
+## to get started.
+setmethod("MixedTypeEngine", rand <- function(object, n, keepall = FALSE, ...) {
+  ## 'chop' applies pre-existing cutpoints and factor labels to
+  ## appropriate data feature-rows
+  chop <- function(mtengine, dataset) {
+    OC <- mtengine@cutpoints
+    for (I in 1:length(OC)) {
+      if (is.null(OC[[I]]$breaks | "continuous" == OC[[I]]$Type)) {
+        next # do nothing for continuous data
+      }
+      ## othwerise, discretize following the rules
+      dataset[,I] <-  cut(dataset[,I],
+                          breaks = OC[[I]]$breaks,
+                          labels = OC[[I]]$labels)
+    }
+    dataset
+  }
+
+  dataset <- rand(object@engine, n)
+  hazy <- blur(object@noise, dataset)
+  binned <- chop(object, hazy)
+  if (keepall) {
+    binned <- list(raw = dataset, noisy = hazy, binned = binned)
+  }
+  binned
+})
+
+
+## Default settings for low levels of noise in clinical data. Users can
+## if they wish, go back to the original gene-expression based noise model.
 ClinicalNoiseModel <- function(shape = 1.02, scale = 0.05/shape) {
   new("NoiseModel",
       additiveOffset = 0,
@@ -8,20 +136,7 @@ ClinicalNoiseModel <- function(shape = 1.02, scale = 0.05/shape) {
       multiplicativeScale = 0)
 }
 
-## percentages or fractions of each data type
-mixDataTypes <- function(cont, bina, cat, nFeats){ 
-  numCont <- nFeats*cont
-  numBin <- nFeats*bina
-  numCat <- nFeats*cat
-  feats <- sample(1:nFeats, nFeats, replace=FALSE)
-  contFeats <- feats[1:numCont]
-  binFeats <- feats[(numCont+1):(numCont+numBin)]
-  catFeats <- feats[(numCont+numBin+1):(numCont+numBin+numCat)]
-  x <- cbind(contFeats, binFeats, catFeats)
-  x <- as.data.frame(x)
-} # end function
-
-
+## UNFINISHED
 ## nExtraBlocks = how many features do you want that are unrelated to clusters?
 ClinicalBHP <- function(nFeatures,
                         nExtraBlocks = NULL,
