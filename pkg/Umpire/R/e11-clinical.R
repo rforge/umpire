@@ -18,36 +18,109 @@ setClass("MixedTypeEngine",
 ## multivariate distribution.
 setDataTypes <- function(dataset, pCont, pBin, pCat) {
   nFeats <- nrow(dataset)
+  cutpoints <- list() # prepare to fill a list
   probs <- c(pCont, pBin, pCat)
   if (any(probs < 0)) stop("All type probabilities must be nonnegative.")
   if (sum(probs) != 1) {
-    warning("Probabilities ar being rescaled so they add to 1.")
+    warning("Probabilities are being rescaled so they add to 1.")
     probs <- probs/sum(probs)
   }
   Type <- sample(c("continuous", "binary", "categorical"),
                  size = nFeats, replace = TRUE, prob = probs)
+  isCont <- Type == "continuous"
+  for (W in which(isCont)) {
+    L <- list(NULL, NULL, "continuous")
+    cutpoints[[W]] <- L
+  }
   binned <- dataset
   if (any(isbin <- Type == "binary")) {
     X <- makeBinary(dataset[isbin, , drop = FALSE])
-    binned[isbin,] <- X
+    binned[isbin,] <- X$dataset
+    cutpoints[isbin] <- X$cuts
   }
   if (any(iscat <- Type == "categorical")) {
     X <- makeCategorical(dataset[iscat, , drop = FALSE])
-    binned[is,] <- X
+    binned[iscat,] <- X$datset
+    cutpoints[iscat] <- X@cuts
   }
-  list(binned = binned, other=NULL)
+  list(binned = binned, cutpoints=cutpoints)
 }
 
-## Should be simple if you first create an ordinary (clinical or
-## cancer) engine, generate a random dataset from it, and add noise.
-## You then compute the cutpoints from the sample training data using
-## 'setDataTypes" and build an MTE.
-MixedTypeEngine <- function(engine, noise, cutters) {
-  if (is.null(noise)) noise <- NoiseModel(0, 0, 0) # no noise
-  new("MixedTypeEngine", engine,
-      noise = noise,
-      cutpoints = cutters)
+
+MakeCategories <- function(bin, ftNum, nPts, catType){
+  ## Sample a number of categories between 3 and 9.
+  cc <- sample(3:9, 1, replace = TRUE)
+
+  ## Sample bin sizes from the Dirichlet distribution
+  a <- 20
+  r <- rdirichlet(1, rep(a, cc))
+
+  ## Construct a vector of percentage cutoffs
+  cuts <- r[1]
+  for(i in 2:cc){
+    cuts <- c(cuts, cuts[i-1]+r[i])
+  }
+  cuts <- c(0, round(cuts*nPts))
+
+  ## Create a numbered list of bin identities.
+  if(catType == 1){#ordinal
+    id <- 1:cc
+  } else if(catType == 2){#nominal
+    id <- sample(1:cc, cc, replace=FALSE)
+  }
+
+  ## Link percentage cutoffs to feature number, slice, and assign bin identities.
+  ranks <- order(bin[ftNum,])
+
+  for(kk in 1:cc){
+    for(i in 1:nPts){
+      above <- ranks[i] > cuts[kk]
+      if(above == TRUE){
+        bin[ftNum,i] <- id[kk]
+      } # close if
+    } # close for(i)
+  } # close for(kk)
+
+  bin
+} # end function
+
+LabelCategories <- function(catType){
+  if(catType == 1){#ordinal
+    Type <- "ordinal"
+  } else if(catType == 2){#nominal
+    Type <- "nominal"
+  }
+  Type
 }
+
+
+makeBinary <- function(dataset) {
+  ## KRC: May need to check that BI works on single-row data matrix
+  ## if it looks bimodal, split at the midpoint of modes
+  bi <- bimodalIndex(dataset) # use the bimodal index (Wang et al)
+  my.bi <- 1.1                # and cutoff from the paper
+  cutpoints <- list(nrow(dataset))
+  for (I in 1:nrow(dataset)) {
+    if(bi[I, "BI"] > my.bi){
+      bound <- (bi[I,"mu1"] + bi[I,"mu2"])/2
+    } else {
+      perc <- sample(5:35, 1) # arbitrary split point
+      perc <- perc/100       # converted to fraction
+      # decide whether to keep lower or upper chunk
+      low.cutoff <- quantile(dataset[I,], perc)
+      high.cutoff <- quantile(dataset[I,], 1 - perc)
+      bound <-  ifelse(bi[I,"pi"] < 0.5, low.cutoff, high.cutoff)
+    }
+    bks <- c(-Inf, bound, Inf)
+    lbls <- sample(c(0,1)) # randomly assign 0, 1 values.
+    X <- cut(dataset[I,], breaks = bks, labels = lbls)
+    type <- ifelse(mean(X) < 0.10, "asymmetric binary", "symmetric binary")
+    cutpoints[[I]] <- list(breaks = bks,labels = lbls, Type = type)
+    dataset[I,] <- X
+  }
+  list(dataset = dataset, cuts = cutpoints)
+}
+
 
 ## It's probably worth some time to figure out all the properties
 ## that an MTE should really have, and put all those checks here..
@@ -100,7 +173,7 @@ setValidity("MixedTypeEngine", function(object) {
 ## adding noise and discretizing consistently. Mostly used for test data, since
 ## the construction of a realistic MTE requires generating a training data set
 ## to get started.
-setmethod("MixedTypeEngine", rand <- function(object, n, keepall = FALSE, ...) {
+setMethod("rand", "MixedTypeEngine", function(object, n, keepall = FALSE, ...) {
   ## 'chop' applies pre-existing cutpoints and factor labels to
   ## appropriate data feature-rows
   chop <- function(mtengine, dataset) {
@@ -149,7 +222,12 @@ ClinicalBHP <- function(nFeatures,
                         shape = 44.25,
                         p.cor = 0.6,
                         wt.cor = 5) {
-  
+  ## TEMP: FIX THIS!
+  if (is.null(nExtraBlocks)) {
+    nExtraBlocks <-  3
+    meanBlockSize <- 5
+    minBlockSize <- 5
+  }
   BlockHyperParameters(nExtraBlocks,
                        meanBlockSize,
                        sigmaBlockSize,
@@ -192,8 +270,8 @@ ClinicalEngine <- function(nFeatures, nClusters, isWeighted, bHyp = NULL){
   }
 
   mod <- CancerModel(name="Clinical Simulation Model (Raw)",
-                     nPossible = nPos(nFeatures) # number of possible hits
-                     nPattern = nClusters,       # number of subtypes
+                     nPossible = nPos(nFeatures), # number of possible hits
+                     nPattern = nClusters,        # number of subtypes
                      HIT = hitfn,
                      prevalence = Prevalence(isWeighted, nClusters)
                      )
@@ -268,89 +346,11 @@ Noisy <- function(sim){
   noi <- blur(mod, sim)
 }
 
-## KRC: Could probably be made more efficient
-MakeBinary <- function(bi, bin, ftNum){
-  ##Randomly order 1 and 0
-  samp <- sample(c(0,1), replace=FALSE)
-  lower <- samp[1]
-  upper <- samp[2]
-
-  if(bi[ftNum,"BI"] > my.bi){
-    bound <- (bi[ftNum,"mu1"]+bi[ftNum,"mu2"])/2
-    bin[ftNum,] <- ifelse(bin[ftNum,]<bound, lower, upper)
-  } else {
-    bound <- sample(5:35, 1)
-    bound <- bound*0.01
-    low.cutoff <- quantile(bin[ftNum,], bound)
-    high.cutoff <- quantile(bin[ftNum,], 1-bound)
-
-    if(bi[ftNum,"pi"]<0.5){
-      bin[ftNum,] <- ifelse(bin[ftNum,]<low.cutoff, lower, upper)
-    } else {
-      bin[ftNum,] <- ifelse(bin[ftNum,]<high.cutoff, lower, upper)
-    } # end inner if/else (bi[ftNum, "pi"]<0.5)
-  } # end outer if/else (bi[ftNum, "BI] > my.bi)
-  bin
-} # end function
-
-LabelBinary <- function(bin, ftNum, Type){
-  per1 <- sum(bin[ftNum,])/length(bin[ftNum,])
-  Type <- ifelse(per1>0.9 | per1<0.1, "asymm", "symm")
-  Type
-}
 
 # Determine if the feature is nominal or ordinal, and store that information in a vector.
 catType <- sample(c(1,2), 1, replace=TRUE) #1 is ordinal, 2 is nominal
 
 
-MakeCategories <- function(bin, ftNum, nPts, catType){
-  
-# Sample a number of categories between 3 and 9.
-cc <- sample(3:9, 1, replace=TRUE)
-
-# Sample bin sizes from the Dirichlet distribution
-a <- 20
-r <- rdirichlet(1, rep(a, cc))
-
-# Construct a vector of percentage cutoffs
-cuts <- r[1]
-for(i in 2:cc){
-  cuts <- c(cuts, cuts[i-1]+r[i])
-}
-cuts <- c(0, round(cuts*nPts))
-
-# Create a numbered list of bin identities.
-if(catType == 1){#ordinal
-  id <- 1:cc
-} else if(catType == 2){#nominal
-  id <- sample(1:cc, cc, replace=FALSE)
-}
-
-# Link percentage cutoffs to feature number, slice, and assign bin identities.
-ranks <- order(bin[ftNum,])
-
-for(kk in 1:cc){
-  #print(kk)
-for(i in 1:nPts){
-above <- ranks[i] > cuts[kk]
-if(above == TRUE){
-  bin[ftNum,i] <- id[kk]
-  
-}#close if
-}#close for(i)
-}#close for(kk)
-
-bin
-}#close the function
-
-LabelCategories <- function(catType){
-  if(catType == 1){#ordinal
-    Type <- "ordinal"
-  } else if(catType == 2){#nominal
-    Type <- "nominal"
-  }
-  Type
-}
 
 ## KRC: Begining version of "chooseDataTypes", though the temptation
 ## to call it "Alligator" is hard to resist.

@@ -1,6 +1,6 @@
 Package: Umpire
-Version: 1.9.0
-Date: 2020-02-27
+Version: 1.9.3
+Date: 2020-03-03
 Title: Simulating Realistic Gene Expression and Clinical Data
 Author: Kevin R. Coombes, Jiexin Zhang
 Maintainer: Kevin R. Coombes <krc@silicovore.com>
@@ -10,7 +10,7 @@ Description: The Ultimate Microrray Prediction, Reality and Inference
   Coombes (2012) <doi:10.1186/1471-2105-13-S13-S1>. Version 2.0 adds the
   ability to simulate realistic mixed-typed clinical data.
 Depends: R (>= 3.0)
-Imports: methods, stats, DirchletReg, BimodalIndex
+Imports: methods, stats, DirichletReg, BimodalIndex
 Suggests: mclust, survival
 License: Apache License (== 2.0)
 URL: http://oompa.r-forge.r-project.org/

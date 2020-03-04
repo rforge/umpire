@@ -6,7 +6,7 @@
 ## Imported methods
 import(methods)
 import(stats)
-##importFrom(base, summary)
+importFrom(BimodalIndex, bimodalIndex)
 ##importFrom(base, nrow)
 ##importFrom(base, ncol)
 ##importFrom(base, as.data.frame)
