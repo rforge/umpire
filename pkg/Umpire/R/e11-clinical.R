@@ -1,13 +1,11 @@
 ## Copyright (C) Kevin R. Coombes and Caitlin E. Coombes, 2020
 
-## Objects of this class remember the entire procedure to
-## (a) simulate raw (continuous) data,
-## (b) add a particular kind of noise to it, and
-## (c) discretize some features.
-setClass("MixedTypeEngine",
-         contains = "CancerEngine",
-         slots = c(noise = "NoiseModel",
-                   cutpoints = "list"))
+## CRITICAL NOTE: The original (1.0) version of Umpire generates
+## gene expression data in the form of numeric matrices with rows
+## as features=genes and columns as samples. For mixed-type clinical
+## data, we need to transpose the results and use data frames
+## instead of matrices. This change has numerous potential
+## side-effects on things like "blur" and "rand".
 
 ## Given the desired percentages or fractions of each data type
 ## and a "training" data set, this function decides which features
@@ -16,8 +14,13 @@ setClass("MixedTypeEngine",
 ## used to create a "MixedTypeEngine" both for the ability to
 ## report parameters and to generate later test sets fromthe same
 ## multivariate distribution.
-setDataTypes <- function(dataset, pCont, pBin, pCat, pNominal=0.5) {
-  nFeats <- nrow(dataset)
+setDataTypes <- function(dataset, pCont, pBin, pCat,
+                         pNominal=0.5,
+                         inputRowsAreFeatures = TRUE) {
+  if (inputRowsAreFeatures) { # always want output columns as features
+    dataset = t(dataset)
+  }
+  nFeats <- ncol(dataset)
   cutpoints <- list() # prepare to fill a list
   probs <- c(pCont, pBin, pCat)
   if (any(probs < 0)) stop("All type probabilities must be nonnegative.")
@@ -34,90 +37,109 @@ setDataTypes <- function(dataset, pCont, pBin, pCat, pNominal=0.5) {
   }
   binned <- dataset
   if (any(isbin <- Type == "binary")) {
-    X <- makeBinary(dataset[isbin, , drop = FALSE])
-    binned[isbin,] <- X$dataset
+    X <- makeBinary(dataset[, isbin, drop = FALSE])
+    binned[, isbin] <- X$dataset
     cutpoints[isbin] <- X$cuts
   }
   if (any(iscat <- Type == "categorical")) {
-    X <- makeCategories(dataset[iscat, , drop = FALSE], pNominal)
-    binned[iscat,] <- X$dataset
+    X <- makeCategories(dataset[, iscat, drop = FALSE], pNominal)
+    binned[, iscat] <- X$dataset
     cutpoints[iscat] <- X$cuts
   }
   list(binned = binned, cutpoints=cutpoints)
 }
 
-
+# columns of `dataset` are features
 makeCategories <- function(dataset, pNominal = 0.5) {
-  nPts <- ncol(dataset)
+  nPts <- nrow(dataset)
   cutpoints <- list() # prepare to fill a list
-  ## loop through rows of dataset
-  for (I in 1:nrow(dataset)) {
+  ## loop through columns of dataset
+  for (I in 1:ncol(dataset)) {
     ## decide if variable is ordinal or nominal
-    catType <- sample(c("ordinal", "nominal"), 1, prob = c(1 - pNominal, pNominal))
+    catType <- sample(c("ordinal", "nominal"), 1,
+                      prob = c(1 - pNominal, pNominal))
     ## Sample a number of categories between 3 and 9.
     cc <- sample(3:9, 1, replace = TRUE)
     ## Create a numbered list of bin identities.
     if (catType == "ordinal") {
-      id <- 1:cc
-    } else { # nominal
-      id <- sample(1:cc, cc, replace = FALSE)
+      id <- LETTERS[1:cc] # ordinals labeled in A, ..., I
+    } else { # nominal labeled in R. ..., Z
+      id <- LETTERS[18:26][sample(1:cc, cc, replace = FALSE)]
     }
     ## Sample bin sizes from the Dirichlet distribution
     r <- rdirichlet(1, rep(20, cc)) # magic=20 determined empirically
     ## Construct a vector of percentage cutoffs
     pcuts <- c(0, cumsum(r))
     qcuts <- quantile(dataset[I,], pcuts)
+    while (any(duplicated(qcuts))) {
+      W <- which(duplicated(qcuts))[1] - 1 # since qcuts are nondecreasing
+      N <- which(qcuts > qcuts[W])
+      if (length(N) == 0) {
+        qcuts[(W+1):length(qcuts)] <- qcuts[W] + (1:(length(qcuts) - W))
+      } else {
+        N <- N[1]
+        qcuts[W:N] <- seq(qcuts[W], qcuts[N], length = N - W + 1)
+      }
+    }
     ## move the extremes out to avoid problems on future data
     qcuts[1] <- -Inf
     qcuts[length(qcuts)] <- Inf
     ## bin everything
-    M <- cut(dataset[I,], breaks=qcuts, labels=id, include.lowest=TRUE)
+    M <- cut(dataset[, I], breaks=qcuts, labels=id, include.lowest=TRUE)
     cutpoints[[I]] <- list(breaks  = qcuts,
                            labels = id,
                            Type = catType)
-    dataset[I,] <- M
+    dataset[, I] <- M
   } # end loop through rows of dataet
   list(dataset = dataset, cuts = cutpoints)
 } # end function
 
+# columns of `dataset` are features
 makeBinary <- function(dataset) {
   ## KRC: May need to check that BI works on single-row data matrix
   ## if it looks bimodal, split at the midpoint of modes
-  bi <- bimodalIndex(dataset) # use the bimodal index (Wang et al)
+  bi <- bimodalIndex(t(dataset)) # use the bimodal index (Wang et al)
   my.bi <- 1.1                # and cutoff from the paper
   cutpoints <- list()
-  for (I in 1:nrow(dataset)) {
+  for (I in 1:ncol(dataset)) {
     if(bi[I, "BI"] > my.bi){
       bound <- (bi[I,"mu1"] + bi[I,"mu2"])/2
     } else {
       perc <- sample(5:35, 1) # arbitrary split point
-      perc <- perc/100       # converted to fraction
+      perc <- perc/100        # converted to fraction
       # decide whether to keep lower or upper chunk
-      low.cutoff <- quantile(dataset[I,], perc)
-      high.cutoff <- quantile(dataset[I,], 1 - perc)
+      low.cutoff  <- quantile(dataset[, I], perc)
+      high.cutoff <- quantile(dataset[, I], 1 - perc)
       bound <-  ifelse(bi[I,"pi"] < 0.5, low.cutoff, high.cutoff)
     }
     bks <- c(-Inf, bound, Inf)
-    lbls <- sample(c(0,1)) # randomly assign 0, 1 values.
-    X <- cut(dataset[I,], breaks = bks, labels = lbls)
+    lbls <- sample(c(0,1)) # randomly assign 0 or 1 to highvalues.
+    X <- cut(dataset[, I], breaks = bks, labels = lbls)
     X <- as.numeric(as.character(X))
     type <- ifelse(mean(X) < 0.10, "asymmetric binary", "symmetric binary")
     cutpoints[[I]] <- list(breaks = bks, labels = lbls, Type = type)
-    dataset[I,] <- X
+    dataset[, I] <- X
   }
   list(dataset = dataset, cuts = cutpoints)
 }
 
+## Objects of this class remember the entire procedure to
+## (a) simulate raw (continuous) data,
+## (b) add a particular kind of noise to it, and
+## (c) discretize some features.
+setClass("MixedTypeEngine",
+         contains = "CancerEngine",
+         slots = c(noise = "NoiseModel",
+                   cutpoints = "list"))
 
 ## It's probably worth some time to figure out all the properties
-## that an MTE should really have, and put all those checks here..
+## that an MTE should really have, and put all those checks here.
 setValidity("MixedTypeEngine", function(object) {
   msg <- NULL
-  rightSize <- length(object@cutpoints) == nrow(object)
-  cat("|", rightSize, "|, L =", length(rightSize), "\n", file=stderr())
-#  if (!rightSize) {
-#    msg <- c(msg, "Sizes of cut points and engine do not match.")
-#  }
+  rightSize <- length(object@cutpoints) == nrow(object@localenv$eng)
+  if (!rightSize) {
+    msg <- c(msg, "Sizes of cut points and engine do not match.")
+  }
   ## make sure cutpoints are sensible
   listCheck <- all (sapply(object@cutpoints, is.list))
   if (!listCheck) {
@@ -145,8 +167,6 @@ setValidity("MixedTypeEngine", function(object) {
       nullBreaks <- sapply(object@cutpoints, function(OC) is.null(OC$breaks))
       nullLabels <- sapply(object@cutpoints, function(OC) is.null(OC$labels))
       isCont <- sapply(object@cutpoints, function(OC) OC$Type == "continuous")
-      cat(table(isCont), "\n", file = stderr())
-      cat(table(nullBreaks), "\n", file = stderr())
       if (!all(isCont == nullBreaks)) {
         msg <- c(msg, "Null break list does not agree with 'continuous' type value.")
       }
@@ -163,7 +183,8 @@ setValidity("MixedTypeEngine", function(object) {
 ## adding noise and discretizing consistently. Mostly used for test data, since
 ## the construction of a realistic MTE requires generating a training data set
 ## to get started.
-setMethod("rand", "MixedTypeEngine", function(object, n, keepall = FALSE, ...) {
+setMethod("rand", "MixedTypeEngine", function(object, n,
+                                              keepall = FALSE, ...) {
   ## 'chop' applies pre-existing cutpoints and factor labels to
   ## appropriate data feature-rows
   chop <- function(mtengine, dataset) {
@@ -180,12 +201,16 @@ setMethod("rand", "MixedTypeEngine", function(object, n, keepall = FALSE, ...) {
     dataset
   }
 
+  ## 1. Generate continuous data
   eng <- as(object, "CancerEngine")
   dataset <- rand(eng, n)
-  hazy <- blur(object@noise, dataset)
-  binned <- chop(object, hazy)
+  ## 2. add noise
+  hazy <- blur(object@noise, dataset$data)
+  ## 3. convert from continuous to mixed-type
+  binned <- chop(object, t(hazy))
   if (keepall) {
-    binned <- list(raw = dataset, noisy = hazy, binned = binned)
+    binned <- list(raw = dataset$data, clinical = dataset$clinical,
+                   noisy = hazy, binned = binned)
   }
   binned
 })

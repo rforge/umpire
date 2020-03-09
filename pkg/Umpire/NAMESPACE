@@ -61,3 +61,5 @@ export(makeBlockStructure)
 export(NormalVsCancerModel)
 export(NormalVsCancerEngine)
 
+## clinical stuff
+export("setDataTypes", "ClinicalNoiseModel")

@@ -1,42 +1,39 @@
 library(Umpire)
 
+## Need to generate a gene expression data set to get started.
+## So, we must start with a cancer engine
 ce <- Umpire:::ClinicalEngine(20, 4, TRUE)
 summary(ce)
+nrow(ce@cm) # bugged - go bakc and fix
+nrow(ce@localenv$eng) # correct
+nComponents(ce@localenv$eng) # correct
 
+## Now make a data set
 set.seed(97531)
 dset <- rand(ce, 300)
 class(dset)
 names(dset)
 summary(dset$clinical)
-dim(dset$data)
+dim(dset$data) # 50 features, 300 samples
 
-cnm <- Umpire:::ClinicalNoiseModel() # default
+## Must add noise before making a clinical engine
+cnm <- ClinicalNoiseModel() # default
 noisy <- blur(cnm, dset$data)
 
-dt <- Umpire:::setDataTypes(dset$data, 1, 1, 1, 0.3)
+## Now we set the data types
+dt <- setDataTypes(dset$data, 1/3, 1/3, 1/3, 0.3)
 cp <- dt$cutpoints
-
-hasBreaks <- all (hb <- sapply(cp, function(X) {
-  "breaks" %in% names(X)
-}))
-summary(hb)
-hasLabels <- all (hl <- sapply(cp, function(X) {
-  "labels" %in% names(X)
-}))
-summary(hl)
-hasType <- all (ht <- sapply(cp, function(X) {
-  "Type" %in% names(X)
-}))
-summary(ht)
-
 type <- sapply(cp, function(X) { X$Type })
 table(type)
 sum(is.na(type))
 length(type)
 
+## Use the pieces frm above to crete an MTE.
 mte <- new("MixedTypeEngine",
            ce,
            noise = cnm,
            cutpoints = dt$cutpoints)
-
+# and genrate some data
 R <- rand(mte, 20)
+dim(R)
+
