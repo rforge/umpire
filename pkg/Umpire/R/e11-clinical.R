@@ -35,14 +35,15 @@ setDataTypes <- function(dataset, pCont, pBin, pCat,
     L <- list(breaks = NULL, labels = NULL, Type = "continuous")
     cutpoints[[W]] <- L
   }
-  binned <- dataset
+  binned <- as.data.frame(dataset)
   if (any(isbin <- Type == "binary")) {
-    X <- makeBinary(dataset[, isbin, drop = FALSE])
+    X <- makeBinary(binned[, isbin, drop = FALSE])
     binned[, isbin] <- X$dataset
     cutpoints[isbin] <- X$cuts
   }
   if (any(iscat <- Type == "categorical")) {
-    X <- makeCategories(dataset[, iscat, drop = FALSE], pNominal)
+    DD <- binned[, iscat, drop = FALSE]
+    X <- makeCategories(DD, pNominal)
     binned[, iscat] <- X$dataset
     cutpoints[iscat] <- X$cuts
   }
@@ -66,11 +67,13 @@ makeCategories <- function(dataset, pNominal = 0.5) {
     } else { # nominal labeled in R. ..., Z
       id <- LETTERS[18:26][sample(1:cc, cc, replace = FALSE)]
     }
+#    cat("id =", id, "\n", file = stderr())
     ## Sample bin sizes from the Dirichlet distribution
     r <- rdirichlet(1, rep(20, cc)) # magic=20 determined empirically
     ## Construct a vector of percentage cutoffs
     pcuts <- c(0, cumsum(r))
-    qcuts <- quantile(dataset[I,], pcuts)
+    qcuts <- quantile(dataset[, I], pcuts)
+#    cat(I, "before:", length(qcuts), length(id), "\n", file=stderr())
     while (any(duplicated(qcuts))) {
       W <- which(duplicated(qcuts))[1] - 1 # since qcuts are nondecreasing
       N <- which(qcuts > qcuts[W])
@@ -84,12 +87,14 @@ makeCategories <- function(dataset, pNominal = 0.5) {
     ## move the extremes out to avoid problems on future data
     qcuts[1] <- -Inf
     qcuts[length(qcuts)] <- Inf
+#    cat(I, "after:", length(qcuts), length(id), "\n", file=stderr())
     ## bin everything
     M <- cut(dataset[, I], breaks=qcuts, labels=id, include.lowest=TRUE)
     cutpoints[[I]] <- list(breaks  = qcuts,
                            labels = id,
                            Type = catType)
-    dataset[, I] <- M
+    dataset[, I] <- factor(M, levels = id)
+#    cat(summary(dataset[,I]), "\n", file = stderr())
   } # end loop through rows of dataet
   list(dataset = dataset, cuts = cutpoints)
 } # end function
@@ -187,18 +192,18 @@ setMethod("rand", "MixedTypeEngine", function(object, n,
                                               keepall = FALSE, ...) {
   ## 'chop' applies pre-existing cutpoints and factor labels to
   ## appropriate data feature-rows
-  chop <- function(mtengine, dataset) {
+  chop <- function(mtengine, hazed) {
     OC <- mtengine@cutpoints
     for (I in 1:length(OC)) {
-      if (is.null(OC[[I]]$breaks | "continuous" == OC[[I]]$Type)) {
+      if (is.null(OC[[I]]$breaks) | "continuous" == OC[[I]]$Type) {
         next # do nothing for continuous data
       }
       ## othwerise, discretize following the rules
-      dataset[,I] <-  cut(dataset[,I],
+      hazed[,I] <-  cut(hazed[,I],
                           breaks = OC[[I]]$breaks,
                           labels = OC[[I]]$labels)
     }
-    dataset
+    hazed
   }
 
   ## 1. Generate continuous data
@@ -207,7 +212,7 @@ setMethod("rand", "MixedTypeEngine", function(object, n,
   ## 2. add noise
   hazy <- blur(object@noise, dataset$data)
   ## 3. convert from continuous to mixed-type
-  binned <- chop(object, t(hazy))
+  binned <- chop(object, as.data.frame(t(hazy)))
   if (keepall) {
     binned <- list(raw = dataset$data, clinical = dataset$clinical,
                    noisy = hazy, binned = binned)
@@ -322,64 +327,4 @@ Prevalence <- function(weighted, k){
     } # end if/else cluster size for unequal weights
   } # end if/else statement
 } # end function
-
-EngineBuilder <- function(p, f, k, weighted){
-  if(f < 15){
-    hitfn = function(n) 2
-  } else {
-    hitfn = function(n) 5
-  }
-  mod <- CancerModel(name="Cluster Simulation Model",
-                     nPossible=f/3, #number of possible 'hits' based on multi-hit theory of cancer, where smaller numbers are well separated
-                     nPattern=k, #number of subtypes
-                     HIT = hitfn,
-                     prevalence = Prevalence(weighted, k)
-                     )
-  bHyp <- BlockHyperParameters(nExtraBlocks=0, #how many features do you want that are not related to the clusters? 
-                               meanBlockSize=3,
-                               sigmaBlockSize= 0,
-                               minBlockSize= 3,
-                               mu0=6,
-                               sigma0=1.5,
-                               rate=28.11,
-                               shape=44.25,
-                               p.cor=0.6,
-                               wt.cor=5
-                               )
-  eng <- makeBlockStructure(mod, bHyp)
-}
-
-
-## KRC: Not needed, since "MakeData <- rand" is equivalent to this definition
-MakeData <- function(eng, p){
-  sim <- rand(eng, p)
-}
-
-## KRC: Probably not needed; only point is that the choice of parameters
-## is taken away from the user.
-Noisy <- function(sim){
-  mod <- ClinicalNoiseModel(30, 40, 0.10)
-  noi <- blur(mod, sim)
-}
-
-
-# Determine if the feature is nominal or ordinal, and store that information in a vector.
-catType <- sample(c(1,2), 1, replace=TRUE) #1 is ordinal, 2 is nominal
-
-
-
-## KRC: Begining version of "chooseDataTypes", though the temptation
-## to call it "Alligator" is hard to resist.
-Allocator <- function(cont, bina, cat, nFeats){ #percentages or fractions of each data type
-  numCont <- nFeats*cont
-  numBin <- nFeats*bina
-  numCat <- nFeats*cat
-  feats <- sample(1:nFeats, nFeats, replace=FALSE)
-  contFeats <- feats[1:numCont]
-  binFeats <- feats[(numCont+1):(numCont+numBin)]
-  catFeats <- feats[(numCont+numBin+1):(numCont+numBin+numCat)]
-  x <- cbind(contFeats, binFeats, catFeats)
-  x <- as.data.frame(x)
-}#close function
-
 

@@ -27,13 +27,16 @@ type <- sapply(cp, function(X) { X$Type })
 table(type)
 sum(is.na(type))
 length(type)
+class(dt$binned)
+dim(dt$binned)
+summary(dt$binned)
 
-## Use the pieces frm above to crete an MTE.
+## Use the pieces from above to create an MTE.
 mte <- new("MixedTypeEngine",
            ce,
            noise = cnm,
            cutpoints = dt$cutpoints)
-# and genrate some data
+# and generate some data
 R <- rand(mte, 20)
-dim(R)
+summary(R)
 
