@@ -7,9 +7,7 @@
 import(methods)
 import(stats)
 importFrom(BimodalIndex, bimodalIndex)
-##importFrom(base, nrow)
-##importFrom(base, ncol)
-##importFrom(base, as.data.frame)
+importFrom(DirichletReg, rdirichlet)
 
 ## Public classes
 exportClasses(BlockHyperParameters)

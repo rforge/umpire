@@ -1,6 +1,6 @@
 Package: Umpire
-Version: 1.9.3
-Date: 2020-03-03
+Version: 1.9.5
+Date: 2020-03-06
 Title: Simulating Realistic Gene Expression and Clinical Data
 Author: Kevin R. Coombes, Jiexin Zhang
 Maintainer: Kevin R. Coombes <krc@silicovore.com>
