@@ -15,7 +15,7 @@
 ## report parameters and to generate later test sets fromthe same
 ## multivariate distribution.
 setDataTypes <- function(dataset, pCont, pBin, pCat,
-                         pNominal=0.5,
+                         pNominal=0.5, range=3:9,
                          inputRowsAreFeatures = TRUE) {
   if (inputRowsAreFeatures) { # always want output columns as features
     dataset = t(dataset)
@@ -51,7 +51,8 @@ setDataTypes <- function(dataset, pCont, pBin, pCat,
 }
 
 # columns of `dataset` are features
-makeCategories <- function(dataset, pNominal = 0.5) {
+makeCategories <- function(dataset, pNominal = 0.5, range = c(3,9)) {
+  range <- min(range, na.rm=TRUE):max(range, na.rm=TRUE)
   nPts <- nrow(dataset)
   cutpoints <- list() # prepare to fill a list
   ## loop through columns of dataset
@@ -60,7 +61,7 @@ makeCategories <- function(dataset, pNominal = 0.5) {
     catType <- sample(c("ordinal", "nominal"), 1,
                       prob = c(1 - pNominal, pNominal))
     ## Sample a number of categories between 3 and 9.
-    cc <- sample(3:9, 1, replace = TRUE)
+    cc <- sample(range, 1, replace = TRUE)
     ## Create a numbered list of bin identities.
     if (catType == "ordinal") {
       id <- LETTERS[1:cc] # ordinals labeled in A, ..., I
