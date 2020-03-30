@@ -48,7 +48,7 @@ An object of class \code{\link{NoiseModel}}.
 showClass("NoiseModel")
 
 ## generate a ClinicalEngine with 20 features and 4 clusters
-ce <- ClinicalEngine(20, 4, TRUE)
+ce <- Umpire:::ClinicalEngine(20, 4, TRUE)
 ## generate 300 simulated patients
 set.seed(194718)
 dset <- rand(ce, 300)

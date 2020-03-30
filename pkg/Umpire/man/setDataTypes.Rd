@@ -8,7 +8,8 @@ The setDataTypes function allows the user to discretize a continuous data set
 generated from an engine of any type into binary, nominal, ordinal, or mixed-type data.
 }
 \usage{
-setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5, inputRowsAreFeatures = TRUE)
+setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
+             range = 3:9, inputRowsAreFeatures = TRUE)
 }
 \arguments{
   \item{dataset}{A matrix or dataframe of continuous data.}
@@ -28,6 +29,11 @@ setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5, inputRowsAreFeatures = 
     Non-negative, numeric probability equal to or between 0 and 1 
     describing desired percent frequency of categorical features to 
     be simulated as nominal.
+}
+  \item{range}{
+    A set of integers whose minimum and maximum determine the range of
+    the number of levels to be associated with simulated  categorical
+    factors.
 }
   \item{inputRowsAreFeatures}{
     Logical value indicating if features are to be simulated as rows 
