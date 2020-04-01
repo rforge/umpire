@@ -95,6 +95,15 @@ the following error is returned:
     could not find function "ClinicalEngine"
   Execution halted
 
+PROBLEMS FOUND WHEN VIGNETTING
+Using the ClinicalEngine to produce Weighted/unWeighted clusters produces clusters of equal prevalence 
+(4 clusters at .25 each) regardless of whether isWeighted is TRUE or FALSE
+
+In setDataTypes, range is implemented differently in the top-level function (range = 3:9; throws an 
+"unused" error when run) and in the MakeCategories sub-function (range=c(3,9)).
+
+summary(mixedtypeengine) returns the summary for a CancerEngine.
+
 ####################################################################
 OLD To-Dos:
 Bump for R-Forge
