@@ -62,4 +62,4 @@ export(NormalVsCancerModel)
 export(NormalVsCancerEngine)
 
 ## clinical stuff
-export("setDataTypes", "ClinicalNoiseModel")
+export("setDataTypes", "ClinicalNoiseModel", "ClinicalEngine")

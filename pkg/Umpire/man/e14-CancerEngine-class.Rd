@@ -1,6 +1,7 @@
 \name{CancerEngine-class}
 \alias{CancerEngine-class}
 \alias{CancerEngine}
+\alias{ClinicalEngine}
 \alias{rand,CancerEngine-method}
 \alias{summary,CancerEngine-method}
 \docType{class}
@@ -14,6 +15,7 @@
 \usage{
 CancerEngine(cm, base, altered)
 \S4method{summary}{CancerEngine}(object, \dots)
+ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
 }
 \arguments{
   \item{cm}{object of class \code{CancerModel}}
@@ -25,6 +27,13 @@ CancerEngine(cm, base, altered)
     Represents the expected gene expression in the presence of hits.}
   \item{object}{object of class \code{CancerEngine}}
   \item{\dots}{extra arguments for generic routines}
+  \item{nFeatures}{an integer; the number of simulated clinical features}
+  \item{nClusters}{an integer; the number of simulated clusters or subtypes}
+  \item{isWeighted}{a logical value; used to determine whether the prevalence
+    of subtypes is equal (unweighted) or unequal (weighted).}
+  \item{bHyp}{an object of the class \code{BlochHyperParameters}. If NULL,
+    then it is constructed using the default clinical parameters. See the
+    Values section below.}
 }
 \section{Objects from the Class}{
   Although objects of the class can be created by a direct call to
@@ -49,6 +58,9 @@ CancerEngine(cm, base, altered)
     \item{rand}{\code{signature(object = "CancerEngine")}: :TODO: }
     \item{summary}{\code{signature(object = "CancerEngine")}: :TODO: }  }
 }
+\section{Values}{Both the \code{CancerEngine} and \code{ClinicalEngine}
+  constructiors return objects of the \code{CancerEngine} class. The only
+  practical differences are the default parameters set by the constructors.}
 \references{
   Zhang J, Coombes KR.\cr
   \emph{Sources of variation in false discovery rate estimation include

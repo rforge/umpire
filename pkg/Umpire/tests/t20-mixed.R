@@ -2,7 +2,7 @@ library(Umpire)
 
 ## Need to generate a gene expression data set to get started.
 ## So, we must start with a cancer engine
-ce <- Umpire:::ClinicalEngine(20, 4, TRUE)
+ce <- ClinicalEngine(20, 4, TRUE)
 summary(ce)
 nrow(ce@cm) # bugged - go bakc and fix
 nrow(ce@localenv$eng) # correct

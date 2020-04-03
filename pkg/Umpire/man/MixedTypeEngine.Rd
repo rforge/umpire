@@ -41,7 +41,7 @@ and to generate related datasets downstream.
 \examples{
 ## Generate a Clinical Engine of continuous data 
 ## with clusters generated from variation on the base CancerEngine
-ce <- Umpire:::ClinicalEngine(20, 4, TRUE)
+ce <- ClinicalEngine(20, 4, TRUE)
 summary(ce)
 
 ## Generate an initial data set
