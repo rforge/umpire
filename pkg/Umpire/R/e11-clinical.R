@@ -307,11 +307,11 @@ ClinicalEngine <- function(nFeatures, nClusters, isWeighted, bHyp = NULL){
 ### Below here, code is taken from Simulations_More.Rmd, which was used to
 ### crete simulation's for CEC's master's thesis.
 Prevalence <- function(weighted, k){
-  if(weighted=="equal"){
+  if(!weighted){ # so equal balance
     a = 100
     prev <- rdirichlet(1, rep(a, k))
     as.numeric(prev)
-  } else if(weighted=="unequal"){
+  } else { # weighted means unequal balance
     if(k<=8){
       a = 10
       prev <- rdirichlet(1, rep(a, k))
