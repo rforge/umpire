@@ -61,7 +61,7 @@ setMethod("summary", "CancerEngine", function(object, ...) {
   cat("--------------\n\nBase expression given by:\n")
   summary(get(object@base, object@localenv))
   cat("\nAltered expression given by:\n")
-  summary(get(object@altered, object@localenv))  
+  summary(get(object@altered, object@localenv))
 })
 
 setMethod("rand", "CancerEngine", function(object, n, ...) {
