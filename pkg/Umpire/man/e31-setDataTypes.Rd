@@ -40,7 +40,7 @@ setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
     (TRUE) or columns (FALSE).
 }
 }
-\details{The \code{setDataTypes} function is a critical stp in the
+\details{The \code{setDataTypes} function is a critical step in the
   construction of a \code{\link{MixedTypeEngine}}, which is an object
   that is used to simulate clinical mixed-type data instead of gene
   expression data. The standard process, as illustrated in the example,
@@ -48,20 +48,21 @@ setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
   random data set from that engine, (3) adding noise, (4) setting the
   data types, and finally (5) creating the \code{MixedTypeEngine}.
 
-  The main types of daat (continuous, binary, or categorical) are
+  The main types of data (continuous, binary, or categorical) are
   randomly assigned using the probability parameters \code{pCont},
-  \code{pBin}, and \code{pCat}. To choose teh splitting point for the
-  binary features, we compute the bimodality index (Wang e al.). If that
+  \code{pBin}, and \code{pCat}. To choose the splitting point for the
+  binary features, we compute the bimodality index (Wang et al.). If that
   is significant, we split the data halfway between the two
   modes. Otherwise, we choose a random split point between 5\% and
   35\%. Categorical data is also randomly assigned to ordinal or nominal
   based on the \code{pNominal} parameter. The number of levels is
-  uniformly seleted in the specified \code{range}, and the fraction of
+  uniformly selected in the specified \code{range}, and the fraction of
   data points assigned to each level is selected from a Dirichlet
   distribution with alpha = c(20, 20, ..., 20). 
 }
 \value{
-  \item{binned }{An object of class dataframe of simulated, mixed-type data.}
+  A lsit containing:
+  \item{binned }{An object of class data.frame of simulated, mixed-type data.}
   \item{cutpoints }{
       An object of class "list". For each feature, data type, labels (if data are 
       binary or categorical), and break points (if data are binary or categorical) 
@@ -79,8 +80,9 @@ Wang J, Wen S, Symmans WF, Pusztai L, Coombes KR. \cr\emph{The bimodality index:
 \note{
 If \code{pCont}, \code{pBin}, and \code{pCat} do not sum to 1, they will be rescaled.
 
-By default, categorical variables are simulates as a mixture of nominal and ordinal data. The remaining 
-categorical features described by \code{pNominal} are simulated as ordinal.
+By default, categorical variables are simulated as a mixture of nominal
+and ordinal data. The remaining categorical features described by
+\code{pNominal} are simulated as ordinal.
 }
 \seealso{
   \code{\link{MixedTypeEngine}}
@@ -105,8 +107,7 @@ table(type)
 summary(dt$binned)
 
 ## Use the pieces from above to create an MTE.
-mte <- new("MixedTypeEngine",
-           ce,
+mte <- MixedTypeEngine(ce,
            noise = cnm,
            cutpoints = dt$cutpoints)
 ## and generate some data with the same data types and cutpoints

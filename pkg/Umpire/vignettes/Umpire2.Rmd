@@ -4,8 +4,8 @@ author: "Kevin R. Coombes and Caitlin E. Coombes"
 data: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Umpire}
-  %\VignetteKeywords{Umpire}
+  %\VignetteIndexEntry{Umpire 2.0}
+  %\VignetteKeywords{Umpire, simulations, mixed type data, clinical data}
   %\VignetteDepends{Umpire}
   %\VignettePackage{Umpire}
   %\VignetteEngine{knitr::rmarkdown}
