@@ -1,6 +1,5 @@
 \name{ClinicalNoiseModel}
 \alias{ClinicalNoiseModel}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 A Noise Model for Clinical Data
 }
@@ -10,10 +9,12 @@ A Noise Model for Clinical Data
   clinical variables.
 }
 \usage{
-ClinicalNoiseModel(shape = 1.02, scale = 0.05/shape)
+ClinicalNoiseModel(nFeatures, shape = 1.02, scale = 0.05/shape)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{nFeatures}{An integer; the number of additive scale parameters
+    to sample from the gamma distribution.
+  }
   \item{shape}{
       The \code{shape} gamma hyperparameter describing the standard 
       deviation of additive noise.
@@ -53,7 +54,7 @@ ce <- ClinicalEngine(20, 4, TRUE)
 set.seed(194718)
 dset <- rand(ce, 300)
 
-cnm <- ClinicalNoiseModel(shape=2, scale=0.1)
+cnm <- ClinicalNoiseModel(nrow(ce@localenv$eng), shape=2, scale=0.1)
 cnm
 
 noisy <- blur(cnm, dset$data)

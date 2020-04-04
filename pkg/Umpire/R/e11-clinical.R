@@ -228,14 +228,13 @@ setMethod("rand", "MixedTypeEngine", function(object, n,
   binned
 })
 
-
 ## Default settings for low levels of noise in clinical data. Users can
 ## if they wish, go back to the original gene-expression based noise model.
-ClinicalNoiseModel <- function(shape = 1.02, scale = 0.05/shape) {
-  new("NoiseModel",
-      additiveOffset = 0,
-      additiveScale = rgamma(1, shape=shape, scale=scale),
-      multiplicativeScale = 0)
+ClinicalNoiseModel <- function(nFeatures, shape = 1.02, scale = 0.05/shape) {
+  N <- NoiseModel(0, 0, 0)
+  NoiseModel(nu = 0,
+             tau = rgamma(nFeatures, shape=shape, scale=scale),
+             phi = 0)
 }
 
 ## UNFINISHED

@@ -96,7 +96,7 @@ set.seed(194718)
 dset <- rand(ce, 300)
 
 ## Add noise before binning mixed type data
-cnm <- ClinicalNoiseModel() # default
+cnm <- ClinicalNoiseModel(nrow(ce@localenv$eng)) # default
 noisy <- blur(cnm, dset$data)
 
 ## Set the data mixture

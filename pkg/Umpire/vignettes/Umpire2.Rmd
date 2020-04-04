@@ -94,7 +94,7 @@ parameters. Next, the <tt>ClinicalNoiseModel</tt> is applied to
 below generates a low overall level of additive noise.
 
 ```{r}
-cnm <- ClinicalNoiseModel(shape=1.02, scale=0.05)
+cnm <- ClinicalNoiseModel(nrow(ce@localenv$eng), shape=1.02, scale=0.05)
 noisy <- blur(cnm, dset$data)
 ```
 
