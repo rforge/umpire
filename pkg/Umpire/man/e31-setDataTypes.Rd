@@ -4,30 +4,30 @@
 Discretize a Continuous Data Set to Mixed Types
 }
 \description{
-The setDataTypes function allows the user to discretize a continuous data set 
+The setDataTypes function allows the user to discretize a continuous data set
 generated from an engine of any type into binary, nominal, ordinal, or mixed-type data.
 }
 \usage{
 setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
-             range = 3:9, inputRowsAreFeatures = TRUE)
+             range = c(3, 9), inputRowsAreFeatures = TRUE)
 }
 \arguments{
   \item{dataset}{A matrix or dataframe of continuous data.}
   \item{pCont}{
-    Non-negative, numeric probability equal to or between 0 and 1 
+    Non-negative, numeric probability equal to or between 0 and 1
     describing desired percent frequency of continuous features.
 }
   \item{pBin}{
-    Non-negative, numeric probability equal to or between 0 and 1 
+    Non-negative, numeric probability equal to or between 0 and 1
     describing desired percent frequency of binary features.
 }
   \item{pCat}{
-    Non-negative, numeric probability equal to or between 0 and 1 
+    Non-negative, numeric probability equal to or between 0 and 1
     describing desired percent frequency of categorical features.
 }
   \item{pNominal}{
-    Non-negative, numeric probability equal to or between 0 and 1 
-    describing desired percent frequency of categorical features to 
+    Non-negative, numeric probability equal to or between 0 and 1
+    describing desired percent frequency of categorical features to
     be simulated as nominal.
 }
   \item{range}{
@@ -40,9 +40,25 @@ setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
     (TRUE) or columns (FALSE).
 }
 }
-\details{:TO DO:
-What level of detail should we go into here?
-workflow; can store cutponts in mixed type engine
+\details{The \code{setDataTypes} function is a critical stp in the
+  construction of a \code{\link{MixedTypeEngine}}, which is an object
+  that is used to simulate clinical mixed-type data instead of gene
+  expression data. The standard process, as illustrated in the example,
+  involves (1) creating a \code{\link{ClinicalEngine}}, (2) generating a
+  random data set from that engine, (3) adding noise, (4) setting the
+  data types, and finally (5) creating the \code{MixedTypeEngine}.
+
+  The main types of daat (continuous, binary, or categorical) are
+  randomly assigned using the probability parameters \code{pCont},
+  \code{pBin}, and \code{pCat}. To choose teh splitting point for the
+  binary features, we compute the bimodality index (Wang e al.). If that
+  is significant, we split the data halfway between the two
+  modes. Otherwise, we choose a random split point between 5\% and
+  35\%. Categorical data is also randomly assigned to ordinal or nominal
+  based on the \code{pNominal} parameter. The number of levels is
+  uniformly seleted in the specified \code{range}, and the fraction of
+  data points assigned to each level is selected from a Dirichlet
+  distribution with alpha = c(20, 20, ..., 20). 
 }
 \value{
   \item{binned }{An object of class dataframe of simulated, mixed-type data.}
@@ -52,13 +68,13 @@ workflow; can store cutponts in mixed type engine
       are stored. Cutpoints can be passed to a \code{\link{MixedTypeEngine}} 
       for storage and downstream use.
       }
-%% ...
 }
 \references{
 Wang J, Wen S, Symmans WF, Pusztai L, Coombes KR. \cr\emph{The bimodality index: A criterion for discovering and ranking bimodal signatures from cancer gene expression profiling data.}\cr Cancer Inform 2009; 7:199-216.
 }
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
+  Caitlin E. Coombes \email{caitlin.coombes@osumc.edu}
 }
 \note{
 If \code{pCont}, \code{pBin}, and \code{pCat} do not sum to 1, they will be rescaled.
@@ -70,8 +86,8 @@ categorical features described by \code{pNominal} are simulated as ordinal.
   \code{\link{MixedTypeEngine}}
 }
 \examples{
-## Generate a ClinicalEngine with 4 clusters
-ce <- Umpire:::ClinicalEngine(20, 4, TRUE)
+## Create a ClinicalEngine with 4 clusters
+ce <- ClinicalEngine(20, 4, TRUE)
 
 ## Generate continuous data
 set.seed(194718)

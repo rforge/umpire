@@ -15,7 +15,7 @@
 ## report parameters and to generate later test sets fromthe same
 ## multivariate distribution.
 setDataTypes <- function(dataset, pCont, pBin, pCat,
-                         pNominal=0.5, range=3:9,
+                         pNominal = 0.5, range = c(3, 9),
                          inputRowsAreFeatures = TRUE) {
   if (inputRowsAreFeatures) { # always want output columns as features
     dataset = t(dataset)
@@ -137,6 +137,13 @@ setClass("MixedTypeEngine",
          contains = "CancerEngine",
          slots = c(noise = "NoiseModel",
                    cutpoints = "list"))
+
+MixedTypeEngine <- function (ce, noise, cutpoints) {
+  new("MixedTypeEngine",
+      ce,
+      noise = noise,
+      cutpoints = cutpoints)
+}
 
 ## It's probably worth some time to figure out all the properties
 ## that an MTE should really have, and put all those checks here.

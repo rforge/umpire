@@ -8,7 +8,6 @@ A Noise Model for Clinical Data
   A \code{ClinicalNoiseModel} represents the additional human and measurement 
   noise that is layered on top of any biological variabilty when measuring 
   clinical variables.
-  set of samples.
 }
 \usage{
 ClinicalNoiseModel(shape = 1.02, scale = 0.05/shape)
@@ -40,6 +39,7 @@ An object of class \code{\link{NoiseModel}}.
 }
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
+  Caitlin E. Coombes \email{caitlin.coombes@osumc.edu}
 }
 \seealso{
 \code{\link{NoiseModel-class}},

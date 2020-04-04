@@ -62,4 +62,5 @@ export(NormalVsCancerModel)
 export(NormalVsCancerEngine)
 
 ## clinical stuff
-export("setDataTypes", "ClinicalNoiseModel", "ClinicalEngine")
+exportClasses(MixedTypeEngine)
+export("setDataTypes", "ClinicalNoiseModel", "ClinicalEngine", "MixedTypeEngine")

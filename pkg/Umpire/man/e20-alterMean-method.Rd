@@ -10,7 +10,7 @@
 \description{
   \code{alterMean} and \code{alterSD} are generic functions used to alter
   means or standard deviations, respectively, based on the input object.
-  Each geenric functions invokes different
+  Each generic functions invokes different
   \code{\link{methods}} which depend on the \code{\link{class}} of the
   first argument.
 }
