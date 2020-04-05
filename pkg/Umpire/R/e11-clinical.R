@@ -7,12 +7,162 @@
 ## instead of matrices. This change has numerous potential
 ## side-effects on things like "blur" and "rand".
 
+####################################################
+### Step 1: Create a Clinical Engine
+##
+## Key point: Need to figure out reasonable default parameters
+## based only on the desired number of clusters and the desired
+## number (NF) of features. This ioncludes the number of hits per
+## cluster (set at 2, 3, or 5), the total number of possible
+## hits (set at NF, NF/2, NF/3, or 20), and the prevalences (either
+## set as equal or selected from a Dirichlet diostribution. Finally,
+## need to figure out sensible block sizes.
+##
+## Original version from CEC master's thesis.
+## Arguments:
+##    nFeatures = number of features
+##    nClusters = number of clusters/subtypes
+##    weighted = logical value used to define prevalence of subtypes
+##    bHyp = object of class BlockHyperParameters, if not NULL
+ClinicalEngine <- function(nFeatures, nClusters, isWeighted, bHyp = NULL){
+  hitfn <- ifelse(nFeatures < 15, # small feature size
+                  function(n) 2,
+                  ifelse(nFeatures < 45,
+                         function(n) 3, # medium feature size
+                         function(n) 5 # large feature size
+                         )
+                  )
+  ## nPossible = number of possible 'hits' based on multi-hit model
+  ## of cancer, where smaller numbers are well separated
+  nPos <- function(nF) {
+    ifelse(nF < 12,
+           nF,   # no correlation; each feature will be a seaprate hit
+           ifelse (nF < 50,
+                   round(nF/3),
+                   ifelse(nF < 100,
+                          round(nF/5),
+                          20)
+                   )
+           )
+  }
+  NP <- nPos(nFeatures)
+  mod <- CancerModel(name="Clinical Simulation Model (Raw)",
+                     nPossible = NP, # number of possible hits
+                     nPattern = nClusters,        # number of subtypes
+                     HIT = hitfn,
+                     prevalence = Prevalence(isWeighted, nClusters)
+                     )
+  if (is.null(bHyp)) {
+    blockInfo <- computeBlocks(nFeatures, NP)
+    bHyp <- ClinicalBHP(nExtraBlocks = blockInfo$nExtra,
+                        meanBlockSize = blockInfo$blockSize,
+                        minBlockSize = blockInfo$blockSize)
+  }
+  eng <- makeBlockStructure(mod, bHyp)
+}
+
+### Auxiliary routines ###
+##
+## This code wass taken from Simulations_More.Rmd, which was used to
+## create simulation's for CEC's master's thesis.
+Prevalence <- function(weighted, k){
+  if(!weighted){ # so equal balance
+    a = 100
+    prev <- rdirichlet(1, rep(a, k))
+    as.numeric(prev)
+  } else { # weighted means unequal balance
+    if(k<=8){
+      a = 10
+      prev <- rdirichlet(1, rep(a, k))
+      as.numeric(prev)
+    } else if (k>=16){
+      my.min = -1
+      w = 5
+      while(my.min<0.01){
+      alphas <- c(rep(w*1,k/4), rep(w*2,k/4), rep(w*4,k/4), rep(w*8,k/4))
+      prev <- rdirichlet(1, c(alphas))
+      my.min <- min(prev)
+    } # end while loop
+      as.numeric(prev)
+    } # end if/else cluster size for unequal weights
+  } # end if/else statement
+} # end function
+
+computeBlocks <- function(NF, NP) { # Features, Possible hits
+  quotient <- NF %/% NP
+  remainder <- NF %% NP
+  if (quotient == 0) {
+    stop("Unable to achieve desired feature and possibhle hit parameters.")
+  } else if(quotient < 3) { # no choices left
+    blockSize  <-  quotient
+  } else if (quotient < 6) {
+    blockSize  <-  quotient - 2
+  } else {
+    blockSize <- quotient - 4
+  }
+  nExtra <- (NF - NP*blockSize) %/% blockSize
+  list(blockSize = blockSize, nExtra = nExtra)
+}
+
+
+ClinicalBHP <- function(nExtraBlocks = NULL,
+                        meanBlockSize = NULL,
+                        sigmaBlockSize =  0,
+                        minBlockSize =  NULL,
+                        mu0 = 6,
+                        sigma0 = 1.5,
+                        rate = 28.11,
+                        shape = 44.25,
+                        p.cor = 0.6,
+                        wt.cor = 5) {
+  ## Shouldn't happen unless someone peeks around inside the code
+  ## and calls this unexported function directly. And then they
+  ## get what they deserve.
+  if (is.null(nExtraBlocks)) {
+    warning("Using NULL defaults")
+    nExtraBlocks <-  3
+    meanBlockSize <- 5
+    minBlockSize <- 5
+  }
+  BlockHyperParameters(nExtraBlocks,
+                       meanBlockSize,
+                       sigmaBlockSize,
+                       minBlockSize,
+                       mu0,
+                       sigma0,
+                       rate,
+                       shape,
+                       p.cor,
+                       wt.cor
+                       )
+}
+
+####################################################
+### Step 2: USe the generic 'rand' function on the ClinicalEngine
+### to genrate a data set
+
+####################################################
+### Step 3: Add noise
+##
+## Default settings for low levels of noise in clinical data. Users can
+## if they wish, go back to the original gene-expression based noise model.
+## Note that this version adds _different_ levels of noise to each feature
+ClinicalNoiseModel <- function(nFeatures, shape = 1.02, scale = 0.05/shape) {
+  N <- NoiseModel(0, 0, 0)
+  NoiseModel(nu = 0,
+             tau = rgamma(nFeatures, shape=shape, scale=scale),
+             phi = 0)
+}
+
+####################################################
+### Step 4: Convert continous data to various data types
+##
 ## Given the desired percentages or fractions of each data type
 ## and a "training" data set, this function decides which features
 ## to make binary or categorical. It also records the cutpoints,
 ## associated labels, and type of each feature. The result can be
 ## used to create a "MixedTypeEngine" both for the ability to
-## report parameters and to generate later test sets fromthe same
+## report parameters and to generate later test sets from the same
 ## multivariate distribution.
 setDataTypes <- function(dataset, pCont, pBin, pCat,
                          pNominal = 0.5, range = c(3, 9),
@@ -129,6 +279,9 @@ makeBinary <- function(dataset) {
   list(dataset = dataset, cuts = cutpoints)
 }
 
+####################################################
+### Step 5: Create your MixedTypeEngine
+##
 ## Objects of this class remember the entire procedure to
 ## (a) simulate raw (continuous) data,
 ## (b) add a particular kind of noise to it, and
@@ -192,6 +345,9 @@ setValidity("MixedTypeEngine", function(object) {
   msg
 })
 
+####################################################
+### Step 6: Simulate new data from the same engine
+##
 ## 'rand' generates random-vectors from a given joint distibution. This includes
 ## adding noise and discretizing consistently. Mostly used for test data, since
 ## the construction of a realistic MTE requires generating a training data set
@@ -228,110 +384,7 @@ setMethod("rand", "MixedTypeEngine", function(object, n,
   binned
 })
 
-## Default settings for low levels of noise in clinical data. Users can
-## if they wish, go back to the original gene-expression based noise model.
-ClinicalNoiseModel <- function(nFeatures, shape = 1.02, scale = 0.05/shape) {
-  N <- NoiseModel(0, 0, 0)
-  NoiseModel(nu = 0,
-             tau = rgamma(nFeatures, shape=shape, scale=scale),
-             phi = 0)
-}
-
-## UNFINISHED
-## nExtraBlocks = how many features do you want that are unrelated to clusters?
-ClinicalBHP <- function(nFeatures,
-                        nExtraBlocks = NULL,
-                        meanBlockSize = NULL,
-                        sigmaBlockSize =  0,
-                        minBlockSize =  NULL,
-                        mu0 = 6,
-                        sigma0 = 1.5,
-                        rate = 28.11,
-                        shape = 44.25,
-                        p.cor = 0.6,
-                        wt.cor = 5) {
-  ## TEMP: FIX THIS!
-  if (is.null(nExtraBlocks)) {
-    nExtraBlocks <-  3
-    meanBlockSize <- 5
-    minBlockSize <- 5
-  }
-  BlockHyperParameters(nExtraBlocks,
-                       meanBlockSize,
-                       sigmaBlockSize,
-                       minBlockSize,
-                       mu0,
-                       sigma0,
-                       rate,
-                       shape,
-                       p.cor,
-                       wt.cor
-                       )
-}
-
-## Original version from CEC master's thesis.
-## Arguments:
-##    nFeatures = number of features
-##    nClusters = number of clusters/subtypes
-##    weighted = logical value used to define prevalence of subtypes
-##    bHyp = object of class BlockHyperParameters, if not NULL
-ClinicalEngine <- function(nFeatures, nClusters, isWeighted, bHyp = NULL){
-  hitfn <- ifelse(nFeatures < 15, # small feature size
-                  function(n) 2,
-                  ifelse(nFeatures < 45,
-                         function(n) 3, # medium feature size
-                         function(n) 5 # large feature size
-                         )
-                  )
-  ## nPossible = number of possible 'hits' based on multi-hit model
-  ## of cancer, where smaller numbers are well separated
-  nPos <- function(nF) {
-    ifelse(nF < 12,
-           nF,   # no correlation; each feature will be a seaprate hit
-           ifelse (nF < 50,
-                   round(nF/3),
-                   ifelse(nF < 100,
-                          round(nF/5),
-                          20)
-                   )
-           )
-  }
-
-  mod <- CancerModel(name="Clinical Simulation Model (Raw)",
-                     nPossible = nPos(nFeatures), # number of possible hits
-                     nPattern = nClusters,        # number of subtypes
-                     HIT = hitfn,
-                     prevalence = Prevalence(isWeighted, nClusters)
-                     )
-  if (is.null(bHyp)) {
-    bHyp <- ClinicalBHP(nFeatures) # use defaults based on features space
-  }
-  eng <- makeBlockStructure(mod, bHyp)
-}
 
 
-### Below here, code is taken from Simulations_More.Rmd, which was used to
-### crete simulation's for CEC's master's thesis.
-Prevalence <- function(weighted, k){
-  if(!weighted){ # so equal balance
-    a = 100
-    prev <- rdirichlet(1, rep(a, k))
-    as.numeric(prev)
-  } else { # weighted means unequal balance
-    if(k<=8){
-      a = 10
-      prev <- rdirichlet(1, rep(a, k))
-      as.numeric(prev)
-    } else if (k>=16){
-      my.min=-1
-      w = 5
-      while(my.min<0.01){
-      alphas <- c(rep(w*1,k/4), rep(w*2,k/4), rep(w*4,k/4), rep(w*8,k/4))
-      prev <- rdirichlet(1, c(alphas))
-      my.min <- min(prev)
-    } # end while loop
-      as.numeric(prev)
-    } # end if/else cluster size for unequal weights
-  } # end if/else statement
-} # end function
+
 

@@ -13,15 +13,15 @@ summary(ce)                # prevalences should be varied
 round(ce@cm@prevalence, 2) # good
 
 nComponents(ce)
-N <- nrow(ce) # bugged - go bakc and fix
+N <- nrow(ce) # fixed!
 N # should equal 20, as requested by the user
 
-## Now make a data set
+## Now generate a data set
 dset <- rand(ce, 300)
 class(dset)
 names(dset)
 summary(dset$clinical)
-dim(dset$data) # 50 features, 300 samples (not the right answer)
+dim(dset$data) # 20 features, 300 samples
 
 ## Must add noise before making a mixed-type engine
 cnm <- ClinicalNoiseModel(N) # default shape and scale
@@ -31,7 +31,7 @@ noisy <- blur(cnm, dset$data)
 dt <- setDataTypes(dset$data, 1/3, 1/3, 1/3, 0.3, range = c(3, 9))
 cp <- dt$cutpoints
 type <- sapply(cp, function(X) { X$Type })
-table(type) # highly implausible
+table(type)
 sum(is.na(type))
 length(type)
 class(dt$binned)
@@ -43,7 +43,3 @@ mte <- MixedTypeEngine(ce, noise = cnm, cutpoints = dt$cutpoints)
 # and generate some data
 R <- rand(mte, 20)
 summary(R)
-
-##########
-## weights
-set.seed(97531)
