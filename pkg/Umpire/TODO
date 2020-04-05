@@ -47,20 +47,22 @@ O Paper
 	Why did we choose Umpire and how did we expand it?
 
 ####################################################################
-In the test, the calls for nFeatures when generating the ClinicalEngine at the very beginning 
-and when calling rand(mte) at the very end are for 20 features, but the data set being output has 
-50 features. What's going on?
+In the test, the calls for nFeatures when generating the ClinicalEngine at the very
+beginning and when calling rand(mte) at the very end are for 20 features, but the
+data set being output has 50 features. What's going on?
 
 Do we need a meaningful summary method for MixedTypeEngine? (These exist for all the
 other engines.) Right now summary(mte) returns the summary output for a CancerEngine,
 which is only partially useful.
 
 
-Do we need error handling if a user tries to use something other than a matrix/data frame of
-continuous data for setDataTypes.  
+Do we need error handling if a user tries to use something other than a matrix/data
+frame of continuous data for setDataTypes?
 
 ===========================
 RESOLVED
+
+::FIXED:: Added seoparate generic methods for 'nrow' and 'nCOmponents' in a 'CancerEngine' so they provide the actual values.
 
 ::IGNORE:: How do we confirm that all the dependencies are loading correctly? I had to load
 bimodalIndex and DirichletReg by hand, but I don't know if that's a problem with building

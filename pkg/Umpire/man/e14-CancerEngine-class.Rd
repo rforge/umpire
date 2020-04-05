@@ -3,6 +3,8 @@
 \alias{CancerEngine}
 \alias{ClinicalEngine}
 \alias{rand,CancerEngine-method}
+\alias{nrow,CancerEngine-method}
+\alias{nComponents,CancerEngine-method}
 \alias{summary,CancerEngine-method}
 \docType{class}
 \title{The "CancerEngine" Class}
@@ -15,6 +17,9 @@
 \usage{
 CancerEngine(cm, base, altered)
 \S4method{summary}{CancerEngine}(object, \dots)
+\S4method{nrow}{CancerEngine}(x)
+\S4method{nComponents}{CancerEngine}(object, \dots)
+\S4method{rand}{CancerEngine}(object, n, \dots)
 ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
 }
 \arguments{
@@ -26,6 +31,8 @@ ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
     or \code{\link{EngineWithActivity}}, or an object of class \code{Engine}.
     Represents the expected gene expression in the presence of hits.}
   \item{object}{object of class \code{CancerEngine}}
+  \item{x}{object of class \code{CancerEngine}}
+  \item{n}{numeric scalar representing number of samples to be simulated}
   \item{\dots}{extra arguments for generic routines}
   \item{nFeatures}{an integer; the number of simulated clinical features}
   \item{nClusters}{an integer; the number of simulated clusters or subtypes}
@@ -81,7 +88,14 @@ ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
   there are fewer than 12 features, approximately N/3 up to 50 features,
   approximately N/5 up to 100, and is then locked at 20. If \code{isWeighted}
   is \code{TRUE}, subtype prevalences are chosen from a Dirichlet
-  distribution. Otherwise, each subtype is equally likely.}
+  distribution. Otherwise, each subtype is equally likely.
+
+  The \code{nrow} and \code{nComponents} methods both return
+  non-negwtive integer values describing the number of rows (features)
+  and the number of comnponents of the underlying gene expression or
+  clinical engine(s). The \code{rand} method returns a matrix with
+  \code{n} columns of smiulated data.
+}
 \references{
   Zhang J, Coombes KR.\cr
   \emph{Sources of variation in false discovery rate estimation include

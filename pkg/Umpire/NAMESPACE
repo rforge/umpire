@@ -27,6 +27,7 @@ exportMethods(nrow)
 exportMethods(summary)
 
 ## S4 methods for new generic functions
+exportMethods(nComponents)
 exportMethods(alterMean)
 exportMethods(alterSD)
 exportMethods(blur)

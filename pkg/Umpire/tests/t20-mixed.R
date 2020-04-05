@@ -2,14 +2,19 @@ library(Umpire)
 set.seed(97531)
 
 ## Need to generate a gene expression data set to get started.
-## So, we must start with a cancer engine
-ce <- ClinicalEngine(20, 4, TRUE)
-summary(ce) # prevalences should be varied
+## So, we must start with a clinical version of a cancer engine
+
+## the logical 'isWeighted' argument determines if prevalences are equal or not
+ce <- ClinicalEngine(20, 4, FALSE)
+summary(ce)                # prevalences should be the same
 round(ce@cm@prevalence, 2) # good
-nrow(ce@cm) # bugged - go bakc and fix
-N <- nrow(ce@localenv$eng) # correct
-N
-nComponents(ce@localenv$eng) # correct
+ce <- ClinicalEngine(20, 4, TRUE)
+summary(ce)                # prevalences should be varied
+round(ce@cm@prevalence, 2) # good
+
+nComponents(ce)
+N <- nrow(ce) # bugged - go bakc and fix
+N # should equal 20, as requested by the user
 
 ## Now make a data set
 dset <- rand(ce, 300)
@@ -42,6 +47,3 @@ summary(R)
 ##########
 ## weights
 set.seed(97531)
-ce <- ClinicalEngine(20, 4, FALSE)
-summary(ce) # prevalences should be the same
-round(ce@cm@prevalence, 2) # good (maybe)
