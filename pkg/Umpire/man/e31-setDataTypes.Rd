@@ -31,7 +31,7 @@ setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
     be simulated as nominal.
 }
   \item{range}{
-    A set of integers whose minimum and maximum determine the range of
+    A set of 2 integers whose minimum and maximum determine the range of
     the number of levels to be associated with simulated  categorical
     factors.
 }
@@ -61,7 +61,7 @@ setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
   distribution with alpha = c(20, 20, ..., 20). 
 }
 \value{
-  A lsit containing:
+  A list containing:
   \item{binned }{An object of class data.frame of simulated, mixed-type data.}
   \item{cutpoints }{
       An object of class "list". For each feature, data type, labels (if data are 

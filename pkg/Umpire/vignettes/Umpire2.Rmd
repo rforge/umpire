@@ -28,7 +28,7 @@ measurements on patients may be treated as independent, in spite of
 the elaborate correlation structures that arise in networks, pathways, 
 organ systems, and syndromes in real biology. Further, the researcher 
 finds limited tools at her disposal to facilitate simulation of binary, 
-categorical, or mixed data at this representative level of biological \
+categorical, or mixed data at this representative level of biological 
 complexity.
 
 
@@ -67,7 +67,7 @@ Note also that the <tt>summary</tt> function describes the object as a
 implement a <tt>ClinicalEngine</tt>.
 
 Now we confirm that the model expects to produce the 20 features that we
-requested. It will do so using 10 "components", where eadch component consists
+requested. It will do so using 10 "components", where each component consists
 of a pair of correlated features.
 ```{r nrow}
 nrow(ce)
@@ -133,7 +133,7 @@ rows are treated as features and columns as patients. The <tt>setDataTypes</tt>
 method transposes its results to a data frame where the columns are features
 and the rows are patients. This transpoition both fits better with the
 conventions used for clinical data, but also supports the ability to store
-different kinds of (mixe-type) data in different columns
+different kinds of (mixed-type) data in different columns
 
 ```{r}
 dt <- setDataTypes(dset$data,

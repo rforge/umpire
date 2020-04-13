@@ -38,7 +38,7 @@ ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
   \item{nClusters}{an integer; the number of simulated clusters or subtypes}
   \item{isWeighted}{a logical value; used to determine whether the prevalence
     of subtypes is equal (unweighted) or unequal (weighted).}
-  \item{bHyp}{an object of the class \code{BlochHyperParameters}. If NULL,
+  \item{bHyp}{an object of the class \code{BlockHyperParameters}. If NULL,
     then it is constructed using the default clinical parameters. See the
     Values section below.}
 }
@@ -91,9 +91,9 @@ ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
   distribution. Otherwise, each subtype is equally likely.
 
   The \code{nrow} and \code{nComponents} methods both return
-  non-negwtive integer values describing the number of rows (features)
-  and the number of comnponents of the underlying gene expression or
-  clinical engine(s). The \code{rand} method returns a matrix with
+  non-negative integer values describing the number of rows (features)
+  and the number of components of the underlying gene expression or
+  ClinicalEngine(s). The \code{rand} method returns a matrix with
   \code{n} columns of smiulated data.
 }
 \references{

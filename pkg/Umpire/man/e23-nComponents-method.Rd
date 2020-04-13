@@ -6,7 +6,7 @@
 \title{Method "nComponents"}
 \description{
   \code{nComponents} is a generic function, analogous to 'nrow' or
-  'ncol', that reports te number of components of an ``engine''.
+  'ncol', that reports the number of components of an ``engine``.
 }
 \usage{
 \S4method{nComponents}{ANY}(object, \dots)
@@ -16,7 +16,7 @@
   \item{\dots}{additional arguments affecting the number of components produced}
 }
 \value{
-  Retruns a nonnegative integer (scalar).
+  Returns a nonnegative integer (scalar).
 }
 \author{
   Kevin R. Coombes \email{krc@silicovore.com},
