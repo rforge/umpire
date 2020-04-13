@@ -2,6 +2,7 @@
 \alias{NoiseModel-class}
 \alias{NoiseModel}
 \alias{blur,NoiseModel-method}
+\alias{summary,NoiseModel-method}
 \docType{class}
 \title{The "NoiseModel" Class}
 \description{
@@ -12,6 +13,7 @@
 \usage{
 NoiseModel(nu, tau, phi)
 \S4method{blur}{NoiseModel}(object, x, \dots)
+\S4method{summary}{NoiseModel}(object, \dots)
 }
 \arguments{
   \item{nu}{The mean value for the additive noise}
@@ -35,6 +37,9 @@ NoiseModel(nu, tau, phi)
   \describe{
     \item{blur(object, x, \dots)}{Adds and multiplies random noise to the
       data matrix \code{x} containing the true signal from the gene expression.}
+  }
+  \describe{
+    \item{summary(object, \dots)}{Prints a summary of the object.}
   }
 }
 \references{

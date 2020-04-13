@@ -45,7 +45,7 @@ ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
 \section{Objects from the Class}{
   Although objects of the class can be created by a direct call to
   \link[methods]{new}, the preferred method is to use the
-  \code{CancerEngine} generator function.
+  \code{CancerEngine} or \code{ClinicalEngine} generator functions.
 }
 \section{Slots}{
   \describe{
@@ -79,7 +79,7 @@ ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
   \code{CancerEngine} expects you to construct your own \code{CancerModel}
   explicitly before producing a \code{CancerEngine}.
 
-  By contrast, the \code{CancerEngine} expects to use many fewer
+  By contrast, the \code{ClinicalEngine} expects to use many fewer
   features, so gives a simpler interface and uses its parameters to construct the
   \code{CancerModel} for you. The "HIT" function will use 2 hits per subtype
   when there are fewer than 15 features, 3 hits between 15 and 45 features,
@@ -93,7 +93,7 @@ ClinicalEngine(nFeatures, nClusters, isWeighted, bHyp = NULL)
   The \code{nrow} and \code{nComponents} methods both return
   non-negative integer values describing the number of rows (features)
   and the number of components of the underlying gene expression or
-  ClinicalEngine(s). The \code{rand} method returns a matrix with
+  clinical data Engines. The \code{rand} method returns a matrix with
   \code{n} columns of smiulated data.
 }
 \references{

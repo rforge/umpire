@@ -31,7 +31,7 @@ setDataTypes(dataset, pCont, pBin, pCat, pNominal = 0.5,
     be simulated as nominal.
 }
   \item{range}{
-    A set of 2 integers whose minimum and maximum determine the range of
+    A set of integers whose minimum and maximum determine the range of
     the number of levels to be associated with simulated  categorical
     factors.
 }

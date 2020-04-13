@@ -345,6 +345,17 @@ setValidity("MixedTypeEngine", function(object) {
   msg
 })
 
+setMethod("summary", "MixedTypeEngine", function(object, ...) {
+  cat(paste("A 'MixedTypeEngine' (MTE) based on:\n"))
+  callNextMethod()
+  cat("\n---------------\nThe MTE uses the following noise model:\n")
+  cat(summary(object@noise))
+  cat("---------------\nThe MTE simulates clinical data of these types:\n")
+  table(sapply(object@cutpoints, function(x) x$Type))
+})
+
+
+
 ####################################################
 ### Step 6: Simulate new data from the same engine
 ##
