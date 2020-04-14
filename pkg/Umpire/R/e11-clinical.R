@@ -244,7 +244,7 @@ makeCategories <- function(dataset, pNominal = 0.5, range = c(3,9)) {
     cutpoints[[I]] <- list(breaks  = qcuts,
                            labels = id,
                            Type = catType)
-    dataset[, I] <- factor(M, levels = id)
+    dataset[, I] <- factor(M, levels = sort(id))
 #    cat(summary(dataset[,I]), "\n", file = stderr())
   } # end loop through rows of dataet
   list(dataset = dataset, cuts = cutpoints)
@@ -374,9 +374,10 @@ setMethod("rand", "MixedTypeEngine", function(object, n,
         next # do nothing for continuous data
       }
       ## othwerise, discretize following the rules
-      hazed[,I] <-  cut(hazed[,I],
-                          breaks = OC[[I]]$breaks,
-                          labels = OC[[I]]$labels)
+      X <-  cut(hazed[,I],
+                breaks = OC[[I]]$breaks,
+                labels = OC[[I]]$labels)
+      hazed[,I] <- factor(X, levels=sort(OC[[I]]$labels))
     }
     hazed
   }
