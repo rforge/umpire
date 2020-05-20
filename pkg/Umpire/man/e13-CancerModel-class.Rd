@@ -22,8 +22,8 @@ CancerModel(name,
             nPossible,
             nPattern,
             HIT = function(n) 5,
-            SURV = function(n) rnorm(n, 0, 2),
-            OUT = function(n) rnorm(n, 0, 2),
+            SURV = function(n) rnorm(n, 0, 0.3),
+            OUT = function(n) rnorm(n, 0, 0.3),
             survivalModel=NULL,
             prevalence=NULL)
 nPatterns(object)
