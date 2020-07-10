@@ -72,7 +72,7 @@ survivalCoefficients(object)
       containing the coeffieicents associated with each hit in a
       Cox proportional hazards model of survival.}
     \item{\code{outcomeBeta}:}{Object of class \code{"numeric"}
-      contaning the coefficients associated with each hit in a logistic
+      containing the coefficients associated with each hit in a logistic
       model to predict a binary outcome.}
     \item{\code{prevalence}:}{Object of class \code{"numeric"}
       containing the prevalence of each cancer subtype. }
