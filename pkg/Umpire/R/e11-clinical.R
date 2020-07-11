@@ -320,6 +320,20 @@ setClass("MixedTypeEngine",
                    cutpoints = "list"))
 
 MixedTypeEngine <- function (ce, noise, cutpoints) {
+  if (is.list(ce)) {
+    ce <- do.call(ClinicalEngine, ce)
+  }
+  if (is.list(noise)) {
+    noise <- do.call(ClinicalNoiseModel, noise)
+  }
+  if ("N" %in% names(cutpoints)) {
+    raw <- rand(ce, cutpoints$N)
+    cutpoints$dataset <- blur(noise, raw$data)
+    w <- which(names(cutpoints) == "N")
+    cutpoints <- cutpoints[-w]
+    temp <- do.call(setDataTypes, cutpoints)
+    cutpoints <- temp$cutpoints
+  }
   new("MixedTypeEngine",
       ce,
       noise = noise,
@@ -418,12 +432,15 @@ setMethod("rand", "MixedTypeEngine", function(object, n,
   ## 3. convert from continuous to mixed-type
   binned <- chop(object, as.data.frame(t(hazy)))
   if (keepall) {
-    binned <- list(raw = dataset$data, clinical = dataset$clinical,
-                   noisy = hazy, binned = binned)
+    value <- list(raw = dataset$data,
+                  clinical = dataset$clinical,
+                  noisy = hazy,
+                  binned = binned)
   } else {
-    binned <- list(raw = dataset$data, clinical = dataset$clinical)
+    value <- list(binned = binned,
+                  clinical = dataset$clinical)
   }
-  binned
+  value
 })
 
 
