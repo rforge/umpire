@@ -9,7 +9,8 @@ setMethod("addControl", "CancerModel", function(object, fraction=0.5, ...) {
                survivalBeta = object@survivalBeta,
                outcomeBeta = object@outcomeBeta,
                prevalence = prev,
-               survivalModel = object@survivalModel)
+               survivalModel = object@survivalModel,
+               call = object@call)
   newCM
 })
 
